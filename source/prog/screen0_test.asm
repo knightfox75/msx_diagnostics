@@ -26,6 +26,8 @@ FUNCTION_SCREEN0_TEST_MENU:
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_SCREEN0_MENU	; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	ld hl, TEXT_MENU_CANCEL		; Apunta al texto a mostrar
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 

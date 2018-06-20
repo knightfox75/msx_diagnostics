@@ -27,12 +27,19 @@ TEXT_MENU_HEADER:
 
 
 
-; Texto de pie de los menus
-TEXT_MENU_FOOTER:
+; Texto cancelar
+TEXT_MENU_CANCEL:
 
 	db	$0D, $0A
 	db	" * PRESS CANCEL TO BACK TO THE", $0D, $0A
 	db	"   MAIN MENU.", $0D, $0A
+	db	$00
+
+
+
+; Texto de pie de los menus
+TEXT_MENU_FOOTER:
+
 	db	$0D, $0A
 	db	$0D, $0A
 	db	$0D, $0A
@@ -116,6 +123,16 @@ TEXT_SPRITES_MENU:
 	db	"   SPRITES MOVEMENT.", $0D, $0A
 	db	$0D, $0A
 	db	" * PRESS UP TO RESET THE POSITIONS.", $0D, $0A
+	db	$00
+
+
+
+; Texto cancelar (test del teclado)
+TEXT_KEYBOARD_CANCEL:
+
+	db	$0D, $0A
+	db	" * PRESS CTRL+ESC OR BUTTON 2 TO BACK", $0D, $0A
+	db	"   TO THE MAIN MENU.", $0D, $0A
 	db	$00
 
 

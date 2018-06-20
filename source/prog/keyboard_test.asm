@@ -26,6 +26,8 @@ FUNCTION_KEYBOARD_TEST_MENU:
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_KEYBOARD_MENU	; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	ld hl, TEXT_KEYBOARD_CANCEL	; Apunta al texto a mostrar
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 
@@ -130,9 +132,21 @@ FUNCTION_KEYBOARD_TEST_RUN:
 		; Test de todas las teclas
 		call FUNCTION_KEYBOARD_TEST_KEYPRESS
 
-		ld a, [SYSKEY_CANCEL]			; Si se pulsa "CANCELAR"
+		; Deteccion de salida del test
+		ld a, [NGN_JOY1_TG2]			; Si se pulsa "BOTON 2"
 		and $02					; Detecta "KEY DOWN"
 		jr nz, @@EXIT				; Vuelve al menu principal
+
+		ld a, [NGN_KEY_CTRL]			; Si se pulsa "CTRL"
+		and $01					; Detecta "KEY HELD"
+		jr z, @@NO_ESC				; Si no esta presionada, no verifiques ESC
+
+		ld a, [NGN_KEY_ESC]			; Si se pulsa "ESC"
+		and $02					; Detecta "KEY DOWN"
+		jr nz, @@EXIT				; Vuelve al menu principal
+
+		; No hay que salir
+		@@NO_ESC:
 
 		; Actualiza el sonido
 		call SFX_FUNCTION_UPDATE

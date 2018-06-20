@@ -26,6 +26,8 @@ FUNCTION_SPRITES_TEST_MENU:
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_SPRITES_MENU	; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	ld hl, TEXT_MENU_CANCEL		; Apunta al texto a mostrar
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 
