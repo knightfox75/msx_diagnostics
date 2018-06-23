@@ -231,7 +231,7 @@ NGN_SPRITE_POSITION:
 ; Cambia el color de un Sprite
 ; HL = Direccion del sprite NGN_SPRITE_XX
 ; B = Color de la paleta (0-15)
-; Modifica BC, DE, HL
+; Modifica DE, HL
 ; ----------------------------------------------------------
 
 NGN_SPRITE_COLOR:

@@ -58,7 +58,8 @@ FUNCTION_WELCOME:
 
 	; Sal de la funcion
 	@@EXIT:
-		ret
+		call $0041	; Deshabilita la pantalla
+		ret		; Sal de la funcion
 
 
 

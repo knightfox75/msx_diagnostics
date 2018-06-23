@@ -91,6 +91,8 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "prog/sprites_test.asm"
 	; Test KEYBOARD
 	.INCLUDE "prog/keyboard_test.asm"
+	; Test JOYSTICK
+	.INCLUDE "prog/joystick_test.asm"
 
 	; Procesos comunes
 	.INCLUDE "prog/system.asm"
@@ -116,9 +118,11 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "data/bg/bg_line_pattern_w.asm"	; Total de datos: 904 bytes
 	.INCLUDE "data/bg/bg_color_bars.asm"		; Total de datos: 1158 bytes
 	.INCLUDE "data/bg/bg_hello.asm"			; Total de datos: 1003 bytes
+	.INCLUDE "data/bg/bg_joytest.asm"		; Total de datos: 560 bytes
 
 	; Sprites
 	.INCLUDE "data/sprite/ball_16x16.asm"		; Total de datos: 34 bytes
+	.INCLUDE "data/sprite/spr_joytest.asm"		; Total de datos: 162 bytes
 
 	; Textos del programa
 	.INCLUDE "data/txt/text.asm"

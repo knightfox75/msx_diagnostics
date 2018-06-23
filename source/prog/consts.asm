@@ -36,6 +36,17 @@ SCR2TEST_LAST_IMAGE		.EQU	5	; (4 + 1)	Idx al que saltar a la primera imagen
 
 
 
+; ----------------------------------------------------------
+; Test JOYSTICK
+; ----------------------------------------------------------
+
+JOYTEST1_COLOR_OFF		.EQU	4
+JOYTEST1_COLOR_ON		.EQU	10
+JOYTEST2_COLOR_OFF		.EQU	6
+JOYTEST2_COLOR_ON		.EQU	12
+
+
+
 ;***********************************************************
 ; Fin del archivo
 ;***********************************************************

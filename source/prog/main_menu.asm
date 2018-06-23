@@ -70,6 +70,11 @@ FUNCTION_MAIN_MENU:
 		ld a, [NGN_KEY_4]	; Tecla 4
 		and $02			; Detecta "KEY DOWN"
 		jp nz, FUNCTION_MAIN_MENU_KEYBOARD	; Ejecuta la opcion
+		
+		; Si se pulsa la tecla 5
+		ld a, [NGN_KEY_5]	; Tecla 5
+		and $02			; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_JOYSTICK	; Ejecuta la opcion
 
 		; Si se pulsa la tecla 0
 		ld a, [NGN_KEY_0]	; Tecla 0
@@ -136,6 +141,9 @@ FUNCTION_MAIN_MENU:
 		; Opcion 4
 		cp 4
 		jp z, FUNCTION_MAIN_MENU_KEYBOARD	; Ejecuta la opcion
+		; Opcion 5
+		cp 5
+		jp z, FUNCTION_MAIN_MENU_JOYSTICK	; Ejecuta la opcion
 		; Opcion 0
 		cp 7
 		ret z					; Sal del programa
@@ -190,6 +198,8 @@ FUNCTION_MAIN_MENU_SCREEN0:
 
 	; Llama la funcion correspondiente
 	call FUNCTION_SCREEN0_TEST_MENU
+	; Deshabilita la pantalla para el cambio
+	call $0041
 	; Vuelve al menu
 	jp FUNCTION_MAIN_MENU
 
@@ -203,6 +213,8 @@ FUNCTION_MAIN_MENU_SCREEN2:
 
 	; Llama la funcion correspondiente
 	call FUNCTION_SCREEN2_TEST_MENU
+	; Deshabilita la pantalla para el cambio
+	call $0041
 	; Vuelve al menu
 	jp FUNCTION_MAIN_MENU
 
@@ -216,6 +228,8 @@ FUNCTION_MAIN_MENU_SPRITES:
 
 	; Llama la funcion correspondiente
 	call FUNCTION_SPRITES_TEST_MENU
+	; Deshabilita la pantalla para el cambio
+	call $0041
 	; Vuelve al menu
 	jp FUNCTION_MAIN_MENU
 
@@ -229,6 +243,23 @@ FUNCTION_MAIN_MENU_KEYBOARD:
 
 	; Llama la funcion correspondiente
 	call FUNCTION_KEYBOARD_TEST_MENU
+	; Deshabilita la pantalla para el cambio
+	call $0041
+	; Vuelve al menu
+	jp FUNCTION_MAIN_MENU
+
+
+
+; ----------------------------------------------------------
+; Ejecuta la opcion JOYSTICK_TEST
+; ----------------------------------------------------------
+
+FUNCTION_MAIN_MENU_JOYSTICK:
+
+	; Llama la funcion correspondiente
+	call FUNCTION_JOYSTICK_TEST_MENU
+	; Deshabilita la pantalla para el cambio
+	call $0041
 	; Vuelve al menu
 	jp FUNCTION_MAIN_MENU
 

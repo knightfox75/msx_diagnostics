@@ -173,3 +173,29 @@ TEXT_KEYBOARD_TEST_PRESSED:
 TEXT_KEYBOARD_TEST_RELEASED:
 
 	db	" IS UP.", $0D, $0A, $00
+
+
+
+; Texto cancelar (test del joystick)
+TEXT_JOYSTICK_CANCEL:
+
+	db	$0D, $0A
+	db	" * PRESS JOY1 UP + BUTTON 1 OR ESC", $0D, $0A
+	db	"   TO BACK TO THE MAIN MENU.", $0D, $0A
+	db	$00
+
+
+
+; Textos del menu JOYSTICK
+TEXT_JOYSTICK_MENU:
+
+	db	$0D, $0A
+	db	" JOYSTICKS TEST", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	$0D, $0A
+	db	" * TEST THE 4 DIRECTIONS AND 2 BUTTONS", $0D, $0A
+	db	"   OF THE 2 JOYSTICKS.", $0D, $0A
+	db	$0D, $0A
+	db	" * COLOR OF THE INDICATORS WILL CHANGE", $0D, $0A
+	db	"   IF PRESS IS DETECTED.", $0D, $0A
+	db	$00
