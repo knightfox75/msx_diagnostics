@@ -3,7 +3,7 @@
 ;	MSX DIAGNOSTICS
 ;	Version 0.9.0-a
 ;	ASM Z80 MSX
-;	Test SCREEN 0
+;	Test SCREEN 1
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
 ;
@@ -12,10 +12,10 @@
 
 
 ; ----------------------------------------------------------
-; Menu del Test SCREEN 0
+; Menu del Test SCREEN 1
 ; ----------------------------------------------------------
 
-FUNCTION_SCREEN0_TEST_MENU:
+FUNCTION_SCREEN1_TEST_MENU:
 
 	; Borra la pantalla
 	call NGN_TEXT_CLS
@@ -25,13 +25,13 @@ FUNCTION_SCREEN0_TEST_MENU:
 
 	; Texto del menu
 	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_SCREEN0_MENU	; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	ld hl, TEXT_SCREEN1_MENU	; Apunta al texto a mostrar
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_MENU_CANCEL		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
+	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla
 	call $0044
@@ -44,13 +44,13 @@ FUNCTION_SCREEN0_TEST_MENU:
 
 		; Si se pulsa la tecla  "ACEPTAR"
 		ld a, [SYSKEY_ACCEPT]
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_SCREEN0_TEST_RUN	; Ejecuta el test
+		and $02					; Detecta "KEY DOWN"
+		jp nz, FUNCTION_SCREEN1_TEST_RUN	; Ejecuta el test
 
 		; Si se pulsa la tecla  "CANCELAR"
 		ld a, [SYSKEY_CANCEL]
-		and $02								; Detecta "KEY DOWN"
-		ret nz								; Vuelve al menu principal
+		and $02					; Detecta "KEY DOWN"
+		ret nz					; Vuelve al menu principal
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		halt	; Espera a la interrupcion del VDP
@@ -64,22 +64,24 @@ FUNCTION_SCREEN0_TEST_MENU:
 ; Ejecuta el test
 ; ----------------------------------------------------------
 
-FUNCTION_SCREEN0_TEST_RUN:
+FUNCTION_SCREEN1_TEST_RUN:
 
-	; Borra la pantalla
-	call NGN_TEXT_CLS
+	; Pon la VDP en MODO SCR1
+	ld bc, $0F04			; Color de frente/fondo
+	ld de, $0120			; Color de borde/ancho en columnas (32)
+	call NGN_SCREEN_SET_MODE_1
 
 	; Ejecuta la rutina [DISSCR] para deshabilitar la pantalla
 	call $0041
 
 	; Rellena la pantalla con todos los caracteres disponibles
 	
-	ld a, 32		; Primer caracter de la tabla ASCII (32, Espacio)
+	ld a, 32	; Primer caracter de la tabla ASCII (32, Espacio)
 	ld bc, $0000	; Fila 0, Columna 0
 
 	@@DRAW:
 
-		call $00A2		; Imprime el caracter del registro A. Rutina [CHPUT] de la BIOS
+		call $00A2	; Imprime el caracter del registro A. Rutina [CHPUT] de la BIOS
 
 		; Siguiente caracter
 		inc a		; Sumale 1
@@ -96,7 +98,7 @@ FUNCTION_SCREEN0_TEST_RUN:
 		ld d, a		; Guarda el caracter actual
 		inc c		; Siguiente columna
 		ld a, c
-		cp 40		; Si es la ultima columna, cambia de fila y reinicia la columna
+		cp 32		; Si es la ultima columna, cambia de fila y reinicia la columna
 		jr nz, @@NEXT_COLUMN
 
 		ld c, 0		; Fila a 0
@@ -118,17 +120,20 @@ FUNCTION_SCREEN0_TEST_RUN:
 
 	; Colores por defecto
 	ld bc, $0F04	; Texto blanco, Fondo Azul
+	ld de, $0100	; Color del borde
 
 	; Bucle de ejecucion
 	@@LOOP:
 
 		; Guarda los colores actuales
 		push bc
+		push de
 
 		; Lectura del HID
 		call FUNCTION_SYSTEM_HID_READ
 
 		; Recupera los colores actuales
+		pop de
 		pop bc
 
 		; Si se pulsa "ARRIBA", cambia el color de fondo (+)
@@ -151,10 +156,10 @@ FUNCTION_SCREEN0_TEST_RUN:
 		and $02					; Detecta "KEY DOWN"
 		jp nz, @@TEXT_COLOR_DOWN
 
-		; Si se pulsa "ACEPTAR", restaura los colores
+		; Si se pulsa "ACEPTAR", cambia el color de borde
 		ld a, [SYSKEY_ACCEPT]
 		and $02					; Detecta "KEY DOWN"
-		jp nz, @@RESTORE_COLORS
+		jp nz, @@BORDER_COLOR
 
 		; Punto de final del bucle
 		@@LOOP_END:
@@ -181,7 +186,9 @@ FUNCTION_SCREEN0_TEST_RUN:
 		@@NEXT_BG_UP:
 		ld c, a
 		push bc			; Guarda el color actual
+		push de
 		call NGN_TEXT_COLOR	; Actualiza el color
+		pop de
 		pop bc			; Recupera el color actual
 		jp @@LOOP_END 
 
@@ -195,7 +202,9 @@ FUNCTION_SCREEN0_TEST_RUN:
 		@@NEXT_BG_DOWN:
 		ld c, a
 		push bc			; Guarda el color actual
+		push de
 		call NGN_TEXT_COLOR	; Actualiza el color
+		pop de
 		pop bc			; Recupera el color actual
 		jp @@LOOP_END
 
@@ -209,7 +218,9 @@ FUNCTION_SCREEN0_TEST_RUN:
 		@@NEXT_TEXT_UP:
 		ld b, a
 		push bc			; Guarda el color actual
+		push de
 		call NGN_TEXT_COLOR	; Actualiza el color
+		pop de
 		pop bc			; Recupera el color actual
 		jp @@LOOP_END
 
@@ -223,17 +234,33 @@ FUNCTION_SCREEN0_TEST_RUN:
 		@@NEXT_TEXT_DOWN:
 		ld b, a
 		push bc			; Guarda el color actual
+		push de
 		call NGN_TEXT_COLOR	; Actualiza el color
+		pop de
 		pop bc			; Recupera el color actual
 		jp @@LOOP_END
 
 
-	; Restaura los colores
-	@@RESTORE_COLORS:
-		ld bc, $0F04	; Blanco(15) / Azul(4)
-		push bc			; Guarda el color actual
-		call NGN_TEXT_COLOR	; Actualiza el color
-		pop bc			; Recupera el color actual
+	; Color de borde
+	@@BORDER_COLOR:
+		; Siguiente color de borde
+		inc d		; +1
+		ld a, d		; Verifica si has superado el ultimo color
+		cp 16		; Si lo has superado, resetealo a 1
+		jr nz, @@UPDATE_BORDER_COLOR
+		; Reinicia el color de borde
+		ld d, 1
+		; Aplica el cambio de color
+		@@UPDATE_BORDER_COLOR:
+		ld hl, NGN_COLOR_ADDR
+		inc l			; Salta el color frontal
+		inc l			; Salta el color de fondo
+		ld [hl], d		; Color del borde
+		push bc			; Guarda los colores actuales
+		push de
+		call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
+		pop de
+		pop bc			; Recupera los colores actuales
 		jp @@LOOP_END
 
 
@@ -241,4 +268,4 @@ FUNCTION_SCREEN0_TEST_RUN:
 ;***********************************************************
 ; Fin del archivo
 ;***********************************************************
-SCREEN0_TEST_EOF:
+SCREEN1_TEST_EOF:

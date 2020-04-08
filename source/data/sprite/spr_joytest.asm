@@ -1,15 +1,15 @@
 ;************************************************************
 ;*    Imagen convertida para MSX - SCREEN 2
 ;*    Archivo de origen: spr_joytest.bmp
-;*    Tamaño: 16x16 pixeles
-;*    Nº de frames: 05
+;*    TamaÃ±o: 16x16 pixeles
+;*    NÂº de frames: 05
 ;*    Total de datos: 162 bytes
 ;************************************************************
 
 
 SPR_JOYTEST_SPRITE:
 
-; Tamaño:
+; TamaÃ±o:
 db $00, $a0
 ; CHR: 00
 db $00, $00, $00, $01, $01, $03, $03, $07

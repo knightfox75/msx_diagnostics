@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Rutinas de creacion de fondos (SCREEN 2)
 ;
@@ -37,7 +37,7 @@ NGN_BACKGROUND_CREATE:
 	; ----------------------------------------------------------
 	
 	ld hl, NGN_NAMTBL	; Apunta a la tabla de nombres
-	ld bc, $300		; Longitud de 768 celdas
+	ld bc, $0300		; Longitud de 768 celdas
 	xor a			; Pon A a 0
 	call $0056		; Ejecuta la rutina [FILVRM]
 
@@ -101,7 +101,7 @@ NGN_BACKGROUND_CREATE:
 	; Rutina de carga de datos en VRAM desde la ROM/RAM
 	@@DATA_TO_VRAM:
 
-		ld b, [hl]			; Carga el tamaño de los datos
+		ld b, [hl]			; Carga el tamaÃ±o de los datos
 		inc hl
 		ld c, [hl]
 		inc hl
@@ -212,7 +212,7 @@ NGN_BACKGROUND_CREATE_RLE:
 		ld de, NGN_RAM_BUFFER		; Destino de los datos RLE
 		call NGN_RLE_DECOMPRESS		; Descomprime los datos
 
-		ld hl, NGN_RLE_NORMAL_SIZE	; Recupera el tamaño de los datos descomprimidos
+		ld hl, NGN_RLE_NORMAL_SIZE	; Recupera el tamaÃ±o de los datos descomprimidos
 		ld b, [hl]
 		inc hl
 		ld c, [hl]
@@ -221,7 +221,7 @@ NGN_BACKGROUND_CREATE_RLE:
 		pop de				; Destino de los datos
 		call $005C			; Ejecuta la rutina [LDIRVM]
 
-		ld hl, NGN_RLE_COMPRESSED_SIZE	; Recupera el tamaño de los datos comprimidos
+		ld hl, NGN_RLE_COMPRESSED_SIZE	; Recupera el tamaÃ±o de los datos comprimidos
 		ld b, [hl]
 		inc hl
 		ld c, [hl]
@@ -233,7 +233,7 @@ NGN_BACKGROUND_CREATE_RLE:
 		ld h, d
 		ld l, e
 
-		add hl, bc			; Y sumale el tamaño de los datos comprimidos
+		add hl, bc			; Y sumale el tamaÃ±o de los datos comprimidos
 
 		ret				; Sal de la subrutina
 

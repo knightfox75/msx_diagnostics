@@ -1,10 +1,12 @@
 ;***********************************************************
-; MSX DIAGNOSTICS
-; Version 0.1.0-a
-; ASM Z80 MSX
-; Funciones de efectos de sonido
-; (c) 2018 Cesar Rincon "NightFox"
-; http://www.nightfoxandco.com
+;
+;	MSX DIAGNOSTICS
+;	Version 0.9.0-a
+;	ASM Z80 MSX
+;	Funciones de efectos de sonido
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
+;
 ;***********************************************************
 
 
@@ -50,7 +52,7 @@ SFX_FUNCTION_PLAY_PONG:
 	; Tono en el Canal A:  111,861 Hz / 280 = 400 hz
 	ld a, 0
 	out ($A0), a
-	ld a, $08
+	ld a, $18
 	out ($A1), a
 	ld a, 1
 	out ($A0), a

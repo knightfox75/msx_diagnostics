@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Rutinas de acceso al PSG
 ;	(Programable Sound Generator)
@@ -99,19 +99,36 @@ NGN_PSG_INIT:
 	; Deshabilita las interrupciones
 	di
 
-	; Configura el I/O del PSG mediante el registro nº7
+	; Configura el I/O del PSG mediante el registro nÂº7
 	ld a, 7
 	out ($A0), a
 
 	; Datos a enviar al registro 7
-	ld a, 56	; Canales A, B y C como melodia
-	and 63		; Proteccion al PSG, los BITs 6 y 7 a 0		[00xxxxxx]
-	or 128		; Pon el BIT 7 a 1 y el BIT 6 a 0		[10xxxxxx]
+	ld a, $38		; Canales A, B y C como melodia				[xx111000] (Usa logica inversa)
+	and $3F			; Proteccion al PSG, los BITs 6 y 7 a 0		[00xxxxxx]
+	or $80			; Pon el BIT 7 a 1 y el BIT 6 a 0			[10xxxxxx]
 	out ($A1), a	; Escribe los datos en el registro
+
+	ld a, 0		; Frecuencia del canal A (low-byte)
+	out ($A0), a
+	out ($A1), a
+	ld a, 1		; Frecuencia del canal A (hi-byte)
+	out ($A0), a
+	ld a, 0
+	out ($A1), a
 
 	ld a, 8		; Volumen del canal A
 	out ($A0), a
 	ld a, 15	; Volumen a 15 (sin modulacion)
+	out ($A1), a
+
+	ld a, 2		; Frecuencia del canal B (low-byte)
+	out ($A0), a
+	ld a, 0
+	out ($A1), a
+	ld a, 3		; Frecuencia del canal B (hi-byte)
+	out ($A0), a
+	ld a, 0
 	out ($A1), a
 
 	ld a, 9		; Volumen del canal B
@@ -119,14 +136,28 @@ NGN_PSG_INIT:
 	ld a, 15	; Volumen a 15 (sin modulacion)
 	out ($A1), a
 
+	ld a, 4		; Frecuencia del canal C (low-byte)
+	out ($A0), a
+	ld a, 0
+	out ($A1), a
+	ld a, 5		; Frecuencia del canal C (hi-byte)
+	out ($A0), a
+	ld a, 0
+	out ($A1), a
+
 	ld a, 10	; Volumen del canal C
 	out ($A0), a
 	ld a, 15	; Volumen a 15 (sin modulacion)
 	out ($A1), a
 
+	; Frecuencia del ruido
+	ld a, 6						; Seleccion del canal de ruido
+	out ($A0), a
+	ld a, 0						; Frecuencia
+	out ($A1), a
+
 	; Habilita las interupciones
 	ei
-
 
 	; Vuelve
 	ret

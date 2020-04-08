@@ -3,7 +3,7 @@
 ;	MSX DIAGNOSTICS
 ;	Version 0.9.0-a
 ;	ASM Z80 MSX
-;	Test SCREEN 2
+;	Test SCREEN 3
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
 ;
@@ -12,10 +12,10 @@
 
 
 ; ----------------------------------------------------------
-; Menu del Test SCREEN 2
+; Menu del Test SCREEN 3
 ; ----------------------------------------------------------
 
-FUNCTION_SCREEN2_TEST_MENU:
+FUNCTION_SCREEN3_TEST_MENU:
 
 	; Borra la pantalla
 	call NGN_TEXT_CLS
@@ -26,7 +26,7 @@ FUNCTION_SCREEN2_TEST_MENU:
 	; Texto del menu
 	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
-	ld hl, TEXT_SCREEN2_MENU	; Apunta al texto a mostrar
+	ld hl, TEXT_SCREEN3_MENU	; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
 	ld hl, TEXT_MENU_CANCEL		; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT		; E imprimelo en pantalla
@@ -45,7 +45,7 @@ FUNCTION_SCREEN2_TEST_MENU:
 		; Si se pulsa la tecla "ACCEPT"
 		ld a, [SYSKEY_ACCEPT]
 		and $02					; Detecta "KEY DOWN"
-		jp nz, FUNCTION_SCREEN2_TEST_RUN	; Ejecuta el test si se pulsa
+		jp nz, FUNCTION_SCREEN3_TEST_RUN	; Ejecuta el test si se pulsa
 
 		; Si se pulsa la tecla "CANCEL"
 		ld a, [SYSKEY_CANCEL]
@@ -64,26 +64,26 @@ FUNCTION_SCREEN2_TEST_MENU:
 ; Ejecuta el test
 ; ----------------------------------------------------------
 
-FUNCTION_SCREEN2_TEST_RUN:
+FUNCTION_SCREEN3_TEST_RUN:
 
-	; Pon la VDP en MODO SCR2
+	; Pon la VDP en MODO SCR3
 	ld bc, $0F01			; Color de frente/fondo
 	ld de, $0100			; Color de borde/sin uso
-	call NGN_SCREEN_SET_MODE_2
+	call NGN_SCREEN_SET_MODE_3
 
-	; Registro BC para nº de fondo / color de borde
+	; Rellena la tabla de nombres (mapa)
+	ld hl, $0800			; Apunta a la tabla de nombres
+	ld bc, $0300			; Longitud de 768 celdas
+	xor a				; Pon A a 0
+	call $0056			; Ejecuta la rutina [FILVRM]
+
+	; Patron y color de borde
 	ld bc, $0101
 
-	; Carga al primera imagen
+	; Genera el tileset para SCREEN 3
 	push bc
-	call FUNCTION_SCREEN2_TEST_LOAD_IMAGE
+	call FUNCTION_SCREEN3_CHANGE_PATTERN	; Cambialo
 	pop bc
-
-
-
-; ----------------------------------------------------------
-; Cambia las imagenes/color segun las teclas
-; ----------------------------------------------------------
 
 	; Bucle de ejecucion
 	@@LOOP:
@@ -93,44 +93,41 @@ FUNCTION_SCREEN2_TEST_RUN:
 		call FUNCTION_SYSTEM_HID_READ
 		pop bc
 
-		; Siguiente imagen
-		ld a, [SYSKEY_RIGHT]		; Tecla RIGHT
+		; Si se pulsa derecha, siguiente patron
+		ld a, [SYSKEY_RIGHT]
 		and $02				; Detecta "KEY DOWN"
-		jr z, @@IMG_BACK
-			; Suma 1
-			inc b
-			ld a, b		; Si has superado la ultima imagen
-			cp SCR2TEST_LAST_IMAGE
-			jr nz, @@IMG_NEXT_LOAD
-			ld b, (SCR2TEST_FIRST_IMAGE + 1)		; Pon la primera imagen
-			@@IMG_NEXT_LOAD:
-			push bc
-			call FUNCTION_SCREEN2_TEST_LOAD_IMAGE
-			pop bc
-			jp @@LOOP_END
+		jp z, @@KEY_LEFT
+		inc b				; Siguiente patron
+		ld a, b
+		cp SCR3TEST_LAST_PATTERN	; Si es superado el ultimo, vuelve al primero
+		jp nz, @@NOT_LAST
+		ld b, 1				; Reinicia al primero
+		@@NOT_LAST:
+		push bc				; Guarda los registros
+		call FUNCTION_SCREEN3_CHANGE_PATTERN	; Cambia el patron
+		pop bc				; Recupera los registros
+		jr @@KEY_UP
 
-		; Imagen anterior
-		@@IMG_BACK:
-			ld a, [SYSKEY_LEFT]		; Tecla LEFT
-			and $02				; Detecta "KEY DOWN"
-			jr z, @@COLOR_NEXT
-				; Resta 1
-				dec b
-				ld a, b		; Si has superado la primera imagen
-				cp SCR2TEST_FIRST_IMAGE
-				jr nz, @@IMG_BACK_LOAD
-				ld b, (SCR2TEST_LAST_IMAGE - 1)		; Pon la ultima imagen
-				@@IMG_BACK_LOAD:
-				push bc
-				call FUNCTION_SCREEN2_TEST_LOAD_IMAGE
-				pop bc
-				jp @@LOOP_END
+		; Si se pulsa izquierda, patron  anterior
+		@@KEY_LEFT:
+		ld a, [SYSKEY_LEFT]
+		and $02				; Detecta "KEY DOWN"
+		jp z, @@KEY_UP
+		dec b				; Siguiente patron
+		ld a, b
+		cp 0				; Si es superado el primero, vuelve al ultimo
+		jp nz, @@NOT_FIRST
+		ld b, SCR3TEST_LAST_PATTERN - 1	; Reinicia al primero
+		@@NOT_FIRST:
+		push bc				; Guarda los registros
+		call FUNCTION_SCREEN3_CHANGE_PATTERN	; Cambia el patron
+		pop bc				; Recupera los registros
 
-		; Siguiente color
-		@@COLOR_NEXT:
+		; Si se pulsa arriba, siguiente color
+		@@KEY_UP:
 			ld a, [SYSKEY_UP]		; Tecla UP
 			and $02				; Detecta "KEY DOWN"
-			jr z, @@COLOR_BACK
+			jr z, @@KEY_DOWN
 				; Suma 1
 				inc c
 				ld a, c		; Si has superado el ultimo color
@@ -146,13 +143,13 @@ FUNCTION_SCREEN2_TEST_RUN:
 				ld [hl], c		; Color del borde (Negro)
 				call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 				pop bc
-				jp @@LOOP_END
+				jr @@LOOP_END
 
-		; Color anterior
-		@@COLOR_BACK:
+		; Si se pulsa abajo, color anterior
+		@@KEY_DOWN:
 			ld a, [SYSKEY_DOWN]		; Tecla DOWN
 			and $02				; Detecta "KEY DOWN"
-			jr z, @@CHECK_EXIT
+			jr z, @@LOOP_END
 				; Resta 1
 				dec c
 				ld a, c		; Si has superado el primer color
@@ -169,12 +166,10 @@ FUNCTION_SCREEN2_TEST_RUN:
 				call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 				pop bc
 
-		
-		; Procesos comunes del LOOP
+		; Parte final del LOOP
 		@@LOOP_END:
 
 		; Si se pulsa la tecla  "CANCELAR"
-		@@CHECK_EXIT:
 		ld a, [SYSKEY_CANCEL]
 		and $02			; Detecta "KEY DOWN"
 		ret nz			; Vuelve al menu principal si se pulsa
@@ -186,56 +181,33 @@ FUNCTION_SCREEN2_TEST_RUN:
 		jp @@LOOP
 
 
-
-; ----------------------------------------------------------
-; Carga una imagen segun el registro B
-; ----------------------------------------------------------
-
-FUNCTION_SCREEN2_TEST_LOAD_IMAGE:
-
-	; Guarda el registro actual de imagen/color
-	push bc
-
-	; Analiza el registro
-	ld a, b
-
-	; Img1
-	cp 1
-	jr nz, @@IMG2
-	ld hl, BG_LINE_PATTERN_B_IMAGE		; Direccion de la imagen
-	jp @@IMG_LOAD
-
-	; Img2
-	@@IMG2:
-	cp 2
-	jr nz, @@IMG3
-	ld hl, BG_LINE_PATTERN_W_IMAGE		; Direccion de la imagen
-	jp @@IMG_LOAD
-
-	; Img3
-	@@IMG3:
-	cp 3
-	jr nz, @@IMG4
-	ld hl, BG_COLOR_BARS_IMAGE		; Direccion de la imagen
-	jp @@IMG_LOAD
-
-	; Img4 (default if error)
-	@@IMG4:
-	ld hl, BG_HELLO_IMAGE			; Direccion de la imagen
 	
-	; Carga la imagen
-	@@IMG_LOAD:
-	call NGN_BACKGROUND_CREATE_RLE		; Crea el fondo y mandalo a la VRAM
+; ----------------------------------------------------------
+; Cambia el patron
+; ----------------------------------------------------------
 
-	; Guarda el registro actual de imagen/color
-	pop bc
+FUNCTION_SCREEN3_CHANGE_PATTERN:
 
-	; Sal de la funcion
-	ret
+	ld de, $0008
+	xor a
+	ld hl, SCREEN3_PATTERN
+
+	@@LOOP:
+		inc a
+		cp b
+		jr z, @@LOOP_EXIT
+		add hl, de
+		jr @@LOOP
+
+	@@LOOP_EXIT:
+	ld de, $0000			; Destino de los datos
+	ld bc, $0008			; Cantidad de bytes a copiar
+	call $005C			; Ejecuta la rutina [LDIRVM]
+	ret				; Vuelve
 
 
 
 ;***********************************************************
 ; Fin del archivo
 ;***********************************************************
-SCREEN2_TEST_EOF:
+SCREEN3_TEST_EOF:

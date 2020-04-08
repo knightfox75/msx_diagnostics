@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Rutinas para la impresion de texto
 ;
@@ -14,7 +14,7 @@
 
 ; ----------------------------------------------------------
 ; NGN_TEXT_PRINT
-; Carga una imagen y muestrala a la pantalla
+; Imprime un texto en pantalla
 ; HL = Direccion del texto a imprimir (Origen de los datos)
 ; Modifica A, BC, DE, HL
 ; ----------------------------------------------------------
@@ -38,7 +38,7 @@ NGN_TEXT_PRINT:
 
 ; ----------------------------------------------------------
 ; NGN_TEXT_POSITION
-; Carga una imagen y muestrala a la pantalla
+; Mueve el cabezal de escritura de texto
 ; H = Coordenada X del cursor
 ; L = Coordenada Y del cursor
 ; Modifica A, BC, DE, HL
@@ -78,8 +78,6 @@ NGN_TEXT_COLOR:
 	ld [hl], b		; Color de frente
 	inc l
 	ld [hl], c		; Color de fondo
-	inc l
-	ld [hl], 1		; Color del borde (Negro)
 	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 	ret
 

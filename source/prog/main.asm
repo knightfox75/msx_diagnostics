@@ -1,10 +1,12 @@
 ;***********************************************************
-; MSX DIAGNOSTICS
-; Version 0.1.0-a
-; ASM Z80 MSX
-; Archivo principal
-; (c) 2018 Cesar Rincon "NightFox"
-; http://www.nightfoxandco.com
+;
+;	MSX DIAGNOSTICS
+;	Version 0.9.0-a
+;	ASM Z80 MSX
+;	Archivo principal
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
+;
 ;***********************************************************
 
 
@@ -16,7 +18,7 @@
 FUNCTION_MAIN:
 
 	; Inicializaciones
-	call NGN_START				; Inicia la libreria NGN
+	call NGN_START					; Inicia la libreria NGN
 	call FUNCTION_SYSTEM_START		; Inicia el programa
 
 	; Llama a la funcion de pantalla de Bienvenida
@@ -37,10 +39,10 @@ FUNCTION_EXIT:
 	call NGN_TEXT_CLS
 
 	; Texto de reinicio
-	ld hl, $0F0B			; Posicion del cursor de texto [XXYY]
+	ld hl, $0F0B				; Posicion del cursor de texto [XXYY]
 	call NGN_TEXT_POSITION		; Posiciona el cursor
-	ld hl, TEXT_RESTART		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	ld hl, TEXT_RESTART			; Apunta al texto a mostrar
+	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla
 	call $0044

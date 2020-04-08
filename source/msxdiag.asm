@@ -1,11 +1,15 @@
 ;***********************************************************
 ;
-; MSX DIAGNOSTICS
-; Version 0.0.1-a
-; ASM Z80 MSX
+;   MSX DIAGNOSTICS
+;   Version 0.9.0-a
+;	ASM Z80 MSX
 ;
-; (cc)2018 Cesar Rincon "NightFox"
-; http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
+;
+;
+;	Compilar con asMSX 0.19 o superior
+;	https://github.com/Fubukimaru/asMSX
 ;
 ;***********************************************************
 
@@ -18,24 +22,23 @@
 ;***********************************************************
 
 ; ----------------------------------------------------------
-; Definicion de variables [PAGE 3] $C000
-; ----------------------------------------------------------
-; Almacena las variables en la pagina 3 (Comentar si no es una ROM)
-.PAGE 3
-.INCLUDE "ngn/ngn_vars.asm"
-.INCLUDE "prog/vars.asm"
-
-
-
-; ----------------------------------------------------------
-; Otras directivas
+; Directivas de principales
 ; ----------------------------------------------------------
 
-.PAGE 1					; Selecciona la pagina 1 [$4000] (Codigo del programa)
 .BIOS					; Nombres de las llamadas a BIOS
-.ROM					; Se creara el binario en formato ROM de hasta 32kb
-.START PROGRAM_START_ADDRESS		; Indicale al compilador donde empieza el programa
-.db 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0	; 12 ceros para completar la cabecera de la ROM
+
+OUTPUT_FORMAT_BINARY = 1	; Formato de salida binario de BASIC
+OUTPUT_FORMAT_ROM = 2		; Formato de salida ROM
+
+
+
+; ----------------------------------------------------------
+; Selecciona la directiva de compilacion (descomentar)
+; ----------------------------------------------------------
+
+;.INCLUDE "formats/f_binary.asm"		; Binario de BASIC
+.INCLUDE "formats/f_rom.asm"			; Cartucho ROM
+
 
 
 
@@ -49,7 +52,9 @@ PROGRAM_START_ADDRESS:
 	; Punto de incicio
 	; ----------------------------------------------------------
 
-	.SEARCH			; Busca un punto de inicio valido
+	IF (OUTPUT_FORMAT == OUTPUT_FORMAT_ROM)
+		.SEARCH			; Busca un punto de inicio valido
+	ENDIF
 
 
 	; ----------------------------------------------------------
@@ -68,7 +73,7 @@ PROGRAM_START_ADDRESS:
 	; ----------------------------------------------------------
 
 	.INCLUDE "ngn/ngn_consts.asm"	; Constantes de N'gine
-	.INCLUDE "prog/consts.asm"	; Constantes del programa
+	.INCLUDE "prog/consts.asm"		; Constantes del programa
 
 
 
@@ -85,14 +90,20 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "prog/main_menu.asm"
 	; Test SCREEN 0
 	.INCLUDE "prog/screen0_test.asm"
+	; Test SCREEN 1
+	.INCLUDE "prog/screen1_test.asm"
 	; Test SCREEN 2
 	.INCLUDE "prog/screen2_test.asm"
+	; Test SCREEN 3
+	.INCLUDE "prog/screen3_test.asm"
 	; Test SPRITES
 	.INCLUDE "prog/sprites_test.asm"
 	; Test KEYBOARD
 	.INCLUDE "prog/keyboard_test.asm"
 	; Test JOYSTICK
 	.INCLUDE "prog/joystick_test.asm"
+	; Test PSG
+	.INCLUDE "prog/psg_test.asm"
 
 	; Procesos comunes
 	.INCLUDE "prog/system.asm"
@@ -113,21 +124,23 @@ PROGRAM_START_ADDRESS:
 	; ----------------------------------------------------------
 
 	; Imagenes de fondo
-	.INCLUDE "data/bg/bg_ngnlogo.asm"		; Total de datos: 2635 bytes
+	.INCLUDE "data/bg/bg_ngnlogo.asm"			; Total de datos: 2554 bytes
 	.INCLUDE "data/bg/bg_line_pattern_b.asm"	; Total de datos: 922 bytes
 	.INCLUDE "data/bg/bg_line_pattern_w.asm"	; Total de datos: 904 bytes
 	.INCLUDE "data/bg/bg_color_bars.asm"		; Total de datos: 1158 bytes
-	.INCLUDE "data/bg/bg_hello.asm"			; Total de datos: 1003 bytes
-	.INCLUDE "data/bg/bg_joytest.asm"		; Total de datos: 560 bytes
+	.INCLUDE "data/bg/bg_hello.asm"				; Total de datos: 1003 bytes
+	.INCLUDE "data/bg/bg_joytest.asm"			; Total de datos: 560 bytes
 
 	; Sprites
 	.INCLUDE "data/sprite/ball_16x16.asm"		; Total de datos: 34 bytes
 	.INCLUDE "data/sprite/spr_joytest.asm"		; Total de datos: 162 bytes
 
+	; Datos miscelaneos
+	.INCLUDE "data/bin/misc.asm"
+
 	; Textos del programa
 	.INCLUDE "data/txt/text.asm"
 	.INCLUDE "data/txt/key_names.asm"
-
 
 
 

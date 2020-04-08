@@ -1,10 +1,12 @@
 ;***********************************************************
-; MSX DIAGNOSTICS
-; Version 0.1.0-a
-; ASM Z80 MSX
-; Textos del programa
-; (c) 2018 Cesar Rincon "NightFox"
-; http://www.nightfoxandco.com
+;
+;	MSX DIAGNOSTICS
+;	Version 0.9.0-a
+;	ASM Z80 MSX
+;	Textos del programa
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
+;
 ;***********************************************************
 
 
@@ -20,7 +22,7 @@ TEXT_RESTART:
 TEXT_MENU_HEADER:
 
 	db	"---------------------------------------", $0D, $0A
-	db	" MSX DIAGNOSTICS 0.1.0-A", $0D, $0A
+	db	" MSX DIAGNOSTICS 0.9.0-A", $0D, $0A
 	db	"---------------------------------------", $0D, $0A
 	db	$0D, $0A
 	db	$00
@@ -55,21 +57,21 @@ TEXT_MAIN_MENU:
 	db	"---------------------------------------", $0D, $0A
 	db	$0D, $0A
 	db	"   1. SCREEN 0", $0D, $0A
-	db	"   2. SCREEN 2", $0D, $0A
-	db	"   3. SPRITES", $0D, $0A
-	db	"   4. KEYBOARD", $0D, $0A
-	db	"   5. JOYSTICK", $0D, $0A
-	db	"   6. SOUND", $0D, $0A
+	db	"   2. SCREEN 1", $0D, $0A
+	db	"   3. SCREEN 2", $0D, $0A
+	db	"   4. SCREEN 3", $0D, $0A
+	db	"   5. SPRITES", $0D, $0A
+	db	"   6. KEYBOARD", $0D, $0A
+	db	"   7. JOYSTICK", $0D, $0A
+	db	"   8. PSG", $0D, $0A
 	db	"   0. REBOOT", $0D, $0A
-	db	$0D, $0A
-	db	$0D, $0A
 	db	$0D, $0A
 	db	$0D, $0A
 	db	" ACCEPT -> SPACE / BUTTON 1", $0D, $0A
 	db	" CANCEL -> ESC / BUTTON 2", $0D, $0A
 	db	$0D, $0A
 	db	"---------------------------------------", $0D, $0A
-	db	" (cc)2018 BY CESAR RINCON", $0D, $0A
+	db	" (cc) 2018-2020 BY CESAR RINCON", $0D, $0A
 	db	"---------------------------------------"
 	db	$00
 
@@ -96,6 +98,25 @@ TEXT_SCREEN0_MENU:
 
 
 
+; Textos del menu SCREEN 1
+TEXT_SCREEN1_MENU:
+
+	db	$0D, $0A
+	db	" SCREEN 1 TEST", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS RIGHT/LEFT TO CHANGE", $0D, $0A
+	db	"   THE TEXT COLOR.", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS UP/DOWN TO CHANGE", $0D, $0A
+	db	"   THE BACKGROUND COLOR.", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS ACCEPT TO CHANGE THE", $0D, $0A
+	db	"   BORDER COLOR.", $0D, $0A
+	db	$00
+
+
+
 ; Textos del menu SCREEN 2
 TEXT_SCREEN2_MENU:
 
@@ -105,6 +126,22 @@ TEXT_SCREEN2_MENU:
 	db	$0D, $0A
 	db	" * PRESS RIGHT/LEFT TO CHANGE", $0D, $0A
 	db	"   THE IMAGE.", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS UP/DOWN TO CHANGE THE", $0D, $0A
+	db	"   BORDER COLOR.", $0D, $0A
+	db	$00
+
+
+
+; Textos del menu SCREEN 3
+TEXT_SCREEN3_MENU:
+
+	db	$0D, $0A
+	db	" SCREEN 3 TEST", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS RIGHT/LEFT TO CHANGE", $0D, $0A
+	db	"   THE PATTERN.", $0D, $0A
 	db	$0D, $0A
 	db	" * PRESS UP/DOWN TO CHANGE THE", $0D, $0A
 	db	"   BORDER COLOR.", $0D, $0A
@@ -131,8 +168,8 @@ TEXT_SPRITES_MENU:
 TEXT_KEYBOARD_CANCEL:
 
 	db	$0D, $0A
-	db	" * PRESS CTRL+ESC OR BUTTON 2 TO BACK", $0D, $0A
-	db	"   TO THE MAIN MENU.", $0D, $0A
+	db	" * PRESS CTRL + ESC OR BUTTON 2 TO", $0D, $0A
+	db	"   BACK TO THE MAIN MENU.", $0D, $0A
 	db	$00
 
 
@@ -198,4 +235,50 @@ TEXT_JOYSTICK_MENU:
 	db	$0D, $0A
 	db	" * COLOR OF THE INDICATORS WILL CHANGE", $0D, $0A
 	db	"   IF PRESS IS DETECTED.", $0D, $0A
+	db	$00
+
+
+
+; Textos del menu PSG
+TEXT_SOUND_MENU:
+
+	db	$0D, $0A
+	db	" PSG TEST", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS UP/DOWN TO CHANGE", $0D, $0A
+	db	"   THE OPTION.", $0D, $0A
+	db	$0D, $0A
+	db	" * PRESS LEFT/RIGHT TO CHANGE", $0D, $0A
+	db	"   THE VALUE.", $0D, $0A
+	db	$00
+
+
+
+; Textos de la interfaz del test de sonido
+TEXT_SOUND_GUI:
+
+	db	"---------------------------------------", $0D, $0A
+	db	"|   PSG TEST                          |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"| FRQ |  OFF  | 300HZ | 500HZ | 1KHZ  |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"| > A |   ", $DB, "   |   ", $C4, "   |   ", $C4, "   |   ", $C4, "   |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   B |   ", $DB, "   |   ", $C4, "   |   ", $C4, "   |   ", $C4, "   |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   C |   ", $DB, "   |   ", $C4, "   |   ", $C4, "   |   ", $C4, "   |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   VOLUME A  | ", $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, " |     |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   VOLUME B  | ", $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, " |     |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   VOLUME C  | ", $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, " |     |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   NOISE     | OFF |  A  |  B  |  C  |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   ENABLE    |  ", $DB, "  |  ", $C4, "  |  ", $C4, "  |  ", $C4, "  |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	"|   FREQUENCY | ", $DB, $DB, $DB, $DB, $DB, $DB, $DB, $DB, $C4, $C4, $C4, $C4, $C4, $C4, $C4, " |     |", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
 	db	$00

@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Funciones del sistema
 ;

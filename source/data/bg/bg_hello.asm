@@ -1,7 +1,7 @@
 ;************************************************************
 ;*    Imagen convertida para MSX - SCREEN 2
 ;*    Archivo de origen: bg_hello.bmp
-;*    Tamaño: 256x192 pixeles
+;*    TamaÃ±o: 256x192 pixeles
 ;*    Compresion RLE habilitada
 ;*    Total de datos: 1003 bytes
 ;************************************************************
@@ -11,19 +11,19 @@ BG_HELLO_IMAGE:
 
 ; Datos CHR
 ; Banco 0: 038 bloques de CHR
-;          Tamaño descomprimido: 304 bytes [$0130 bytes]
-;          Tamaño RLE: 90 bytes [$005a bytes]
+;          TamaÃ±o descomprimido: 304 bytes [$0130 bytes]
+;          TamaÃ±o RLE: 90 bytes [$005a bytes]
 ; Banco 1: 021 bloques de CHR
-;          Tamaño descomprimido: 168 bytes [$00a8 bytes]
-;          Tamaño RLE: 60 bytes [$003c bytes]
+;          TamaÃ±o descomprimido: 168 bytes [$00a8 bytes]
+;          TamaÃ±o RLE: 60 bytes [$003c bytes]
 ; Banco 2: 057 bloques de CHR
-;          Tamaño descomprimido: 456 bytes [$01c8 bytes]
-;          Tamaño RLE: 126 bytes [$007e bytes]
+;          TamaÃ±o descomprimido: 456 bytes [$01c8 bytes]
+;          TamaÃ±o RLE: 126 bytes [$007e bytes]
 
 BG_HELLO_CHR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $30
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $5a
 ; Datos:
 db $d3, $00, $c5, $07, $d3, $00, $c5, $1f
@@ -40,9 +40,9 @@ db $c3, $1f, $c5, $00, $c8, $07, $c3, $1f
 db $c5, $00
 
 BG_HELLO_CHR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $a8
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $3c
 ; Datos:
 db $c8, $00, $c6, $1f, $c8, $00, $c2, $07
@@ -55,9 +55,9 @@ db $c3, $1f, $c5, $00, $c3, $07, $c5, $00
 db $c6, $07, $c2, $00
 
 BG_HELLO_CHR_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $c8
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $7e
 ; Datos:
 db $cb, $00, $c5, $07, $cb, $00, $c5, $1f
@@ -80,19 +80,19 @@ db $c5, $00, $c3, $1f, $c5, $00
 
 ; Datos CLR
 ; Banco 0: 038 bloques de CLR
-;          Tamaño descomprimido: 304 bytes [$0130 bytes]
-;          Tamaño RLE: 122 bytes [$007a bytes]
+;          TamaÃ±o descomprimido: 304 bytes [$0130 bytes]
+;          TamaÃ±o RLE: 122 bytes [$007a bytes]
 ; Banco 1: 021 bloques de CLR
-;          Tamaño descomprimido: 168 bytes [$00a8 bytes]
-;          Tamaño RLE: 72 bytes [$0048 bytes]
+;          TamaÃ±o descomprimido: 168 bytes [$00a8 bytes]
+;          TamaÃ±o RLE: 72 bytes [$0048 bytes]
 ; Banco 2: 057 bloques de CLR
-;          Tamaño descomprimido: 456 bytes [$01c8 bytes]
-;          Tamaño RLE: 182 bytes [$00b6 bytes]
+;          TamaÃ±o descomprimido: 456 bytes [$01c8 bytes]
+;          TamaÃ±o RLE: 182 bytes [$00b6 bytes]
 
 BG_HELLO_CLR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $30
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $7a
 ; Datos:
 db $ce, $ee, $c2, $11, $c3, $ee, $c5, $1e
@@ -113,9 +113,9 @@ db $c3, $1f, $c5, $ff, $c3, $1f, $c8, $e1
 db $c5, $ee
 
 BG_HELLO_CLR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $a8
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $48
 ; Datos:
 db $c8, $ee, $c6, $1e, $c2, $ee, $c6, $ff
@@ -129,9 +129,9 @@ db $c8, $e1, $c2, $ee, $c3, $f1, $c5, $11
 db $c3, $e1, $c5, $ee, $c6, $1e, $c2, $ee
 
 BG_HELLO_CLR_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $c8
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $b6
 ; Datos:
 db $cb, $ee, $c5, $1e, $c3, $ee, $c5, $11
@@ -161,19 +161,19 @@ db $c5, $ee, $c3, $1e, $c5, $ee
 
 ; Datos NAME
 ; Banco 0: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 124 bytes [$007c bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 124 bytes [$007c bytes]
 ; Banco 1: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 51 bytes [$0033 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 51 bytes [$0033 bytes]
 ; Banco 2: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 172 bytes [$00ac bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 172 bytes [$00ac bytes]
 
 BG_HELLO_NAM_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $7c
 ; Datos:
 db $ca, $00, $ce, $01, $d0, $00, $02, $03
@@ -194,9 +194,9 @@ db $20, $04, $22, $23, $04, $21, $c2, $08
 db $24, $25, $c4, $00
 
 BG_HELLO_NAM_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $33
 ; Datos:
 db $c7, $00, $01, $02, $d0, $03, $04, $05
@@ -208,9 +208,9 @@ db $dc, $00, $0d, $12, $13, $dd, $00, $14
 db $11, $f0, $00
 
 BG_HELLO_NAM_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $ac
 ; Datos:
 db $e2, $00, $01, $c4, $02, $03, $c2, $00

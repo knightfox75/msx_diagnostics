@@ -1,9 +1,9 @@
 ;************************************************************
 ;*    Imagen convertida para MSX - SCREEN 2
 ;*    Archivo de origen: bg_ngnlogo.bmp
-;*    Tamaño: 256x192 pixeles
+;*    TamaÃ±o: 256x192 pixeles
 ;*    Compresion RLE habilitada
-;*    Total de datos: 2635 bytes
+;*    Total de datos: 2554 bytes
 ;************************************************************
 
 
@@ -11,19 +11,19 @@ BG_NGNLOGO_IMAGE:
 
 ; Datos CHR
 ; Banco 0: 074 bloques de CHR
-;          Tamaño descomprimido: 592 bytes [$0250 bytes]
-;          Tamaño RLE: 349 bytes [$015d bytes]
+;          TamaÃ±o descomprimido: 592 bytes [$0250 bytes]
+;          TamaÃ±o RLE: 349 bytes [$015d bytes]
 ; Banco 1: 067 bloques de CHR
-;          Tamaño descomprimido: 536 bytes [$0218 bytes]
-;          Tamaño RLE: 348 bytes [$015c bytes]
-; Banco 2: 100 bloques de CHR
-;          Tamaño descomprimido: 800 bytes [$0320 bytes]
-;          Tamaño RLE: 557 bytes [$022d bytes]
+;          TamaÃ±o descomprimido: 536 bytes [$0218 bytes]
+;          TamaÃ±o RLE: 348 bytes [$015c bytes]
+; Banco 2: 093 bloques de CHR
+;          TamaÃ±o descomprimido: 744 bytes [$02e8 bytes]
+;          TamaÃ±o RLE: 518 bytes [$0206 bytes]
 
 BG_NGNLOGO_CHR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $02, $50
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $5d
 ; Datos:
 db $c8, $00, $40, $61, $71, $78, $7c, $7e
@@ -72,9 +72,9 @@ db $0f, $07, $c3, $00, $c4, $38, $3c, $c3
 db $00, $3f, $1f, $c6, $00
 
 BG_NGNLOGO_CHR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $02, $18
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $5c
 ; Datos:
 db $c8, $00, $0f, $c2, $1f, $0f, $ca, $00
@@ -123,10 +123,10 @@ db $c2, $7f, $c2, $00, $01, $03, $1f, $c2
 db $3f, $7f, $c4, $00
 
 BG_NGNLOGO_CHR_2:
-; Tamaño descomprimido:
-db $03, $20
-; Tamaño comprimido (RLE):
-db $02, $2d
+; TamaÃ±o descomprimido:
+db $02, $e8
+; TamaÃ±o comprimido (RLE):
+db $02, $06
 ; Datos:
 db $c8, $00, $07, $c5, $0f, $c2, $1f, $01
 db $c7, $00, $c2, $7f, $c6, $00, $18, $c2
@@ -172,49 +172,44 @@ db $1e, $c6, $00, $03, $0f, $c6, $00, $1f
 db $0f, $c6, $00, $3f, $7f, $c6, $00, $07
 db $0e, $c6, $00, $70, $38, $c7, $00, $3f
 db $c6, $00, $3e, $7e, $c6, $00, $c2, $3c
-db $c6, $00, $c2, $78, $cb, $00, $c2, $44
-db $2a, $c5, $00, $c2, $62, $6a, $c5, $00
-db $c2, $31, $4a, $c5, $00, $c2, $10, $5f
-db $c2, $00, $01, $c2, $00, $4e, $36, $76
-db $c5, $00, $0d, $13, $21, $c2, $00, $c3
-db $20, $2c, $32, $22, $c2, $00, $4c, $c2
-db $48, $03, $48, $49, $c5, $00, $61, $6f
-db $08, $c5, $00, $11, $c2, $5d, $c5, $00
-db $7a, $46, $24, $c5, $00, $7c, $44, $48
-db $c2, $00, $c3, $40, $43, $3b, $48, $c5
-db $00, $06, $76, $6f, $c7, $00, $7e, $c5
-db $00, $60, $6e, $12, $c5, $00, $3d, $23
-db $12, $c5, $00, $23, $32, $22, $c3, $2a
-db $c2, $11, $c3, $00, $c3, $6a, $c2, $08
-db $c3, $00, $c3, $4a, $c2, $7b, $c3, $00
-db $c3, $5f, $40, $48, $c3, $00, $c5, $76
-db $c3, $00, $c3, $21, $13, $0d, $21, $22
-db $1c, $c5, $22, $c3, $00, $c3, $49, $48
-db $68, $c3, $00, $c3, $08, $6f, $61, $c3
-db $00, $40, $41, $c2, $5d, $11, $c3, $00
-db $64, $5b, $24, $64, $5b, $c3, $00, $c3
-db $48, $44, $43, $c3, $00, $c3, $48, $3b
-db $43, $c3, $00, $c2, $10, $6f, $76, $06
-db $c3, $00, $c3, $7e, $00, $10, $c3, $00
-db $c2, $02, $12, $6e, $60, $c3, $00, $c3
-db $12, $22, $3d, $c3, $00
+db $c6, $00, $c2, $78, $cb, $00, $58, $64
+db $44, $c2, $00, $7f, $c2, $00, $79, $76
+db $6f, $c2, $00, $c3, $10, $69, $66, $6e
+db $c2, $00, $26, $c2, $24, $7e, $c2, $24
+db $c5, $00, $30, $48, $7b, $c5, $00, $77
+db $c2, $51, $c5, $00, $3d, $23, $12, $c5
+db $00, $3e, $22, $24, $c2, $00, $c3, $20
+db $5e, $62, $24, $c5, $00, $7c, $44, $48
+db $c6, $00, $7f, $40, $c5, $00, $30, $48
+db $76, $c5, $00, $61, $6e, $09, $c5, $00
+db $6e, $66, $11, $c5, $44, $c3, $00, $c3
+db $6f, $76, $79, $10, $11, $0e, $c5, $6e
+db $7f, $c2, $00, $c4, $24, $34, $c3, $00
+db $c3, $7b, $48, $30, $c3, $00, $c2, $20
+db $c2, $51, $77, $c3, $00, $32, $2d, $12
+db $32, $2d, $c3, $00, $c3, $24, $22, $21
+db $c3, $00, $c3, $24, $62, $5e, $c3, $00
+db $c2, $08, $48, $44, $7c, $c3, $00, $c3
+db $40, $7f, $08, $c3, $00, $c2, $7e, $76
+db $48, $30, $c3, $00, $c3, $09, $6e, $61
+db $c3, $00, $c5, $11, $c3, $00
 
 
 ; Datos CLR
 ; Banco 0: 074 bloques de CLR
-;          Tamaño descomprimido: 592 bytes [$0250 bytes]
-;          Tamaño RLE: 305 bytes [$0131 bytes]
+;          TamaÃ±o descomprimido: 592 bytes [$0250 bytes]
+;          TamaÃ±o RLE: 305 bytes [$0131 bytes]
 ; Banco 1: 067 bloques de CLR
-;          Tamaño descomprimido: 536 bytes [$0218 bytes]
-;          Tamaño RLE: 275 bytes [$0113 bytes]
-; Banco 2: 100 bloques de CLR
-;          Tamaño descomprimido: 800 bytes [$0320 bytes]
-;          Tamaño RLE: 454 bytes [$01c6 bytes]
+;          TamaÃ±o descomprimido: 536 bytes [$0218 bytes]
+;          TamaÃ±o RLE: 275 bytes [$0113 bytes]
+; Banco 2: 093 bloques de CLR
+;          TamaÃ±o descomprimido: 744 bytes [$02e8 bytes]
+;          TamaÃ±o RLE: 420 bytes [$01a4 bytes]
 
 BG_NGNLOGO_CLR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $02, $50
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $31
 ; Datos:
 db $c8, $ff, $c8, $1f, $c1, $ff, $c3, $11
@@ -258,9 +253,9 @@ db $f1, $c3, $ff, $c2, $f1, $c3, $11, $c3
 db $ff
 
 BG_NGNLOGO_CLR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $02, $18
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $13
 ; Datos:
 db $c8, $ff, $c4, $1f, $c4, $ff, $c4, $11
@@ -300,10 +295,10 @@ db $f1, $c2, $11, $c4, $1f, $c2, $11, $c6
 db $f1, $c4, $ff
 
 BG_NGNLOGO_CLR_2:
-; Tamaño descomprimido:
-db $03, $20
-; Tamaño comprimido (RLE):
-db $01, $c6
+; TamaÃ±o descomprimido:
+db $02, $e8
+; TamaÃ±o comprimido (RLE):
+db $01, $a4
 ; Datos:
 db $c8, $ff, $c8, $1f, $c1, $f1, $c7, $11
 db $c2, $1f, $c6, $11, $ca, $f1, $c5, $11
@@ -338,47 +333,43 @@ db $1f, $c6, $ff, $c2, $f1, $c6, $ff, $c2
 db $1f, $c6, $ff, $c2, $1f, $c6, $ff, $11
 db $1f, $c6, $ff, $c2, $f1, $c6, $ff, $c2
 db $f1, $c6, $ff, $c2, $f1, $cb, $ff, $c3
-db $1f, $c5, $ff, $c2, $1f, $c1, $f1, $c5
-db $ff, $c3, $1f, $c5, $ff, $c2, $1f, $c1
-db $f1, $c2, $ff, $1f, $c2, $ff, $c3, $f1
-db $c5, $ff, $c3, $1f, $c2, $ff, $c6, $1f
-db $c2, $ff, $c3, $1f, $c1, $f1, $c2, $1f
-db $c5, $ff, $1f, $c1, $f1, $1f, $c5, $ff
-db $1f, $c2, $f1, $c5, $ff, $c1, $f1, $c2
-db $1f, $c5, $ff, $c1, $f1, $c2, $1f, $c2
-db $ff, $c4, $1f, $c1, $f1, $1f, $c5, $ff
-db $1f, $c2, $f1, $c7, $ff, $c1, $f1, $c5
-db $ff, $1f, $c1, $f1, $1f, $c5, $ff, $c1
-db $f1, $c2, $1f, $c5, $ff, $c1, $f1, $c7
+db $1f, $c2, $ff, $c1, $f1, $c2, $ff, $c3
+db $f1, $c2, $ff, $c3, $1f, $c3, $f1, $c2
+db $ff, $c6, $1f, $c5, $ff, $c2, $1f, $c1
+db $f1, $c5, $ff, $c1, $f1, $c2, $1f, $c5
+db $ff, $c1, $f1, $c2, $1f, $c5, $ff, $c1
+db $f1, $c2, $1f, $c2, $ff, $c3, $1f, $c1
+db $f1, $c2, $1f, $c5, $ff, $c1, $f1, $c2
+db $1f, $c6, $ff, $c1, $f1, $1f, $c5, $ff
+db $c2, $1f, $c1, $f1, $c5, $ff, $1f, $c1
+db $f1, $1f, $c5, $ff, $1f, $c1, $f1, $c6
+db $1f, $c3, $ff, $c5, $f1, $c3, $1f, $c6
+db $f1, $c2, $ff, $c5, $1f, $c3, $ff, $c3
+db $f1, $c2, $1f, $c3, $ff, $c4, $1f, $c1
+db $f1, $c3, $ff, $1f, $c1, $f1, $c2, $1f
+db $c1, $f1, $c3, $ff, $c5, $1f, $c3, $ff
+db $c4, $1f, $c1, $f1, $c3, $ff, $c4, $1f
+db $c1, $f1, $c3, $ff, $c3, $1f, $c1, $f1
 db $1f, $c3, $ff, $c3, $f1, $c2, $1f, $c3
-db $ff, $c3, $1f, $c2, $f1, $c3, $ff, $c3
-db $f1, $c2, $1f, $c3, $ff, $c5, $f1, $c3
-db $ff, $cd, $1f, $c3, $ff, $c5, $1f, $c3
 db $ff, $c3, $1f, $c1, $f1, $1f, $c3, $ff
-db $c2, $1f, $c2, $f1, $1f, $c3, $ff, $1f
-db $c1, $f1, $c2, $1f, $c1, $f1, $c3, $ff
-db $c5, $1f, $c3, $ff, $c3, $1f, $c1, $f1
-db $1f, $c3, $ff, $c2, $1f, $c2, $f1, $1f
-db $c3, $ff, $c3, $f1, $c1, $ff, $1f, $c3
-db $ff, $c3, $1f, $c1, $f1, $1f, $c3, $ff
-db $c4, $1f, $c1, $f1, $c3, $ff
+db $c5, $1f, $c3, $ff
 
 
 ; Datos NAME
 ; Banco 0: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 137 bytes [$0089 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 137 bytes [$0089 bytes]
 ; Banco 1: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 84 bytes [$0054 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 84 bytes [$0054 bytes]
 ; Banco 2: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 122 bytes [$007a bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 114 bytes [$0072 bytes]
 
 BG_NGNLOGO_NAM_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $89
 ; Datos:
 db $ef, $00, $01, $02, $03, $04, $db, $00
@@ -401,9 +392,9 @@ db $47, $29, $48, $29, $49, $c3, $43, $c2
 db $00
 
 BG_NGNLOGO_NAM_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $54
 ; Datos:
 db $c6, $00, $01, $02, $d3, $03, $04, $05
@@ -419,10 +410,10 @@ db $39, $3a, $3b, $3c, $3d, $3e, $3f, $40
 db $41, $42, $d2, $00
 
 BG_NGNLOGO_NAM_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
-db $00, $7a
+; TamaÃ±o comprimido (RLE):
+db $00, $72
 ; Datos:
 db $c4, $00, $01, $02, $03, $04, $05, $06
 db $07, $08, $09, $c2, $00, $0a, $0b, $0c
@@ -434,9 +425,8 @@ db $29, $2a, $2b, $2c, $c8, $00, $2d, $2e
 db $2f, $30, $2d, $31, $32, $33, $34, $35
 db $00, $36, $2d, $37, $38, $39, $3a, $3b
 db $00, $3c, $3d, $3e, $3f, $40, $ff, $00
-db $cc, $00, $41, $42, $43, $44, $45, $46
+db $ce, $00, $41, $42, $43, $44, $45, $46
 db $47, $48, $49, $4a, $4b, $4c, $4d, $4e
-db $4f, $50, $51, $52, $ce, $00, $53, $54
+db $d2, $00, $4f, $50, $51, $52, $53, $54
 db $55, $56, $57, $58, $59, $5a, $5b, $5c
-db $5d, $5e, $5f, $60, $61, $62, $63, $59
-db $e7, $00
+db $e9, $00

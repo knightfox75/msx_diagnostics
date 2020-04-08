@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Rutinas de acceso al la pantalla
 ;
@@ -61,6 +61,55 @@ NGN_SCREEN_SET_MODE_0:
 
 
 ; ----------------------------------------------------------
+; NGN_SCREEN_SET_MODE_1
+; Inicializa la pantalla en modo SCREEN 1
+; (SPRITES habilitados, 8x8 sin magnificar)
+; B = Color de frente
+; C = Color de fondo
+; D = Color de borde
+; E = Ancho de la pantalla en columnas
+; Modifica A, BC, DE, HL
+; ----------------------------------------------------------
+
+NGN_SCREEN_SET_MODE_1:
+
+	; Guarda los parametros de la funcion
+	push bc
+	push de
+
+	; Borra la pantalla (CLS)
+	xor a
+	call $00C3		; Borra la pantalla con la rutina [CLS] de la BIOS
+
+	; Recupera los parametros de la funcion
+	pop de
+	pop bc
+
+	; Ancho de la pantalla
+	ld a, e
+	ld [$F3AF], a		; Cambia el ancho en columnas de la pantalla [LINL32]
+
+	; Color por defecto
+	ld hl, NGN_COLOR_ADDR
+	ld [hl], b		; Color de frente
+	inc l
+	ld [hl], c		; Color de fondo
+	inc l
+	ld [hl], 1		; Color del borde (Negro)
+	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
+
+	; Ajusta el VDP
+	call @@SETUP_VDP
+
+	; Inicializa el VDP con la rutina [INIT32] de la BIOS
+	call $006F
+
+	; Sal de la rutina
+	ret
+
+
+
+; ----------------------------------------------------------
 ; NGN_SCREEN_SET_MODE_2
 ; Inicializa la pantalla en modo SCREEN 2
 ; (SPRITES habilitados, 8x8 sin magnificar)
@@ -102,6 +151,86 @@ NGN_SCREEN_SET_MODE_2:
 
 	; Sal de la rutina
 	ret
+
+
+
+; ----------------------------------------------------------
+; NGN_SCREEN_SET_MODE_3
+; Inicializa la pantalla en modo SCREEN 3
+; (SPRITES habilitados, 8x8 sin magnificar)
+; B = Color de frente
+; C = Color de fondo
+; D = Color de borde
+; E = Sin uso
+; Modifica A, BC, DE, HL
+; ----------------------------------------------------------
+
+NGN_SCREEN_SET_MODE_3:
+
+	; Guarda los parametros de la funcion
+	push bc
+	push de
+
+	; Borra la pantalla (CLS)
+	xor a
+	call $00C3		; Borra la pantalla con la rutina [CLS] de la BIOS
+
+	; Recupera los parametros de la funcion
+	pop de
+	pop bc
+
+	; Color por defecto
+	ld hl, NGN_COLOR_ADDR
+	ld [hl], b		; Color de frente (Blanco)
+	inc l
+	ld [hl], c		; Color de fondo (Negro)
+	inc l
+	ld [hl], d		; Color del borde (Negro)
+	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
+
+	; Ajusta el VDP
+	call @@SETUP_VDP
+
+	; Inicializa el VDP con la rutina [INIMLT] de la BIOS
+	call $0075
+
+	; Sal de la rutina
+	ret
+
+
+
+
+; ----------------------------------------------------------
+; NGN_SCREEN_KEYS_ON
+; Muestra las teclas de funcion en pantalla
+; Modifica todos los registros
+; ----------------------------------------------------------
+NGN_SCREEN_KEYS_ON:
+
+	; Muestra las teclas de funcion llamando a la funcion de la BIOS [DSPFNK]
+	call $00CF
+
+	; Sal de la rutina
+	ret
+
+
+
+
+
+; ----------------------------------------------------------
+; NGN_SCREEN_KEYS_OFF
+; Oculta las teclas de funcion en pantalla
+; Modifica todos los registros
+; ----------------------------------------------------------
+NGN_SCREEN_KEYS_OFF:
+
+	; Oculta las teclas de funcion llamando a la funcion de la BIOS [ERAFNK]
+	call $00CC
+
+	; Sal de la rutina
+	ret
+
+
 
 
 

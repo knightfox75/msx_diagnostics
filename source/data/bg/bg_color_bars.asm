@@ -1,7 +1,7 @@
 ;************************************************************
 ;*    Imagen convertida para MSX - SCREEN 2
 ;*    Archivo de origen: bg_color_bars.bmp
-;*    Tamaño: 256x192 pixeles
+;*    TamaÃ±o: 256x192 pixeles
 ;*    Compresion RLE habilitada
 ;*    Total de datos: 1158 bytes
 ;************************************************************
@@ -11,19 +11,19 @@ BG_COLOR_BARS_IMAGE:
 
 ; Datos CHR
 ; Banco 0: 035 bloques de CHR
-;          Tamaño descomprimido: 280 bytes [$0118 bytes]
-;          Tamaño RLE: 31 bytes [$001f bytes]
+;          TamaÃ±o descomprimido: 280 bytes [$0118 bytes]
+;          TamaÃ±o RLE: 31 bytes [$001f bytes]
 ; Banco 1: 018 bloques de CHR
-;          Tamaño descomprimido: 144 bytes [$0090 bytes]
-;          Tamaño RLE: 16 bytes [$0010 bytes]
+;          TamaÃ±o descomprimido: 144 bytes [$0090 bytes]
+;          TamaÃ±o RLE: 16 bytes [$0010 bytes]
 ; Banco 2: 036 bloques de CHR
-;          Tamaño descomprimido: 288 bytes [$0120 bytes]
-;          Tamaño RLE: 33 bytes [$0021 bytes]
+;          TamaÃ±o descomprimido: 288 bytes [$0120 bytes]
+;          TamaÃ±o RLE: 33 bytes [$0021 bytes]
 
 BG_COLOR_BARS_CHR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $18
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $1f
 ; Datos:
 db $00, $7f, $40, $7f, $40, $7f, $40, $7f
@@ -32,18 +32,18 @@ db $02, $40, $7f, $40, $7f, $40, $7f, $40
 db $7f, $ff, $00, $f9, $00, $c8, $02
 
 BG_COLOR_BARS_CHR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $90
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $10
 ; Datos:
 db $40, $7f, $40, $7f, $40, $7f, $40, $7f
 db $ff, $00, $ff, $00, $c2, $00, $c8, $02
 
 BG_COLOR_BARS_CHR_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $20
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $21
 ; Datos:
 db $40, $7f, $40, $7f, $40, $7f, $40, $7f
@@ -55,19 +55,19 @@ db $00
 
 ; Datos CLR
 ; Banco 0: 035 bloques de CLR
-;          Tamaño descomprimido: 280 bytes [$0118 bytes]
-;          Tamaño RLE: 126 bytes [$007e bytes]
+;          TamaÃ±o descomprimido: 280 bytes [$0118 bytes]
+;          TamaÃ±o RLE: 126 bytes [$007e bytes]
 ; Banco 1: 018 bloques de CLR
-;          Tamaño descomprimido: 144 bytes [$0090 bytes]
-;          Tamaño RLE: 45 bytes [$002d bytes]
+;          TamaÃ±o descomprimido: 144 bytes [$0090 bytes]
+;          TamaÃ±o RLE: 45 bytes [$002d bytes]
 ; Banco 2: 036 bloques de CLR
-;          Tamaño descomprimido: 288 bytes [$0120 bytes]
-;          Tamaño RLE: 135 bytes [$0087 bytes]
+;          TamaÃ±o descomprimido: 288 bytes [$0120 bytes]
+;          TamaÃ±o RLE: 135 bytes [$0087 bytes]
 
 BG_COLOR_BARS_CLR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $18
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $7e
 ; Datos:
 db $c1, $ff, $c7, $1f, $c1, $ff, $11, $c1
@@ -88,9 +88,9 @@ db $c8, $aa, $c8, $bb, $c8, $cc, $c8, $dd
 db $c8, $ee, $c8, $ff, $c8, $1f
 
 BG_COLOR_BARS_CLR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $90
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $2d
 ; Datos:
 db $c8, $1f, $c1, $ff, $11, $c1, $ff, $11
@@ -101,9 +101,9 @@ db $aa, $c8, $bb, $c8, $cc, $c8, $dd, $c8
 db $ee, $c8, $ff, $c8, $1f
 
 BG_COLOR_BARS_CLR_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $20
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $87
 ; Datos:
 db $c8, $1f, $c1, $ff, $11, $c1, $ff, $11
@@ -127,19 +127,19 @@ db $ff, $c6, $1f, $c1, $f1, $c1, $ff
 
 ; Datos NAME
 ; Banco 0: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 256 bytes [$0100 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 256 bytes [$0100 bytes]
 ; Banco 1: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 256 bytes [$0100 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 256 bytes [$0100 bytes]
 ; Banco 2: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 256 bytes [$0100 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 256 bytes [$0100 bytes]
 
 BG_COLOR_BARS_NAM_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $00
 ; Datos:
 db $00, $01, $c2, $02, $c2, $03, $c2, $04
@@ -176,9 +176,9 @@ db $c2, $1a, $c2, $1b, $c2, $1c, $c2, $1d
 db $c2, $1e, $c2, $1f, $c2, $20, $21, $22
 
 BG_COLOR_BARS_NAM_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $00
 ; Datos:
 db $00, $01, $c2, $02, $c2, $03, $c2, $04
@@ -215,9 +215,9 @@ db $c2, $09, $c2, $0a, $c2, $0b, $c2, $0c
 db $c2, $0d, $c2, $0e, $c2, $0f, $10, $11
 
 BG_COLOR_BARS_NAM_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $01, $00
 ; Datos:
 db $00, $01, $c2, $02, $c2, $03, $c2, $04

@@ -1,7 +1,7 @@
 ;************************************************************
 ;*    Imagen convertida para MSX - SCREEN 2
 ;*    Archivo de origen: bg_joytest.bmp
-;*    Tamaño: 256x192 pixeles
+;*    TamaÃ±o: 256x192 pixeles
 ;*    Compresion RLE habilitada
 ;*    Total de datos: 560 bytes
 ;************************************************************
@@ -11,19 +11,19 @@ BG_JOYTEST_IMAGE:
 
 ; Datos CHR
 ; Banco 0: 018 bloques de CHR
-;          Tamaño descomprimido: 144 bytes [$0090 bytes]
-;          Tamaño RLE: 100 bytes [$0064 bytes]
+;          TamaÃ±o descomprimido: 144 bytes [$0090 bytes]
+;          TamaÃ±o RLE: 100 bytes [$0064 bytes]
 ; Banco 1: 017 bloques de CHR
-;          Tamaño descomprimido: 136 bytes [$0088 bytes]
-;          Tamaño RLE: 115 bytes [$0073 bytes]
+;          TamaÃ±o descomprimido: 136 bytes [$0088 bytes]
+;          TamaÃ±o RLE: 115 bytes [$0073 bytes]
 ; Banco 2: 005 bloques de CHR
-;          Tamaño descomprimido: 40 bytes [$0028 bytes]
-;          Tamaño RLE: 30 bytes [$001e bytes]
+;          TamaÃ±o descomprimido: 40 bytes [$0028 bytes]
+;          TamaÃ±o RLE: 30 bytes [$001e bytes]
 
 BG_JOYTEST_CHR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $90
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $64
 ; Datos:
 db $c9, $00, $01, $00, $18, $c3, $1c, $18
@@ -41,9 +41,9 @@ db $c8, $00, $c2, $01, $c2, $00, $1c, $38
 db $70, $1f, $c4, $00
 
 BG_JOYTEST_CHR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $88
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $73
 ; Datos:
 db $c9, $00, $c2, $01, $c2, $02, $c2, $04
@@ -63,9 +63,9 @@ db $c2, $01, $00, $10, $c2, $20, $c2, $40
 db $c2, $7f, $00
 
 BG_JOYTEST_CHR_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $28
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $1e
 ; Datos:
 db $c8, $00, $07, $18, $20, $c2, $40, $c3
@@ -76,19 +76,19 @@ db $01, $c2, $02, $04, $18, $1f
 
 ; Datos CLR
 ; Banco 0: 018 bloques de CLR
-;          Tamaño descomprimido: 144 bytes [$0090 bytes]
-;          Tamaño RLE: 87 bytes [$0057 bytes]
+;          TamaÃ±o descomprimido: 144 bytes [$0090 bytes]
+;          TamaÃ±o RLE: 87 bytes [$0057 bytes]
 ; Banco 1: 017 bloques de CLR
-;          Tamaño descomprimido: 136 bytes [$0088 bytes]
-;          Tamaño RLE: 57 bytes [$0039 bytes]
+;          TamaÃ±o descomprimido: 136 bytes [$0088 bytes]
+;          TamaÃ±o RLE: 57 bytes [$0039 bytes]
 ; Banco 2: 005 bloques de CLR
-;          Tamaño descomprimido: 40 bytes [$0028 bytes]
-;          Tamaño RLE: 13 bytes [$000d bytes]
+;          TamaÃ±o descomprimido: 40 bytes [$0028 bytes]
+;          TamaÃ±o RLE: 13 bytes [$000d bytes]
 
 BG_JOYTEST_CLR_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $90
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $57
 ; Datos:
 db $c9, $11, $1f, $c1, $ff, $c5, $1f, $11
@@ -104,9 +104,9 @@ db $c2, $ff, $c6, $11, $c2, $f1, $c2, $11
 db $c3, $f1, $1f, $c2, $ff, $c2, $11
 
 BG_JOYTEST_CLR_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $88
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $39
 ; Datos:
 db $c9, $11, $c7, $f1, $11, $c2, $1f, $cc
@@ -119,9 +119,9 @@ db $ff, $ce, $f1, $11, $c5, $f1, $c2, $1f
 db $11
 
 BG_JOYTEST_CLR_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $00, $28
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $0d
 ; Datos:
 db $c8, $11, $c5, $f1, $c4, $1f, $c7, $f1
@@ -130,19 +130,19 @@ db $c3, $1f, $cc, $f1, $1f
 
 ; Datos NAME
 ; Banco 0: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 48 bytes [$0030 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 48 bytes [$0030 bytes]
 ; Banco 1: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 66 bytes [$0042 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 66 bytes [$0042 bytes]
 ; Banco 2: 256 bloques de NAME
-;          Tamaño descomprimido: 256 bytes [$0100 bytes]
-;          Tamaño RLE: 40 bytes [$0028 bytes]
+;          TamaÃ±o descomprimido: 256 bytes [$0100 bytes]
+;          TamaÃ±o RLE: 40 bytes [$0028 bytes]
 
 BG_JOYTEST_NAM_0:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $30
 ; Datos:
 db $ff, $00, $ff, $00, $c7, $00, $01, $02
@@ -153,9 +153,9 @@ db $00, $0f, $c6, $00, $0a, $0b, $0c, $0d
 db $0e, $00, $10, $11, $ff, $00, $c6, $00
 
 BG_JOYTEST_NAM_1:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $42
 ; Datos:
 db $c8, $00, $01, $02, $cc, $00, $01, $02
@@ -169,9 +169,9 @@ db $d0, $00, $0f, $10, $cc, $00, $0f, $10
 db $c8, $00
 
 BG_JOYTEST_NAM_2:
-; Tamaño descomprimido:
+; TamaÃ±o descomprimido:
 db $01, $00
-; Tamaño comprimido (RLE):
+; TamaÃ±o comprimido (RLE):
 db $00, $28
 ; Datos:
 db $ff, $00, $c7, $00, $01, $02, $c2, $00

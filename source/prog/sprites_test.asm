@@ -1,10 +1,12 @@
 ;***********************************************************
-; MSX DIAGNOSTICS
-; Version 0.1.0-a
-; ASM Z80 MSX
-; Test de los Sprites (MODO SCREEN 2)
-; (c) 2018 Cesar Rincon "NightFox"
-; http://www.nightfoxandco.com
+;
+;	MSX DIAGNOSTICS
+;	Version 0.9.0-a
+;	ASM Z80 MSX
+;	Test de los Sprites (MODO SCREEN 2)
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
+;
 ;***********************************************************
 
 
@@ -23,13 +25,13 @@ FUNCTION_SPRITES_TEST_MENU:
 
 	; Texto del menu
 	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 	ld hl, TEXT_SPRITES_MENU	; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 	ld hl, TEXT_MENU_CANCEL		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla
 	call $0044

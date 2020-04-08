@@ -1,10 +1,12 @@
 ;***********************************************************
-; MSX DIAGNOSTICS
-; Version 0.1.0-a
-; ASM Z80 MSX
-; Funciones comunes del sistema
-; (c) 2018 Cesar Rincon "NightFox"
-; http://www.nightfoxandco.com
+;
+;	MSX DIAGNOSTICS
+;	Version 0.9.0-a
+;	ASM Z80 MSX
+;	Funciones comunes del sistema
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
+;
 ;***********************************************************
 
 
@@ -19,7 +21,7 @@ FUNCTION_SYSTEM_START:
 	ld hl, SYSKEY_UP
 	ld b, $00
 
-	;  Bucle de borrado
+	;  Bucle de puesta a 0 de las variables
 	@@LOOP:
 		xor a		; Registro A a 0
 		ld [hl], a	; Resetea el valor de la variable
@@ -28,6 +30,9 @@ FUNCTION_SYSTEM_START:
 		ld a, b
 		cp SYSTEM_KEYS_NUMBER	; Si se ha completado el bucle
 		jr nz, @@LOOP
+
+	; Deshabilita la visualizacion de las teclas de funcion
+	call NGN_SCREEN_KEYS_OFF
 
 	; Fin de la funcion
 	ret
@@ -55,7 +60,7 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ld b, a			; Guarda el valor en B
 	ld a, [NGN_JOY1_UP]	; Valor del Joy1 UP
 	and $07			; Filtra el valor de los BITS 0, 1 y 2 (HELD/PRESS/UP)
-	or b			; Añadele el valor del estado de la tecla (B)
+	or b			; AÃ±adele el valor del estado de la tecla (B)
 	ld [SYSKEY_UP], a	; Almacena el valor en la variable
 
 	; Abajo
@@ -64,7 +69,7 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ld b, a			; Guarda el valor en B
 	ld a, [NGN_JOY1_DOWN]	; Valor del Joy1 DOWN
 	and $07			; Filtra el valor de los BITS 0, 1 y 2 (HELD/PRESS/UP)
-	or b			; Añadele el valor del estado de la tecla (B)
+	or b			; AÃ±adele el valor del estado de la tecla (B)
 	ld [SYSKEY_DOWN], a	; Almacena el valor en la variable
 
 	; Izquierda
@@ -73,7 +78,7 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ld b, a			; Guarda el valor en B
 	ld a, [NGN_JOY1_LEFT]	; Valor del Joy1 LEFT
 	and $07			; Filtra el valor de los BITS 0, 1 y 2 (HELD/PRESS/UP)
-	or b			; Añadele el valor del estado de la tecla (B)
+	or b			; AÃ±adele el valor del estado de la tecla (B)
 	ld [SYSKEY_LEFT], a	; Almacena el valor en la variable
 
 	; Derecha
@@ -82,7 +87,7 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ld b, a			; Guarda el valor en B
 	ld a, [NGN_JOY1_RIGHT]	; Valor del Joy1 RIGHT
 	and $07			; Filtra el valor de los BITS 0, 1 y 2 (HELD/PRESS/UP)
-	or b			; Añadele el valor del estado de la tecla (B)
+	or b			; AÃ±adele el valor del estado de la tecla (B)
 	ld [SYSKEY_RIGHT], a	; Almacena el valor en la variable
 
 	; Aceptar
@@ -91,7 +96,7 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ld b, a			; Guarda el valor en B
 	ld a, [NGN_JOY1_TG1]	; Valor del Joy1 TG1
 	and $07			; Filtra el valor de los BITS 0, 1 y 2 (HELD/PRESS/UP)
-	or b			; Añadele el valor del estado de la tecla (B)
+	or b			; AÃ±adele el valor del estado de la tecla (B)
 	ld [SYSKEY_ACCEPT], a	; Almacena el valor en la variable
 
 	; Cancelar
@@ -100,7 +105,7 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ld b, a			; Guarda el valor en B
 	ld a, [NGN_JOY1_TG2]	; Valor del Joy1 TG2
 	and $07			; Filtra el valor de los BITS 0, 1 y 2 (HELD/PRESS/UP)
-	or b			; Añadele el valor del estado de la tecla (B)
+	or b			; AÃ±adele el valor del estado de la tecla (B)
 	ld [SYSKEY_CANCEL], a	; Almacena el valor en la variable
 
 	; Fin de la funcion

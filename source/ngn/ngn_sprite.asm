@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Rutinas de sprites
 ;
@@ -98,7 +98,7 @@ NGN_SPRITE_UPDATE:
 ; NGN_SPRITE_LOAD_DATA
 ; Carga los graficos de un Sprite en la VRAM
 ; HL = Direccion de los CHR del Sprite (Origen de los datos)
-; B = Nº de Slot (0-255) o (0-63)
+; B = NÂº de Slot (0-255) o (0-63)
 ; Modifica A, BC, DE, HL
 ; ----------------------------------------------------------
 
@@ -111,7 +111,7 @@ NGN_SPRITE_LOAD_DATA:
 	ld hl, NGN_SPRTBL
 	ld c, 0
 
-	; Calcula el tamaño del slot
+	; Calcula el tamaÃ±o del slot
 	ld a, [NGN_VDPR1]	; Consulta el modo actual de los sprites
 	and $02
 	jr nz, @@MODE_16
@@ -125,7 +125,7 @@ NGN_SPRITE_LOAD_DATA:
 		ld a, c
 		cp b
 		jr z, @@DATA_TO_VRAM
-		; Añade el desplazamiento del tamaño del slot
+		; AÃ±ade el desplazamiento del tamaÃ±o del slot
 		add hl, de
 		; Conteo de slot
 		inc c
@@ -137,7 +137,7 @@ NGN_SPRITE_LOAD_DATA:
 	ld d, h		; Direccion de destino (DE)
 	ld e, l
 	pop hl		; Recupera la posicion de los datos (HL)
-	ld b, [hl]	; Tamaño de los datos a transferir (BC)
+	ld b, [hl]	; TamaÃ±o de los datos a transferir (BC)
 	inc hl
 	ld c, [hl]
 	inc hl		; Datos a transferir
@@ -156,9 +156,9 @@ NGN_SPRITE_LOAD_DATA:
 ; ----------------------------------------------------------
 ; NGN_SPRITE_CREATE
 ; Crea un Sprite los graficos cargados en la VRAM
-; A = Nº de slot del Sprite (0-31)
-; B = Nº de slot del grafico (0-255) o (0-63)
-; C = Nº de color de la paleta 
+; A = NÂº de slot del Sprite (0-31)
+; B = NÂº de slot del grafico (0-255) o (0-63)
+; C = NÂº de color de la paleta 
 ; D = Coordenada X
 ; E = Coordenada Y
 ; Modifica A, BC, DE, HL
@@ -183,7 +183,7 @@ NGN_SPRITE_CREATE:
 	pop af			; Recupera el numero de slot del sprite
 	push bc			; Guarda BC (Slot grafico / Color)
 	
-	sla a			; Desplazamiento de 4 bytes * nº de slot de sprite
+	sla a			; Desplazamiento de 4 bytes * nÂº de slot de sprite
 	sla a
 
 	ld b, 0			; Prepara el offset
@@ -198,9 +198,9 @@ NGN_SPRITE_CREATE:
 	inc hl
 	ld [hl], d		; Posicion X
 	inc hl
-	ld [hl], b		; nº Slot del grafico
+	ld [hl], b		; nÂº Slot del grafico
 	inc hl
-	ld [hl], c		; nº de color de la paleta
+	ld [hl], c		; nÂº de color de la paleta
 
 	ret			; Sal de la funcion
 

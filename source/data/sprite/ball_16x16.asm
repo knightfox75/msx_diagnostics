@@ -1,15 +1,15 @@
 ;************************************************************
 ;*    Imagen convertida para MSX - SCREEN 2
 ;*    Archivo de origen: ball_16x16.bmp
-;*    Tamaño: 16x16 pixeles
-;*    Nº de frames: 01
+;*    TamaÃ±o: 16x16 pixeles
+;*    NÂº de frames: 01
 ;*    Total de datos: 34 bytes
 ;************************************************************
 
 
 BALL_16X16_SPRITE:
 
-; Tamaño:
+; TamaÃ±o:
 db $00, $20
 ; CHR: 00
 db $07, $1f, $3c, $78, $79, $f9, $f8, $fc

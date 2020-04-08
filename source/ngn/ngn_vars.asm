@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Definicion de variables
 ;
@@ -22,22 +22,22 @@
 ;	BIT	  3      2       1       0		NGN_TOTAL_KEYS
 ; -----------------------------------------------------------------------
 ; ROW 0
-NGN_KEY_0:			ds	1	; Tecla 0
-NGN_KEY_1:			ds	1	; Tecla 1
-NGN_KEY_2:			ds	1	; Tecla 2
-NGN_KEY_3:			ds	1	; Tecla 3
-NGN_KEY_4:			ds	1	; Tecla 4
-NGN_KEY_5:			ds	1	; Tecla 5
-NGN_KEY_6:			ds	1	; Tecla 6
-NGN_KEY_7:			ds	1	; Tecla 7
+NGN_KEY_0:			    ds	1	; Tecla 0
+NGN_KEY_1:			    ds	1	; Tecla 1
+NGN_KEY_2:			    ds	1	; Tecla 2
+NGN_KEY_3:			    ds	1	; Tecla 3
+NGN_KEY_4:			    ds	1	; Tecla 4
+NGN_KEY_5:			    ds	1	; Tecla 5
+NGN_KEY_6:			    ds	1	; Tecla 6
+NGN_KEY_7:			    ds	1	; Tecla 7
 ; ROW 1
-NGN_KEY_8:			ds	1	; Tecla 8
-NGN_KEY_9:			ds	1	; Tecla 9
+NGN_KEY_8:			    ds	1	; Tecla 8
+NGN_KEY_9:			    ds	1	; Tecla 9
 NGN_KEY_MINUS:			ds	1	; Tecla -
 NGN_KEY_EQUAL:			ds	1	; Tecla =
 NGN_KEY_BACKSLASH:		ds	1	; Tecla \
-NGN_KEY_LEFT_BRACKET:		ds	1	; Tecla [
-NGN_KEY_RIGHT_BRACKET:		ds	1	; Tecla ]
+NGN_KEY_LEFT_BRACKET:	ds	1	; Tecla [
+NGN_KEY_RIGHT_BRACKET:	ds	1	; Tecla ]
 NGN_KEY_SEMICLON:		ds	1	; Tecla ;
 ; ROW 2
 NGN_KEY_APOSTROPHE:		ds	1	; Tecla '
@@ -46,51 +46,51 @@ NGN_KEY_COMMA:			ds	1	; Tecla ,
 NGN_KEY_PERIOD:			ds	1	; Tecla .
 NGN_KEY_SLASH:			ds	1	; Tecla /
 NGN_KEY_DEAD:			ds	1	; Tecla DEAD KEY
-NGN_KEY_A:			ds	1	; Tecla A
-NGN_KEY_B:			ds	1	; Tecla B
+NGN_KEY_A:			    ds	1	; Tecla A
+NGN_KEY_B:			    ds	1	; Tecla B
 ; ROW 3
-NGN_KEY_C:			ds	1	; Tecla C
-NGN_KEY_D:			ds	1	; Tecla D
-NGN_KEY_E:			ds	1	; Tecla E
-NGN_KEY_F:			ds	1	; Tecla F
-NGN_KEY_G:			ds	1	; Tecla G
-NGN_KEY_H:			ds	1	; Tecla H
-NGN_KEY_I:			ds	1	; Tecla I
-NGN_KEY_J:			ds	1	; Tecla J
+NGN_KEY_C:			    ds	1	; Tecla C
+NGN_KEY_D:			    ds	1	; Tecla D
+NGN_KEY_E:			    ds	1	; Tecla E
+NGN_KEY_F:			    ds	1	; Tecla F
+NGN_KEY_G:			    ds	1	; Tecla G
+NGN_KEY_H:			    ds	1	; Tecla H
+NGN_KEY_I:			    ds	1	; Tecla I
+NGN_KEY_J:			    ds	1	; Tecla J
 ; ROW 4
-NGN_KEY_K:			ds	1	; Tecla K
-NGN_KEY_L:			ds	1	; Tecla L
-NGN_KEY_M:			ds	1	; Tecla M
-NGN_KEY_N:			ds	1	; Tecla N
-NGN_KEY_O:			ds	1	; Tecla O
-NGN_KEY_P:			ds	1	; Tecla P
-NGN_KEY_Q:			ds	1	; Tecla Q
-NGN_KEY_R:			ds	1	; Tecla R
+NGN_KEY_K:			    ds	1	; Tecla K
+NGN_KEY_L:			    ds	1	; Tecla L
+NGN_KEY_M:			    ds	1	; Tecla M
+NGN_KEY_N:			    ds	1	; Tecla N
+NGN_KEY_O:			    ds	1	; Tecla O
+NGN_KEY_P:			    ds	1	; Tecla P
+NGN_KEY_Q:			    ds	1	; Tecla Q
+NGN_KEY_R:			    ds	1	; Tecla R
 ; ROW 5
-NGN_KEY_S:			ds	1	; Tecla S
-NGN_KEY_T:			ds	1	; Tecla T
-NGN_KEY_U:			ds	1	; Tecla U
-NGN_KEY_V:			ds	1	; Tecla V
-NGN_KEY_W:			ds	1	; Tecla W
-NGN_KEY_X:			ds	1	; Tecla X
-NGN_KEY_Y:			ds	1	; Tecla Y
-NGN_KEY_Z:			ds	1	; Tecla Z
+NGN_KEY_S:			    ds	1	; Tecla S
+NGN_KEY_T:			    ds	1	; Tecla T
+NGN_KEY_U:			    ds	1	; Tecla U
+NGN_KEY_V:			    ds	1	; Tecla V
+NGN_KEY_W:			    ds	1	; Tecla W
+NGN_KEY_X:			    ds	1	; Tecla X
+NGN_KEY_Y:			    ds	1	; Tecla Y
+NGN_KEY_Z:			    ds	1	; Tecla Z
 ; ROW 6
 NGN_KEY_SHIFT:			ds	1	; Tecla SHIFT
 NGN_KEY_CTRL:			ds	1	; Tecla CTRL
 NGN_KEY_GRAPH:			ds	1	; Tecla GRAPH
 NGN_KEY_CAPS:			ds	1	; Tecla CAPS
 NGN_KEY_CODE:			ds	1	; Tecla CODE
-NGN_KEY_F1:			ds	1	; Tecla F1
-NGN_KEY_F2:			ds	1	; Tecla F2
-NGN_KEY_F3:			ds	1	; Tecla F3
+NGN_KEY_F1:			    ds	1	; Tecla F1
+NGN_KEY_F2:			    ds	1	; Tecla F2
+NGN_KEY_F3:			    ds	1	; Tecla F3
 ; ROW 7
-NGN_KEY_F4:			ds	1	; Tecla F4
-NGN_KEY_F5:			ds	1	; Tecla F5
+NGN_KEY_F4:			    ds	1	; Tecla F4
+NGN_KEY_F5:			    ds	1	; Tecla F5
 NGN_KEY_ESC:			ds	1	; Tecla ESC
 NGN_KEY_TAB:			ds	1	; Tecla TAB
 NGN_KEY_STOP:			ds	1	; Tecla STOP
-NGN_KEY_BS:			ds	1	; Tecla BS
+NGN_KEY_BS:			    ds	1	; Tecla BS
 NGN_KEY_SELECT:			ds	1	; Tecla SELECT
 NGN_KEY_RETURN:			ds	1	; Tecla RETURN
 ; ROW 8
@@ -99,11 +99,11 @@ NGN_KEY_HOME:			ds	1	; Tecla HOME
 NGN_KEY_INS:			ds	1	; Tecla INS
 NGN_KEY_DEL:			ds	1	; Tecla DEL
 NGN_KEY_LEFT:			ds	1	; Tecla CURSOR LEFT
-NGN_KEY_UP:			ds	1	; Tecla CURSOR UP
+NGN_KEY_UP:			    ds	1	; Tecla CURSOR UP
 NGN_KEY_DOWN:			ds	1	; Tecla CURSOR DOWN
 NGN_KEY_RIGHT:			ds	1	; Tecla CURSOR RIGHT
 ; ROW 9
-NGN_KEY_NUM_ASTERISK:		ds	1	; Tecla NUM *
+NGN_KEY_NUM_ASTERISK:	ds	1	; Tecla NUM *
 NGN_KEY_NUM_PLUS:		ds	1	; Tecla NUM +
 NGN_KEY_NUM_SLASH:		ds	1	; Tecla NUM /
 NGN_KEY_NUM_0:			ds	1	; Tecla NUM 0
@@ -152,7 +152,7 @@ NGN_JOY2_TG2:		ds	1		; Joystick 2 Tigger 2
 ;	0-255	0-255	0-63		0-15
 ; -----------------------------------------------------------------------
 
-NGN_SPRITE_00:		ds	4		; Attributos del Sprite nº 00
+NGN_SPRITE_00:		ds	4		; Attributos del Sprite nÂº 00
 NGN_SPRITE_01:		ds	4
 NGN_SPRITE_02:		ds	4
 NGN_SPRITE_03:		ds	4
@@ -202,9 +202,9 @@ NGN_RANDOM_SEED:	ds	1
 ; Gestion de la descompresion RLE
 NGN_RLE_NORMAL_SIZE:		ds	2
 NGN_RLE_COMPRESSED_SIZE:	ds	2
-NGN_RLE_POINTER:		ds	2
+NGN_RLE_POINTER:		    ds	2
 ; Buffer de RAM
-NGN_RAM_BUFFER:			ds	2048
+NGN_RAM_BUFFER:			    ds	2048
 
 
 

@@ -1,10 +1,10 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.1-a
+;	Version 0.0.2-a
 ;
-;	(cc)2018 Cesar Rincon "NightFox"
-;	http://www.nightfoxandco.com
+;	(cc) 2018-2020 Cesar Rincon "NightFox"
+;	https://nightfoxandco.com
 ;
 ;	Descompresion de datos RLE
 ;
@@ -17,34 +17,34 @@
 ; Descomprime datos RLE y colocalos en el buffer de RAM
 ; HL = Direccion de los datos comprimidos
 ; DE = Direccion de destino
-; BC = Tamaño de los datos a descomprimir [AUTO]
+; BC = TamaÃ±o de los datos a descomprimir [AUTO]
 ; Modifica A, BC, DE, HL
 ; ----------------------------------------------------------
 
 NGN_RLE_DECOMPRESS:
 
 	; Lee la cabecera con la informacion sobre el
-	; tamaño de los datos comprimidos y descomprimidos
+	; tamaÃ±o de los datos comprimidos y descomprimidos
 
-	ld b, [hl]				; Lee el tamaño descomprimido
+	ld b, [hl]				; Lee el tamaÃ±o descomprimido
 	inc hl
 	ld c, [hl]
 	inc hl
 	push hl
 
-	ld hl, NGN_RLE_NORMAL_SIZE		; Guarda el tamaño descomprimido
+	ld hl, NGN_RLE_NORMAL_SIZE		; Guarda el tamaÃ±o descomprimido
 	ld [hl], b
 	inc hl
 	ld [hl], c
 	pop hl
 	
-	ld b, [hl]				; Lee el tamaño comprimido
+	ld b, [hl]				; Lee el tamaÃ±o comprimido
 	inc hl
 	ld c, [hl]
 	inc hl
 	push hl
 
-	ld hl, NGN_RLE_COMPRESSED_SIZE		; Guarda el tamaño comprimido
+	ld hl, NGN_RLE_COMPRESSED_SIZE		; Guarda el tamaÃ±o comprimido
 	ld [hl], b
 	inc hl
 	ld [hl], c
