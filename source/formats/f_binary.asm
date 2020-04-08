@@ -3,7 +3,7 @@
 ;   MSX DIAGNOSTICS
 ;   Version 0.9.0-a
 ;	ASM Z80 MSX
-;	Directivas de compilacion para ROM de 32kb
+;	Directivas de compilacion para BINARIO de 32kb
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
