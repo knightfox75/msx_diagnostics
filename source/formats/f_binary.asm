@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 0.9.0-a
+;   Version 1.0.0.
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para BINARIO de 32kb
 ;
@@ -16,11 +16,11 @@
 
 
 
-
-
 ;***********************************************************
 ; Directivas para el compilador
 ;***********************************************************
+
+OUTPUT_FORMAT = 1							; Define el formato de salida
 
 ; ----------------------------------------------------------
 ; Directivas del formato
@@ -28,18 +28,18 @@
 
 .ORG $8000									; Selecciona la pagina 2 [$8000] (Codigo del programa)
 .BASIC										; Se creara el binario en formato BASIC de hasta 32kb
-.START PROGRAM_START_ADDRESS				; Indicale al compilador donde empieza el programa
 
-OUTPUT_FORMAT = 1							; Define el formato de salida
+; Indicale al compilador donde empieza el programa
+.START PROGRAM_START_ADDRESS
+
 
 ; ----------------------------------------------------------
-; Definicion de variables [PAGE 3] $C000
+; Definicion de variables
 ; ----------------------------------------------------------
 
 ; Almacena las variables
 .INCLUDE "ngn/ngn_vars.asm"
 .INCLUDE "prog/vars.asm"
-
 
 
 ;***********************************************************

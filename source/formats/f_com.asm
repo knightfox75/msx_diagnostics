@@ -3,7 +3,7 @@
 ;   MSX DIAGNOSTICS
 ;   Version 1.0.0.
 ;	ASM Z80 MSX
-;	Directivas de compilacion para ROM de 32kb
+;	Directivas de compilacion para .COM de MSX-DOS
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -20,31 +20,26 @@
 ; Directivas para el compilador
 ;***********************************************************
 
-OUTPUT_FORMAT = 2									; Define el formato de salida
-
-; ----------------------------------------------------------
-; Definicion de variables [PAGE 3] $C000
-; ----------------------------------------------------------
-
-; Almacena las variables en la pagina 3 (Comentar si no es una ROM)
-.PAGE 3
-.INCLUDE "ngn/ngn_vars.asm"
-.INCLUDE "prog/vars.asm"
-
+OUTPUT_FORMAT = 3							; Define el formato de salida
 
 ; ----------------------------------------------------------
 ; Directivas del formato
 ; ----------------------------------------------------------
 
-.PAGE 1												; Selecciona la pagina 1 [$4000] (Codigo del programa)
-.ROM												; Se creara el binario en formato ROM de hasta 32kb
-.db 77, 83, 88, 95, 68, 73, 65, 71, 0, 0, 0, 0      ; 12 digitos para completar la cabecera de la ROM
+.ORG $0100				; Selecciona el punto inicial por defecto en MSX-DOS [$0100]
+.MSXDOS					; Se creara el binario en formato .COM para MSX-DOS
 
-; Indicale al compilador donde empieza el programa
-.START PROGRAM_START_ADDRESS
+
+; ----------------------------------------------------------
+; Definicion de variables
+; ----------------------------------------------------------
+
+; Almacena las variables
+.INCLUDE "ngn/ngn_vars.asm"
+.INCLUDE "prog/vars.asm"
 
 
 ;***********************************************************
 ; Fin del archivo
 ;***********************************************************
-F_ROM_EOF:
+F_COM_EOF:

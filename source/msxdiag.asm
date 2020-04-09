@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 0.9.0-a
+;   Version 1.0.0.
 ;	ASM Z80 MSX
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -15,8 +15,6 @@
 
 
 
-
-
 ;***********************************************************
 ; Directivas para el compilador
 ;***********************************************************
@@ -27,18 +25,21 @@
 
 .BIOS					; Nombres de las llamadas a BIOS
 
-OUTPUT_FORMAT_BINARY = 1	; Formato de salida binario de BASIC
-OUTPUT_FORMAT_ROM = 2		; Formato de salida ROM
-
 
 
 ; ----------------------------------------------------------
 ; Selecciona la directiva de compilacion (descomentar)
 ; ----------------------------------------------------------
 
-;.INCLUDE "formats/f_binary.asm"		; Binario de BASIC
-.INCLUDE "formats/f_rom.asm"			; Cartucho ROM
+OUTPUT_FORMAT_BINARY = 1	; Formato de salida binario de BASIC
+OUTPUT_FORMAT_ROM = 2		; Formato de salida ROM
+OUTPUT_FORMAT_COM = 3		; Formato de salida COM para MSX-DOS
+OUTPUT_FORMAT_CAS = 4		; Formato de salida binario de BASIC (Salida en formato .CAS y .WAV)
 
+;.INCLUDE "formats/f_binary.asm"		; Binario de BASIC
+INCLUDE "formats/f_rom.asm"			; Cartucho ROM
+;.INCLUDE "formats/f_com.asm"			; Binario en formato .COM para MSX-DOS
+;.INCLUDE "formats/f_cas.asm"			; Imagen .CAS y archivo de audio .WAV
 
 
 
@@ -124,7 +125,7 @@ PROGRAM_START_ADDRESS:
 	; ----------------------------------------------------------
 
 	; Imagenes de fondo
-	.INCLUDE "data/bg/bg_ngnlogo.asm"			; Total de datos: 2554 bytes
+	.INCLUDE "data/bg/bg_title.asm"				; Total de datos: 3014 bytes
 	.INCLUDE "data/bg/bg_line_pattern_b.asm"	; Total de datos: 922 bytes
 	.INCLUDE "data/bg/bg_line_pattern_w.asm"	; Total de datos: 904 bytes
 	.INCLUDE "data/bg/bg_color_bars.asm"		; Total de datos: 1158 bytes

@@ -1,0 +1,17 @@
+--------------------------------------------------------------------------------
+MSX Diagnostics Changelog
+--------------------------------------------------------------------------------
+
+
+2020-04-09 Ver.1.0.0.
+--------------------------------------------------------------------------------
+- Cambio de la pantalla de presentación.
+- Se añade el archivo binario a la distribución.
+- Se añade el archivo PDF con el diseño de la pegatina para el cartucho.
+- Una vez revisada, esta pasa a ser la primera release oficial.
+
+
+- Primera pre-release pública en estado Alpha.
+2020-04-08 Ver.0.9.0-a
+--------------------------------------------------------------------------------
+- Primera pre-release pública en estado Alpha.

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 0.9.0-a
+;	Version 1.0.0.
 ;	ASM Z80 MSX
 ;	Archivo principal
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -19,15 +19,15 @@ FUNCTION_WELCOME:
 
 	; Pon la VDP en MODO SCR2
 	ld bc, $0F01		; Color de frente/fondo
-	ld de, $0100		; Color de bore/sin uso
+	ld de, $0500		; Color de borde/sin uso
 	call NGN_SCREEN_SET_MODE_2
 
 	; Carga el fondo del Logo en la pantalla
-	ld hl, BG_NGNLOGO_IMAGE				; Direccion de la imagen
+	ld hl, BG_TITLE_IMAGE				; Direccion de la imagen
 	call NGN_BACKGROUND_CREATE_RLE		; Crea el fondo y mandalo a la VRAM
 
 	; Prepara el temporizador de salida
-	ld b, 120		; Salida en 120 frames
+	ld b, $FF		; Salida en 255 frames
 
 
 	; Bucle de ejecucion

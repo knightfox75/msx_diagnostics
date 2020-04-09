@@ -3,7 +3,8 @@
 ;   MSX DIAGNOSTICS
 ;   Version 1.0.0.
 ;	ASM Z80 MSX
-;	Directivas de compilacion para ROM de 32kb
+;	Directivas de compilacion para BINARIO de 32kb
+;	Genera un archivo .CAS y .WAV
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -20,31 +21,31 @@
 ; Directivas para el compilador
 ;***********************************************************
 
-OUTPUT_FORMAT = 2									; Define el formato de salida
-
-; ----------------------------------------------------------
-; Definicion de variables [PAGE 3] $C000
-; ----------------------------------------------------------
-
-; Almacena las variables en la pagina 3 (Comentar si no es una ROM)
-.PAGE 3
-.INCLUDE "ngn/ngn_vars.asm"
-.INCLUDE "prog/vars.asm"
-
+OUTPUT_FORMAT = 4		; Define el formato de salida
 
 ; ----------------------------------------------------------
 ; Directivas del formato
 ; ----------------------------------------------------------
 
-.PAGE 1												; Selecciona la pagina 1 [$4000] (Codigo del programa)
-.ROM												; Se creara el binario en formato ROM de hasta 32kb
-.db 77, 83, 88, 95, 68, 73, 65, 71, 0, 0, 0, 0      ; 12 digitos para completar la cabecera de la ROM
+.ORG $8000				; Selecciona la pagina 2 [$8000] (Codigo del programa)
+.BASIC					; Se creara el binario en formato BASIC de hasta 32kb
+.CAS                    ; Genera el archivo .CAS
+.WAV                    ; Genera el archivo .WAV
 
 ; Indicale al compilador donde empieza el programa
 .START PROGRAM_START_ADDRESS
+
+; ----------------------------------------------------------
+; Definicion de variables
+; ----------------------------------------------------------
+
+; Almacena las variables
+.INCLUDE "ngn/ngn_vars.asm"
+.INCLUDE "prog/vars.asm"
+
 
 
 ;***********************************************************
 ; Fin del archivo
 ;***********************************************************
-F_ROM_EOF:
+F_CAS_EOF:

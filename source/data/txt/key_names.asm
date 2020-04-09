@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 0.9.0-a
+;	Version 1.0.0.
 ;	ASM Z80 MSX
 ;	Nombres de las teclas
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
