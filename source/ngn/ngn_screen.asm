@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.2-a
+;	Version 0.2.1-a
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -53,10 +53,9 @@ NGN_SCREEN_SET_MODE_0:
 	call @@SETUP_VDP
 
 	; Inicializa el VDP con la rutina [INITXT] de la BIOS
-	call $006C
+	jp $006C
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -102,10 +101,9 @@ NGN_SCREEN_SET_MODE_1:
 	call @@SETUP_VDP
 
 	; Inicializa el VDP con la rutina [INIT32] de la BIOS
-	call $006F
+	jp $006F
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -147,10 +145,10 @@ NGN_SCREEN_SET_MODE_2:
 	call @@SETUP_VDP
 
 	; Inicializa el VDP con la rutina [INIGRP] de la BIOS
-	call $0072
+	jp $0072
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
+
 
 
 
@@ -192,10 +190,9 @@ NGN_SCREEN_SET_MODE_3:
 	call @@SETUP_VDP
 
 	; Inicializa el VDP con la rutina [INIMLT] de la BIOS
-	call $0075
+	jp $0075
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -208,10 +205,9 @@ NGN_SCREEN_SET_MODE_3:
 NGN_SCREEN_KEYS_ON:
 
 	; Muestra las teclas de funcion llamando a la funcion de la BIOS [DSPFNK]
-	call $00CF
+	jp $00CF
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -225,10 +221,9 @@ NGN_SCREEN_KEYS_ON:
 NGN_SCREEN_KEYS_OFF:
 
 	; Oculta las teclas de funcion llamando a la funcion de la BIOS [ERAFNK]
-	call $00CC
+	jp $00CC
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 

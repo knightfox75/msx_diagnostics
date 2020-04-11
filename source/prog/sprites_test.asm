@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.0.
+;	Version 1.0.1.
 ;	ASM Z80 MSX
 ;	Test de los Sprites (MODO SCREEN 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"

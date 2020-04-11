@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.2-a
+;	Version 0.2.1-a
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -53,14 +53,14 @@ NGN_KEYBOARD_READ:
 	call @@KEY_ANY
 		
 	; Limpia el buffer del teclado con la rutina de BIOS [KILBUF]
-	call $0156
+	jp $0156
 
-	; Vuelve
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
 	
+
 	; @@GET_KEY
 	; Lee el estado de la tecla solicitada usando los puertos $A9 y $AA
 	; Usa el registro BC para pasar la fila (B) y el BIT (C)

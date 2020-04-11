@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.2-a
+;	Version 0.2.1-a
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -91,10 +91,9 @@ NGN_BACKGROUND_CREATE:
 
 
 	; Habilita la pantalla
-	call $0044		; Ejecuta la rutina [ENASCR]
+	jp $0044		; Ejecuta la rutina [ENASCR]
 
-	; Fin de la rutina de carga
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -197,10 +196,9 @@ NGN_BACKGROUND_CREATE_RLE:
 	call @@DATA_TO_VRAM
 
 	; Habilita la pantalla
-	call $0044		; Ejecuta la rutina [ENASCR]
+	jp $0044		; Ejecuta la rutina [ENASCR]
 
-	; Fin de la rutina de carga
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 

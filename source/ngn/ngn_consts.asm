@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.2-a
+;	Version 0.2.1-a
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -20,15 +20,15 @@
 ; Definiciones para la VRAM
 ; ----------------------------------------------------------
 ; Registros
-NGN_VDPR0		.EQU	$F3DF	; Valores del registro 0 del VDP
-NGN_VDPR1		.EQU	$F3E0	; Valores del registro 0 del VDP
+NGN_VDPR0		    .EQU	$F3DF	; Valores del registro 0 del VDP
+NGN_VDPR1		    .EQU	$F3E0	; Valores del registro 0 del VDP
 ; Fondos
-NGN_CHRTBL		.EQU	$0000	; Tabla de caracteres de los fondos (pattern)
-NGN_NAMTBL		.EQU	$1800	; Tabla de nombres de los fondos (mapa)
-NGN_CLRTBL		.EQU	$2000	; Tabla del color de los caracteres (paleta)
+NGN_CHRTBL		    .EQU	$0000	; Tabla de caracteres de los fondos (pattern)
+NGN_NAMTBL		    .EQU	$1800	; Tabla de nombres de los fondos (mapa)
+NGN_CLRTBL		    .EQU	$2000	; Tabla del color de los caracteres (paleta)
 ; Sprites
-NGN_SPRATR		.EQU	$1B00	; Tabla de los atributos de los sprites
-NGN_SPRTBL		.EQU	$3800	; Tabla de caracteres de los Sprites (pattern)
+NGN_SPRATR		    .EQU	$1B00	; Tabla de los atributos de los sprites
+NGN_SPRTBL		    .EQU	$3800	; Tabla de caracteres de los Sprites (pattern)
 ; Color
 NGN_COLOR_ADDR		.EQU	$F3E9	; Direccion del Color
 

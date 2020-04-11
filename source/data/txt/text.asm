@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.0.
+;	Version 1.0.1.
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -22,7 +22,7 @@ TEXT_RESTART:
 TEXT_MENU_HEADER:
 
 	db	"---------------------------------------", $0D, $0A
-	db	" MSX DIAGNOSTICS v1.0.0.", $0D, $0A
+	db	" MSX DIAGNOSTICS v1.0.1.", $0D, $0A
 	db	"---------------------------------------", $0D, $0A
 	db	$0D, $0A
 	db	$00

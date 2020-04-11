@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.2-a
+;	Version 0.2.1-a
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -46,8 +46,7 @@ NGN_TEXT_PRINT:
 
 NGN_TEXT_POSITION:
 
-	call $00C6;		; Rutina de BIOS [POSIT]
-	ret
+	jp $00C6;		; Rutina de BIOS [POSIT] (El RET lo aplica la propia rutina de BIOS)
 
 
 
@@ -60,8 +59,7 @@ NGN_TEXT_POSITION:
 NGN_TEXT_CLS:
 
 	xor a
-	call $00C3		; Borra la pantalla con la rutina [CLS] de la BIOS
-	ret
+	jp $00C3		; Borra la pantalla con la rutina [CLS] de la BIOS (El RET lo aplica la propia rutina de BIOS)
 
 
 
@@ -78,8 +76,7 @@ NGN_TEXT_COLOR:
 	ld [hl], b		; Color de frente
 	inc l
 	ld [hl], c		; Color de fondo
-	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
-	ret
+	jp $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS (El RET lo aplica la propia rutina de BIOS)
 
 
 

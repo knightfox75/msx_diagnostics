@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.0.2-a
+;	Version 0.2.1-a
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -46,11 +46,11 @@ NGN_SPRITE_MODE_16x16_D:
 
 ; Actualiza el VDP
 @@SETUP_VDP:
-	di			; Deshabilita las interrupciones
+	di				; Deshabilita las interrupciones
 	ld b, a			; B = Valor a escribir en el registro del VDP
 	ld c, $01		; C = Seleccion del registro
 	call $0047		; [WRTVDP]	Escribe los datos
-	ei			; Habilita las interrupciones
+	ei				; Habilita las interrupciones
 	ret
 
 
@@ -63,12 +63,12 @@ NGN_SPRITE_MODE_16x16_D:
 
 NGN_SPRITE_RESET:
 
-	call $0069				; Borra los sprites con la rutina [CLRSPR] de la BIOS
+	call $0069					; Borra los sprites con la rutina [CLRSPR] de la BIOS
 	ld hl, NGN_SPRATR			; Puntero a la tabla de sprites en VRAM
-	ld de, NGN_SPRITE_00			; Puntero al primer sprite en RAM
+	ld de, NGN_SPRITE_00		; Puntero al primer sprite en RAM
 	ld bc, $0080				; 128 bytes de datos (32*4)
-	call $0059				; Ejecuta la rutina [LDIRMV] (Mueve datos de VRAM a RAM)
-	ret					; Sal de la funcion
+	jp $0059					; Ejecuta la rutina [LDIRMV] (Mueve datos de VRAM a RAM)
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -81,16 +81,16 @@ NGN_SPRITE_RESET:
 NGN_SPRITE_UPDATE:
 
 	ld hl, NGN_SPRITE_00		; Puntero al primer sprite en RAM
-	ld bc, $0080			; 128 bytes de datos (32*4)
-	ld de, NGN_SPRATR		; Puntero a la tabla de sprites en VRAM
+	ld bc, $0080				; 128 bytes de datos (32*4)
+	ld de, NGN_SPRATR			; Puntero a la tabla de sprites en VRAM
 
 	; Transfiere los datos a la VRAM (usando la BIOS)	
-	call $005C			; Ejecuta la rutina [LDIRVM]
+	jp $005C		; Ejecuta la rutina [LDIRVM]
 					; HL Origen de los datos (RAM)
 					; BC Cantidad de datos a transferir
 					; DE Destino de los datos (VRAM)
 
-	ret				; Sal de la funcion
+	; El RET lo aplica la propia rutina de BIOS
 
 
 
@@ -134,22 +134,21 @@ NGN_SPRITE_LOAD_DATA:
 
 	; Transfiere los datos a la VRAM
 	@@DATA_TO_VRAM:
-	ld d, h		; Direccion de destino (DE)
+	ld d, h			; Direccion de destino (DE)
 	ld e, l
-	pop hl		; Recupera la posicion de los datos (HL)
-	ld b, [hl]	; Tamaño de los datos a transferir (BC)
+	pop hl			; Recupera la posicion de los datos (HL)
+	ld b, [hl]		; Tamaño de los datos a transferir (BC)
 	inc hl
 	ld c, [hl]
-	inc hl		; Datos a transferir
+	inc hl			; Datos a transferir
 
 	; Transfiere los datos a la VRAM (usando la BIOS)	
-	call $005C			; Ejecuta la rutina [LDIRVM]
+	jp $005C		; Ejecuta la rutina [LDIRVM]
 					; HL Origen de los datos (RAM)
 					; BC Cantidad de datos a transferir
 					; DE Destino de los datos (VRAM)
 
-	; Sal de la rutina
-	ret
+	; El RET lo aplica la propia rutina de BIOS
 
 
 

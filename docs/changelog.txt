@@ -2,6 +2,11 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-11 Ver.1.0.1.
+--------------------------------------------------------------------------------
+- Compilado usando la actualización de MSX N'gine, que incorporaba algunas
+  optimizaciones en la llamada de rutinas del BIOS.
+
 
 2020-04-09 Ver.1.0.0.
 --------------------------------------------------------------------------------

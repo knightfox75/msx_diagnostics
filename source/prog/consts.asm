@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.0.0.
+;   Version 1.0.1.
 ;   ASM Z80 MSX
 ;   Definicion de constantes
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
