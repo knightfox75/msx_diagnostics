@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.1.
+;	Version 1.1.0-wip01
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -22,7 +22,7 @@ TEXT_RESTART:
 TEXT_MENU_HEADER:
 
 	db	"---------------------------------------", $0D, $0A
-	db	" MSX DIAGNOSTICS v1.0.1.", $0D, $0A
+	db	" MSX DIAGNOSTICS v1.1.0-WIP01", $0D, $0A
 	db	"---------------------------------------", $0D, $0A
 	db	$0D, $0A
 	db	$00
@@ -50,10 +50,10 @@ TEXT_MENU_FOOTER:
 
 
 
-; Textos del menu principal
-TEXT_MAIN_MENU:
+; Textos del menu principal (Pagina 1)
+TEXT_MAIN_MENU_P1:
 
-	db	" TEST MENU", $0D, $0A
+	db	" TEST MENU [1/2]", $0D, $0A
 	db	"---------------------------------------", $0D, $0A
 	db	$0D, $0A
 	db	"   1. SCREEN 0", $0D, $0A
@@ -64,17 +64,45 @@ TEXT_MAIN_MENU:
 	db	"   6. KEYBOARD", $0D, $0A
 	db	"   7. JOYSTICK", $0D, $0A
 	db	"   8. PSG", $0D, $0A
+	db	"   9. NEXT PAGE >>>", $0D, $0A
 	db	"   0. REBOOT", $0D, $0A
 	db	$0D, $0A
 	db	$0D, $0A
 	db	" ACCEPT -> SPACE / BUTTON 1", $0D, $0A
 	db	" CANCEL -> ESC / BUTTON 2", $0D, $0A
 	db	$0D, $0A
-	db	"---------------------------------------", $0D, $0A
 	db	" (cc) 2018-2020 BY CESAR RINCON", $0D, $0A
-	db	"---------------------------------------"
 	db	$00
 
+
+
+; Textos del menu principal (Pagina 2)
+TEXT_MAIN_MENU_P2:
+
+	db	" TEST MENU [2/2]", $0D, $0A
+	db	"---------------------------------------", $0D, $0A
+	db	$0D, $0A
+	db	"   1. NOT AVAILABLE", $0D, $0A
+	db	"   2. NOT AVAILABLE", $0D, $0A
+	db	"   3. NOT AVAILABLE", $0D, $0A
+	db	"   4. NOT AVAILABLE", $0D, $0A
+	db	"   5. NOT AVAILABLE", $0D, $0A
+	db	"   6. NOT AVAILABLE", $0D, $0A
+	db	"   7. NOT AVAILABLE", $0D, $0A
+	db	"   8. NOT AVAILABLE", $0D, $0A
+	db	"   9. <<< PREVIOUS PAGE", $0D, $0A
+	db	"   0. REBOOT", $0D, $0A
+	db	$0D, $0A
+	db	$0D, $0A
+	db	" ACCEPT -> SPACE / BUTTON 1", $0D, $0A
+	db	" CANCEL -> ESC / BUTTON 2", $0D, $0A
+	db	$0D, $0A
+	db	" (cc) 2018-2020 BY CESAR RINCON", $0D, $0A
+	db	$00
+
+
+
+; Cursor del menu
 TEXT_MAIN_MENU_ITEM_ON:		db	">", $00	; Cursor
 TEXT_MAIN_MENU_ITEM_OFF:	db	$20, $00	; Borra el cursor
 

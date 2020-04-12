@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.0.1.
+;   Version 1.1.0-wip01
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -37,6 +37,7 @@ SYSKEY_CANCEL:			ds	1	    ; ESC / Joy1 Boton 2
 
 MAINMENU_ITEM_SELECTED:		ds	1		; Posicion del cursor
 MAINMENU_ITEM_OLD:		    ds	1		; Posicion anterior del cursor
+MAINMENU_LAST_ITEM:         ds  1       ; Posicion al abandonar el menu
 
 
 

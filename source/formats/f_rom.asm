@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.0.1.
+;   Version 1.1.0-wip01
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para ROM de 32kb
 ;

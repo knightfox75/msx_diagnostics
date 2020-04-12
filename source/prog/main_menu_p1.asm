@@ -1,9 +1,9 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.1.
+;	Version 1.1.0-wip01
 ;	ASM Z80 MSX
-;	Menu Principal
+;	Menu Principal (Pagina 1)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
 ;
@@ -12,13 +12,13 @@
 
 
 ; ----------------------------------------------------------
-; Funcion del Menu Principal
+; Funcion del Menu Principal (Pagina 1)
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU:
+FUNCTION_MAIN_MENU_P1:
 
 	; Valores iniciales
-	ld a, (MAINMENU_FIRST_OPTION + 1)
+	ld a, [MAINMENU_LAST_ITEM]
 	ld [MAINMENU_ITEM_SELECTED], a
 	ld [MAINMENU_ITEM_OLD], a
 
@@ -33,11 +33,11 @@ FUNCTION_MAIN_MENU:
 	; Texto del menu
 	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_MAIN_MENU		; Apunta al texto a mostrar
+	ld hl, TEXT_MAIN_MENU_P1	; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 
 	; Cursor
-	call @@PRINT_CURSOR
+	call FUNCTION_MAIN_MENU_PRINT_CURSOR
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla
 	call $0044
@@ -54,49 +54,54 @@ FUNCTION_MAIN_MENU:
 		; ----------------------------------------------------------
 
 		; Si se pulsa la tecla 1
-		ld a, [NGN_KEY_1]					; Tecla 1
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_SCREEN0	; Ejecuta la opcion
+		ld a, [NGN_KEY_1]						; Tecla 1
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_SCREEN0		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 2
-		ld a, [NGN_KEY_2]					; Tecla 2
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_SCREEN1	; Ejecuta la opcion
+		ld a, [NGN_KEY_2]						; Tecla 2
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_SCREEN1		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 3
-		ld a, [NGN_KEY_3]					; Tecla 3
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_SCREEN2	; Ejecuta la opcion
+		ld a, [NGN_KEY_3]						; Tecla 3
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_SCREEN2		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 4
-		ld a, [NGN_KEY_4]					; Tecla 4
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_SCREEN3	; Ejecuta la opcion
+		ld a, [NGN_KEY_4]						; Tecla 4
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_SCREEN3		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 5
-		ld a, [NGN_KEY_5]					; Tecla 5
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_SPRITES	; Ejecuta la opcion
+		ld a, [NGN_KEY_5]						; Tecla 5
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_SPRITES		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 6
-		ld a, [NGN_KEY_6]					; Tecla 6
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_KEYBOARD	; Ejecuta la opcion
+		ld a, [NGN_KEY_6]						; Tecla 6
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_KEYBOARD		; Ejecuta la opcion
 		
 		; Si se pulsa la tecla 7
-		ld a, [NGN_KEY_7]					; Tecla 7
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_JOYSTICK	; Ejecuta la opcion
+		ld a, [NGN_KEY_7]						; Tecla 7
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_JOYSTICK		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 8
-		ld a, [NGN_KEY_8]					; Tecla 8
-		and $02								; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_PSG		; Ejecuta la opcion
+		ld a, [NGN_KEY_8]						; Tecla 8
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_PSG			; Ejecuta la opcion
+
+		; Si se pulsa la tecla 9
+		ld a, [NGN_KEY_9]						; Tecla 9
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE2	; Ejecuta la opcion
 
 		; Si se pulsa la tecla 0
-		ld a, [NGN_KEY_0]					; Tecla 0
-		and $02								; Detecta "KEY DOWN"
-		ret nz								; Sal del programa
+		ld a, [NGN_KEY_0]						; Tecla 0
+		and $02									; Detecta "KEY DOWN"
+		ret nz									; Sal del programa
 
 
 		; ----------------------------------------------------------
@@ -110,10 +115,10 @@ FUNCTION_MAIN_MENU:
 		
 		ld a, [MAINMENU_ITEM_SELECTED]		; Carga la opcion actual
 		dec a								; Resta una opcion
-		cp MAINMENU_FIRST_OPTION			; Si es la primera
+		cp MAINMENU_FIRST_OPTION_P1			; Si es la primera
 		jr nz, @@MM_UPDATE
 
-		ld a, (MAINMENU_FIRST_OPTION + 1)	; Fijala
+		ld a, (MAINMENU_FIRST_OPTION_P1 + 1)	; Fijala
 		jr @@MM_UPDATE
 
 		; Si se pulsa abajo
@@ -124,16 +129,16 @@ FUNCTION_MAIN_MENU:
 
 		ld a, [MAINMENU_ITEM_SELECTED]		; Carga la opcion actual
 		inc a								; Suma una opcion
-		cp MAINMENU_LAST_OPTION				; Si es la ultima
+		cp MAINMENU_LAST_OPTION_P1			; Si es la ultima
 		jp nz, @@MM_UPDATE
 
-		ld a, (MAINMENU_LAST_OPTION - 1)	; Fijala
+		ld a, (MAINMENU_LAST_OPTION_P1 - 1)		; Fijala
 		
 
 		; Actualiza el cursor si es necesario
 		@@MM_UPDATE:
-		ld [MAINMENU_ITEM_SELECTED], a		; Guarda los datos del cursor
-		call @@PRINT_CURSOR					; Imprime su posicion actualizada
+		ld [MAINMENU_ITEM_SELECTED], a			; Guarda los datos del cursor
+		call FUNCTION_MAIN_MENU_PRINT_CURSOR	; Imprime su posicion actualizada
 
 
 		; Fin de las rutinas del menu, aceptacion de la opcion
@@ -148,31 +153,34 @@ FUNCTION_MAIN_MENU:
 		
 		; Opcion 1
 		cp 1
-		jp z, FUNCTION_MAIN_MENU_SCREEN0	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_SCREEN0		; Test Screen 0
 		; Opcion 2
 		cp 2
-		jp z, FUNCTION_MAIN_MENU_SCREEN1	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_SCREEN1		; Test Screen 1
 		; Opcion 3
 		cp 3
-		jp z, FUNCTION_MAIN_MENU_SCREEN2	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_SCREEN2		; Test Screen 2
 		; Opcion 4
 		cp 4
-		jp z, FUNCTION_MAIN_MENU_SCREEN3	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_SCREEN3		; Test Screen 3
 		; Opcion 5
 		cp 5
-		jp z, FUNCTION_MAIN_MENU_SPRITES	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_SPRITES		; Test de Sprites
 		; Opcion 6
 		cp 6
-		jp z, FUNCTION_MAIN_MENU_KEYBOARD	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_KEYBOARD		; Test del teclado
 		; Opcion 7
 		cp 7
-		jp z, FUNCTION_MAIN_MENU_JOYSTICK	; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_JOYSTICK		; Test de los puertos de joystick
 		; Opcion 8
 		cp 8
-		jp z, FUNCTION_MAIN_MENU_PSG		; Ejecuta la opcion
-		; Opcion 0
+		jp z, FUNCTION_MAIN_MENU_PSG			; Test del sonido PSG
+		; Opcion 9
 		cp 9
-		ret z								; Sal del programa
+		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE2		; Siguiente pagina del menu (p2)
+		; Opcion 0
+		cp 10
+		ret z								; Sal del programa (reinicia)
 
 
 		; ----------------------------------------------------------
@@ -188,36 +196,8 @@ FUNCTION_MAIN_MENU:
 
 
 
-	; ----------------------------------------------------------
-	;  Actualiza la posicion del cursor en la pantalla
-	; ----------------------------------------------------------	
-	@@PRINT_CURSOR:
-		; Borra el cursor de su posicion actual
-		ld h, $02							; Posicion X
-		ld a, [MAINMENU_ITEM_OLD]			; Lee la posicion del borrado
-		add MAINMENU_ITEM_START				; Asignale el offset de la Y
-		ld l, a
-		call NGN_TEXT_POSITION				; Coloca el cursor
-		ld hl, TEXT_MAIN_MENU_ITEM_OFF		; Lee el espacio en blanco
-		call NGN_TEXT_PRINT					; Y escribelo
-		; Imprime el cursor en su nueva posicion
-		ld h, $02							; Posicion X
-		ld a, [MAINMENU_ITEM_SELECTED]		; Lee la posicion Y de escritura
-		add MAINMENU_ITEM_START				; Asignale el offset de la Y
-		ld l, a
-		call NGN_TEXT_POSITION				; Coloca el cursor
-		ld hl, TEXT_MAIN_MENU_ITEM_ON		; Lee el caracter del cursor
-		call NGN_TEXT_PRINT					; Y escribelo
-		; Guarda la coordenada de borrado
-		ld a, [MAINMENU_ITEM_SELECTED]
-		ld [MAINMENU_ITEM_OLD], a
-		; Vuelve
-		ret
-
-
-
 ; ----------------------------------------------------------
-; Ejecuta la opcion SCREEN0_TEST
+; Ejecuta la opcion SCREEN0_TEST [1]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_SCREEN0:
@@ -227,12 +207,14 @@ FUNCTION_MAIN_MENU_SCREEN0:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 1
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion SCREEN1_TEST
+; Ejecuta la opcion SCREEN1_TEST [2]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_SCREEN1:
@@ -242,12 +224,14 @@ FUNCTION_MAIN_MENU_SCREEN1:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 2
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion SCREEN2_TEST
+; Ejecuta la opcion SCREEN2_TEST [3]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_SCREEN2:
@@ -257,12 +241,14 @@ FUNCTION_MAIN_MENU_SCREEN2:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 3
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion SCREEN3_TEST
+; Ejecuta la opcion SCREEN3_TEST [4]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_SCREEN3:
@@ -272,12 +258,14 @@ FUNCTION_MAIN_MENU_SCREEN3:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 4
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion SPRITES_TEST
+; Ejecuta la opcion SPRITES_TEST [5]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_SPRITES:
@@ -287,12 +275,14 @@ FUNCTION_MAIN_MENU_SPRITES:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 5
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion KEYBOARD_TEST
+; Ejecuta la opcion KEYBOARD_TEST [6]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_KEYBOARD:
@@ -302,12 +292,14 @@ FUNCTION_MAIN_MENU_KEYBOARD:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 6
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion JOYSTICK_TEST
+; Ejecuta la opcion JOYSTICK_TEST [7]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_JOYSTICK:
@@ -317,12 +309,14 @@ FUNCTION_MAIN_MENU_JOYSTICK:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 7
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
 
 
 
 ; ----------------------------------------------------------
-; Ejecuta la opcion PSG
+; Ejecuta la opcion PSG [8]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_PSG:
@@ -332,11 +326,28 @@ FUNCTION_MAIN_MENU_PSG:
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
-	jp FUNCTION_MAIN_MENU
+	ld a, 8
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
+
+
+
+; ----------------------------------------------------------
+; Siguiente pagina del menu (Pagina 2) [9]
+; ----------------------------------------------------------
+
+FUNCTION_MAIN_MENU_GOTO_PAGE2:
+
+	; Deshabilita la pantalla para el cambio
+	call $0041
+	; Vuelve al menu
+	ld a, (MAINMENU_FIRST_OPTION_P2 + 1)
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P2
 
 
 
 ;***********************************************************
 ; Fin del archivo
 ;***********************************************************
-MAIN_MENU_EOF:
+MAIN_MENU_P1_EOF:

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.1.
+;	Version 1.1.0-wip01
 ;	ASM Z80 MSX
 ;	Test SCREEN 3
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"

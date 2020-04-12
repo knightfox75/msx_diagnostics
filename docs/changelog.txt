@@ -2,13 +2,19 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
-2020-04-11 Ver.1.0.1.
+2020-04-12 Ver. 1.1.0-WIP01
+--------------------------------------------------------------------------------
+- Ahora el menú recuerda la opción selecciona al volver desde un test.
+- Añadida la segunda página al menú de selección de test.
+  
+
+2020-04-11 Ver. 1.0.1.
 --------------------------------------------------------------------------------
 - Compilado usando la actualización de MSX N'gine, que incorporaba algunas
   optimizaciones en la llamada de rutinas del BIOS.
 
 
-2020-04-09 Ver.1.0.0.
+2020-04-09 Ver. 1.0.0.
 --------------------------------------------------------------------------------
 - Cambio de la pantalla de presentación.
 - Se añade el archivo binario a la distribución.
@@ -17,6 +23,6 @@ MSX Diagnostics Changelog
 
 
 - Primera pre-release pública en estado Alpha.
-2020-04-08 Ver.0.9.0-a
+2020-04-08 Ver. 0.9.0-a
 --------------------------------------------------------------------------------
 - Primera pre-release pública en estado Alpha.

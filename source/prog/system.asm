@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.1.
+;	Version 1.1.0-wip01
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -30,6 +30,10 @@ FUNCTION_SYSTEM_START:
 		ld a, b
 		cp SYSTEM_KEYS_NUMBER	; Si se ha completado el bucle
 		jr nz, @@LOOP
+
+	; Ultima opcion usada del menu
+	ld a, (MAINMENU_FIRST_OPTION_P1 + 1)
+	ld [MAINMENU_LAST_ITEM], a
 
 	; Deshabilita la visualizacion de las teclas de funcion
 	call NGN_SCREEN_KEYS_OFF

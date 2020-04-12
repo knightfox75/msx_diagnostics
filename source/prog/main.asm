@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.0.1.
+;	Version 1.1.0-wip01
 ;	ASM Z80 MSX
 ;	Archivo principal
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -24,8 +24,8 @@ FUNCTION_MAIN:
 	; Llama a la funcion de pantalla de Bienvenida
 	call FUNCTION_WELCOME
 
-	; Llama a la funcion del menu principal
-	call FUNCTION_MAIN_MENU
+	; Llama a la funcion del menu principal (Pagina 1)
+	call FUNCTION_MAIN_MENU_P1
 
 
 

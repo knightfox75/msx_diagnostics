@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.0.1.
+;   Version 1.1.0-wip01
 ;   ASM Z80 MSX
 ;   Definicion de constantes
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -24,8 +24,10 @@ SYSTEM_KEYS_NUMBER		    .EQU	6		; Numero de teclas de sistema
 ; ----------------------------------------------------------
 
 MAINMENU_ITEM_START		    .EQU	7		; Offset del cursor en Y
-MAINMENU_FIRST_OPTION		.EQU	0		; (1 - 1)
-MAINMENU_LAST_OPTION		.EQU	10		; (9 + 1)
+MAINMENU_FIRST_OPTION_P1	.EQU	0		; (1 - 1)
+MAINMENU_LAST_OPTION_P1		.EQU	11		; (10 + 1)
+MAINMENU_FIRST_OPTION_P2	.EQU	0		; (1 - 1)
+MAINMENU_LAST_OPTION_P2		.EQU	11		; (10 + 1)
 
 
 
