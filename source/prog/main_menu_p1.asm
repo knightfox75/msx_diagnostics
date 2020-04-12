@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip01
+;	Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 1)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -31,10 +31,15 @@ FUNCTION_MAIN_MENU_P1:
 	call $0041
 
 	; Texto del menu
-	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_MAIN_MENU_P1	; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
+	call FUNCTION_MAIN_MENU_HEADER_PRINT	; Cabecera del menu
+	ld hl, TEXT_MAIN_MENU_P1_TITLE			; Titulo de la pagina
+	call NGN_TEXT_PRINT						; Imprimelo
+	ld hl, TEXT_DASHED_LINE					; Linea
+	call NGN_TEXT_PRINT						; Imprimelo
+	ld hl, TEXT_MAIN_MENU_P1_ITEMS			; Items del menu
+	call NGN_TEXT_PRINT						; Imprimelo
+	ld hl, TEXT_MAIN_MENU_FOOTER			; Pie del menu
+	call NGN_TEXT_PRINT						; Imprimelo
 
 	; Cursor
 	call FUNCTION_MAIN_MENU_PRINT_CURSOR

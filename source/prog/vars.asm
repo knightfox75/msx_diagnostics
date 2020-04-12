@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0-wip01
+;   Version 1.1.0-wip02
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -49,6 +49,23 @@ SPRITE_SPEED:			ds	64		; Velocidad de los sprites [Y][X] * 2
 
 
 
+; --------------------------------------------------------------
+; Test del teclado
+; Tabla de nombres de las teclas
+
+;   Keyboard Type: 0000 (0) = Japan;
+;                  0001 (1) = International;
+;                  0010 (2) = France;
+;                  0011 (3) = United Kingdom;
+;                  0100 (4) = Germany;
+;                  0101 (5) = USSR;
+;                  0110 (6) = Spain.
+
+; --------------------------------------------------------------
+
+KEY_NAMES_TABLE:                ds  2       ; Tabla de nombres de las teclas
+
+
 ; ----------------------------------------------------------
 ; Test del PSG
 ; ----------------------------------------------------------
@@ -69,6 +86,17 @@ PSG_TEST_CURSOR_OLD_Y:          ds  1
 PSG_TEST_CHANNEL:               ds  1       ; Canal actual (1-4)
 PSG_TEST_VOLUME:                ds  1       ; Volumen actual
 PSG_TEST_FREQ:                  ds  1       ; Frecuencia actual
+
+
+
+; ----------------------------------------------------------
+; Test del color y stress del monitor
+; ----------------------------------------------------------
+
+MONITOR_COLOR_STRESS_CURRENT_ITEM:      ds      1       ; Item seleccionado del test
+MONITOR_COLOR_STRESS_CURRENT_COLOR:     ds      1       ; Color actual del test de stress
+MONITOR_COLOR_STRESS_DELAY:             ds      1       ; Numero de frames de espera
+MONITOR_COLOR_STRESS_FRAME:             ds      1       ; Frame actual
 
 
 

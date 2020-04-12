@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.2.1-a
+;	Version 0.2.1-WIP01
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -111,49 +111,50 @@ NGN_PSG_INIT:
 
 	ld a, 0		; Frecuencia del canal A (low-byte)
 	out ($A0), a
+	ld a, $00
 	out ($A1), a
 	ld a, 1		; Frecuencia del canal A (hi-byte)
 	out ($A0), a
-	ld a, 0
+	ld a, $00
 	out ($A1), a
 
 	ld a, 8		; Volumen del canal A
 	out ($A0), a
-	ld a, 15	; Volumen a 15 (sin modulacion)
+	ld a, 0		; Volumen a 0 (sin modulacion)
 	out ($A1), a
 
 	ld a, 2		; Frecuencia del canal B (low-byte)
 	out ($A0), a
-	ld a, 0
+	ld a, $00
 	out ($A1), a
 	ld a, 3		; Frecuencia del canal B (hi-byte)
 	out ($A0), a
-	ld a, 0
+	ld a, $00
 	out ($A1), a
 
 	ld a, 9		; Volumen del canal B
 	out ($A0), a
-	ld a, 15	; Volumen a 15 (sin modulacion)
+	ld a, 0		; Volumen a 0 (sin modulacion)
 	out ($A1), a
 
 	ld a, 4		; Frecuencia del canal C (low-byte)
 	out ($A0), a
-	ld a, 0
+	ld a, $00
 	out ($A1), a
 	ld a, 5		; Frecuencia del canal C (hi-byte)
 	out ($A0), a
-	ld a, 0
+	ld a, $00
 	out ($A1), a
 
 	ld a, 10	; Volumen del canal C
 	out ($A0), a
-	ld a, 15	; Volumen a 15 (sin modulacion)
+	ld a, 0		; Volumen a 0 (sin modulacion)
 	out ($A1), a
 
 	; Frecuencia del ruido
 	ld a, 6						; Seleccion del canal de ruido
 	out ($A0), a
-	ld a, 0						; Frecuencia
+	ld a, $00					; Frecuencia
 	out ($A1), a
 
 	; Habilita las interupciones

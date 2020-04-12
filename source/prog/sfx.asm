@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip01
+;	Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;	Funciones de efectos de sonido
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -77,35 +77,25 @@ SFX_FUNCTION_PLAY_PONG:
 
 SFX_FUNCTION_UPDATE:
 
-	di		; Deshabilita las interrupciones
-	ld a, 8		; Volumen del canal A
+	di				; Deshabilita las interrupciones
+	ld a, 8			; Volumen del canal A
 	out ($A0), a
-	in a, ($A2)	; Volumen actual
-	ei		; Habilita las interrupciones
+	in a, ($A2)		; Volumen actual
+	ei				; Habilita las interrupciones
 
-	cp 0		; Si no hay volumen, sal
+	cp 0			; Si no hay volumen, sal
 	ret z
 
-	di		; Deshabilita las interrupciones
+	di				; Deshabilita las interrupciones
 	dec a
 	out ($A1), a	; Nuevo volumen
-	ei		; Habilita las interrupciones
+	ei				; Habilita las interrupciones
 
 	cp 0
-	ret nz		; Si el volumen no es 0, vuelve
+	ret nz			; Si el volumen no es 0, vuelve
 
-	di		; Deshabilita las interrupciones
-	ld a, 0		; Anula el tono
-	out ($A0), a
-	ld a, 0
-	out ($A1), a
-	ld a, 1
-	out ($A0), a
-	ld a, 0
-	out ($A1), a
-	ei		; Habilita las interrupciones
-
-	ret		; Vuelve
+	; Resetea el canal del PSG
+	jr SFX_FUNCTION_CLOSE
 
 
 
@@ -127,7 +117,7 @@ SFX_FUNCTION_CLOSE:
 	ld a, 0
 	out ($A1), a
 
-	ld a, 8		; Volumen del canal A
+	ld a, 8			; Volumen del canal A
 	out ($A0), a
 	ld a, 0
 	out ($A1), a	; Nuevo volumen

@@ -2,6 +2,14 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-13 Ver. 1.1.0-WIP02
+--------------------------------------------------------------------------------
+- Optimizados los textos de los menus, ahorrando 420 bytes.
+- Añadido el soporte para el teclado francés (AZERTY) en el test de teclado.
+  (Se realiza la deteccion automática al iniciarse el programa)
+- Añadido el test de color y stress del monitor
+
+
 2020-04-12 Ver. 1.1.0-WIP01
 --------------------------------------------------------------------------------
 - Ahora el menú recuerda la opción selecciona al volver desde un test.

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0-wip01
+;   Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -36,7 +36,7 @@ OUTPUT_FORMAT_ROM = 2		; Formato de salida ROM
 OUTPUT_FORMAT_COM = 3		; Formato de salida COM para MSX-DOS
 OUTPUT_FORMAT_CAS = 4		; Formato de salida binario de BASIC (Salida en formato .CAS y .WAV)
 
-;.INCLUDE "formats/f_binary.asm"			; Binario de BASIC
+;.INCLUDE "formats/f_binary.asm"		; Binario de BASIC
 .INCLUDE "formats/f_rom.asm"			; Cartucho ROM
 ;.INCLUDE "formats/f_com.asm"			; Binario en formato .COM para MSX-DOS
 ;.INCLUDE "formats/f_cas.asm"			; Imagen .CAS y archivo de audio .WAV
@@ -107,6 +107,8 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "prog/joystick_test.asm"
 	; Test PSG
 	.INCLUDE "prog/psg_test.asm"
+	; Test de color y stress del monitor
+	.INCLUDE "prog/monitor_color_stress_test.asm"
 
 	; Procesos comunes
 	.INCLUDE "prog/system.asm"

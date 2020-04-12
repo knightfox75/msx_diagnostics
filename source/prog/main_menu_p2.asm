@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip01
+;	Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -31,10 +31,15 @@ FUNCTION_MAIN_MENU_P2:
 	call $0041
 
 	; Texto del menu
-	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_MAIN_MENU_P2	; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
+	call FUNCTION_MAIN_MENU_HEADER_PRINT	; Cabecera del menu
+	ld hl, TEXT_MAIN_MENU_P2_TITLE			; Titulo de la pagina
+	call NGN_TEXT_PRINT						; Imprimelo
+	ld hl, TEXT_DASHED_LINE					; Linea
+	call NGN_TEXT_PRINT						; Imprimelo
+	ld hl, TEXT_MAIN_MENU_P2_ITEMS			; Items del menu
+	call NGN_TEXT_PRINT						; Imprimelo
+	ld hl, TEXT_MAIN_MENU_FOOTER			; Pie del menu
+	call NGN_TEXT_PRINT						; Imprimelo
 
 	; Cursor
 	call FUNCTION_MAIN_MENU_PRINT_CURSOR
@@ -54,9 +59,9 @@ FUNCTION_MAIN_MENU_P2:
 		; ----------------------------------------------------------
 
 		; Si se pulsa la tecla 1
-		ld a, [NGN_KEY_1]						; Tecla 1
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_1			; Ejecuta la opcion
+		ld a, [NGN_KEY_1]									; Tecla 1
+		and $02												; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 2
 		ld a, [NGN_KEY_2]						; Tecla 2
@@ -153,7 +158,7 @@ FUNCTION_MAIN_MENU_P2:
 		
 		; Opcion 1
 		cp 1
-		jp z, FUNCTION_MAIN_MENU_P2_1			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS		; Ejecuta la opcion
 		; Opcion 2
 		cp 2
 		jp z, FUNCTION_MAIN_MENU_P2_2			; Ejecuta la opcion
@@ -197,12 +202,13 @@ FUNCTION_MAIN_MENU_P2:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_1 [1]
+; FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS [1]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_P2_1:
+FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS:
 
 	; Llama la funcion correspondiente
+	call FUNCTION_MONITOR_COLOR_STRESS_TEST_MENU
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041

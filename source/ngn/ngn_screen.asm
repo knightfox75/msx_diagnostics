@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.2.1-a
+;	Version 0.2.1-WIP01
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -197,6 +197,7 @@ NGN_SCREEN_SET_MODE_3:
 
 
 
+
 ; ----------------------------------------------------------
 ; NGN_SCREEN_KEYS_ON
 ; Muestra las teclas de funcion en pantalla
@@ -268,7 +269,7 @@ NGN_SCREEN_KEYS_OFF:
 	; BIT 7		Always 0
 
 	ld bc, $0200		; B = 00000010	C = VDP REG 0
-	call $0047		; [WRTVDP]
+	call $0047			; [WRTVDP]
 
 	; Modifica el registro 1 del VDP
 	; BIT 0		The Magnification (Mag) bit determines whether sprites will be normal or doubled in size: 0=Normal, 1=Doubled.
@@ -281,7 +282,7 @@ NGN_SCREEN_KEYS_OFF:
 	; BIT 7		The 4/16K bit alters the VDP VRAM addressing characteristics to suit either 4 KB or 16 KB chips: 0=4 KB, 1=16 KB.
 
 	ld bc, $E001		; B = 11100000	C = VDP REG 1
-	call $0047		; [WRTVDP]
+	call $0047			; [WRTVDP]
 
 	ei			; Habilita las interrupciones
 

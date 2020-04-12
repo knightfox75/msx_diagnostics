@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip01
+;	Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;	Test PSG
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -24,14 +24,17 @@ FUNCTION_PSG_TEST_MENU:
 	call $0041
 
 	; Texto del menu
-	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_SOUND_MENU		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_MENU_CANCEL		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
-	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT			; E imprimelo en pantalla
+	call FUNCTION_MAIN_MENU_HEADER_PRINT		; Cabecera
+	ld hl, TEXT_PSG_MENU_TITLE					; Titulo
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_DASHED_LINE						; Linea
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_PSG_MENU_INSTRUCTIONS			; Instrucciones de uso
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_MENU_CANCEL						; Como cancelar
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_MENU_FOOTER						; Pie del menu
+	call NGN_TEXT_PRINT							; Imprimelo
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla
 	call $0044
@@ -116,7 +119,7 @@ FUNCTION_PSG_TEST_RUN:
 	call $0041
 
 	; Texto de la GUI
-	ld hl, TEXT_SOUND_GUI		; Apunta al texto a mostrar
+	ld hl, TEXT_PSG_GUI			; Apunta al texto a mostrar
 	call NGN_TEXT_PRINT			; E imprimelo en pantalla
 
 	; Cursor

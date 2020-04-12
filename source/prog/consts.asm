@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0-wip01
+;   Version 1.1.0-wip02
 ;   ASM Z80 MSX
 ;   Definicion de constantes
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -73,6 +73,15 @@ PSGTEST_VOL_X_START         .EQU    17      ; Offset del cursor X
 PSGTEST_NOISE_CHAN_X_START  .EQU    18      ; Offset del cursor X
 PSGTEST_NOISE_CHAN_X_GAP    .EQU    6       ; Espacio entre columnas
 PSGTEST_NOISE_FREQ_X_START  .EQU    17      ; Offset del cursor X
+
+
+
+; ----------------------------------------------------------
+; Test del Color y stress del monitor
+; ----------------------------------------------------------
+
+MONITOR_COLOR_STRESS_ITEM_FIRST     .EQU        1       ; Primer test
+MONITOR_COLOR_STRESS_ITEM_LAST      .EQU        6       ; Ultimo test
 
 
 ;***********************************************************

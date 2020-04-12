@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip01
+;	Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;	Test del teclado
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -24,14 +24,15 @@ FUNCTION_KEYBOARD_TEST_MENU:
 	call $0041
 
 	; Texto del menu
-	ld hl, TEXT_MENU_HEADER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
-	ld hl, TEXT_KEYBOARD_MENU	; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
-	ld hl, TEXT_KEYBOARD_CANCEL	; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
-	ld hl, TEXT_MENU_FOOTER		; Apunta al texto a mostrar
-	call NGN_TEXT_PRINT		; E imprimelo en pantalla
+	call FUNCTION_MAIN_MENU_HEADER_PRINT		; Cabecera
+	ld hl, TEXT_KEYBOARD_MENU_TITLE				; Titulo
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_DASHED_LINE						; Linea
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_KEYBOARD_MENU_INSTRUCTIONS		; Instrucciones de uso
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_MENU_FOOTER						; Pie del menu
+	call NGN_TEXT_PRINT							; Imprimelo
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla
 	call $0044
@@ -135,16 +136,16 @@ FUNCTION_KEYBOARD_TEST_RUN:
 		call FUNCTION_KEYBOARD_TEST_KEYPRESS
 
 		; Deteccion de salida del test
-		ld a, [NGN_JOY1_TG2]			; Si se pulsa "BOTON 2"
-		and $02					; Detecta "KEY DOWN"
+		ld a, [NGN_JOY1_TG2]		; Si se pulsa "BOTON 2"
+		and $02						; Detecta "KEY DOWN"
 		jr nz, @@EXIT				; Vuelve al menu principal
 
-		ld a, [NGN_KEY_CTRL]			; Si se pulsa "CTRL"
-		and $01					; Detecta "KEY HELD"
+		ld a, [NGN_KEY_CTRL]		; Si se pulsa "CTRL"
+		and $01						; Detecta "KEY HELD"
 		jr z, @@NO_ESC				; Si no esta presionada, no verifiques ESC
 
 		ld a, [NGN_KEY_ESC]			; Si se pulsa "ESC"
-		and $02					; Detecta "KEY DOWN"
+		and $02						; Detecta "KEY DOWN"
 		jr nz, @@EXIT				; Vuelve al menu principal
 
 		; No hay que salir
@@ -164,7 +165,7 @@ FUNCTION_KEYBOARD_TEST_RUN:
 	@@EXIT:
 		
 		call SFX_FUNCTION_CLOSE		; Cierra el sonido
-		ret				; Vuelve al menu principal
+		ret							; Vuelve al menu principal
 
 
 
@@ -202,21 +203,21 @@ FUNCTION_KEYBOARD_TEST_KEYPRESS:
 
 	@@READ_KEYS:			
 
-		ld c, [hl]			; Lee la tecla
+		ld c, [hl]				; Lee la tecla
 
 		ld a, c
-		and $02				; Si es PRESS
+		and $02					; Si es PRESS
 		call nz, @@KEY_PRESS
 
-		ld a, c				; Si es RELEASED
+		ld a, c					; Si es RELEASED
 		and $04
 		call nz, @@KEY_UP
 
 		@@NEXT_KEY:
-		inc hl				; Siguiente tecla
-		inc e				; Cuenta las teclas iniciadas
+		inc hl					; Siguiente tecla
+		inc e					; Cuenta las teclas iniciadas
 		ld a, e
-		cp NGN_TOTAL_KEYS - 1		; Cuenta todas las teclas, excepto "ANY KEY"
+		cp NGN_TOTAL_KEYS - 1	; Cuenta todas las teclas, excepto "ANY KEY"
 		jr nz, @@READ_KEYS		; Repite el proceso
 	
 	; Sal de la funcion
@@ -226,49 +227,75 @@ FUNCTION_KEYBOARD_TEST_KEYPRESS:
 	; Si se ha pulsado la tecla
 	@@KEY_PRESS:
 
-		push hl				; Guarda los registros
+		push hl		; Guarda los registros
 		push de
 		push bc
 
-		ld hl, KEY_NAMES_KEYS		; Apunta a la tabla de nombres de teclas
-		add hl, de			; Desplazamiento segun la tecla
-		ld a, [hl]			; Lee el texto
-		call $00A2			; Imprime el caracter. Rutina [CHPUT] de la BIOS
-
+		call @@KEY_NAME						; Imprime la tecla [Registro DE]
 		ld hl, TEXT_KEYBOARD_TEST_PRESSED	; Texto de coletilla
-		call NGN_TEXT_PRINT			; Imprime el texto
+		call NGN_TEXT_PRINT					; Imprime el texto
+		call SFX_FUNCTION_PLAY_PING			; Sonido
 
-		call SFX_FUNCTION_PLAY_PING		; Sonido
-
-		pop bc				; Recupera los registros
+		pop bc		; Recupera los registros
 		pop de
 		pop hl
 
-		ret				; Sal de la subrutina
+		ret			; Sal de la subrutina
 
 
 	; Si se ha soltado la tecla
 	@@KEY_UP:
 
-		push hl				; Guarda los registros
+		push hl		; Guarda los registros
 		push de
 		push bc
 
-		ld hl, KEY_NAMES_KEYS		; Apunta a la tabla de nombres de teclas
-		add hl, de			; Desplazamiento segun la tecla
-		ld a, [hl]			; Lee el texto
-		call $00A2			; Imprime el caracter. Rutina [CHPUT] de la BIOS
-
+		call @@KEY_NAME						; Imprime la tecla [Registro DE]
 		ld hl, TEXT_KEYBOARD_TEST_RELEASED	; Texto de coletilla
-		call NGN_TEXT_PRINT			; Imprime el texto
+		call NGN_TEXT_PRINT					; Imprime el texto
+		call SFX_FUNCTION_PLAY_PONG			; Sonido
 
-		call SFX_FUNCTION_PLAY_PONG		; Sonido
-
-		pop bc				; Recupera los registros
+		pop bc		; Recupera los registros
 		pop de
 		pop hl
 
-		ret				; Sal de la subrutina
+		ret			; Sal de la subrutina
+
+
+	; Imprime la tecla pulsada/soltada [Registro DE]
+	@@KEY_NAME:
+
+		; Es el ROW 00?
+		ld a, 7						; Ultima tecla de la primera fila (contando la nº0)
+		sub e						; Restale el nº de tecla
+		jr c, @@BOTTOM_ROWS			; Si da negativo, no esta en esa fila, continua buscando
+		ld hl, KEY_NAMES_TOP_ROW	; Apunta a la primera fila
+		jr @@PRINT_KEY
+
+		; Son las filas de abajo?
+		@@BOTTOM_ROWS:
+		ld a, 47					; Ultima tecla del bloque medio (contando la nº0)
+		sub e						; Restale el numero de tecla
+		jr nc, @@MIDDLE_ROWS		; Si no da negativo, esta en la fila intermedia, continua buscando
+		ld a, e						; Compensa el desplazamiento de fila (Reg E - 48)
+		sub 48
+		ld e, a
+		ld hl, KEY_NAMES_BOTTOM_ROWS
+		jr @@PRINT_KEY
+
+		; Filas intermedias (Valor determinado por la disposicion del teclado QWERTY o AZERTY)
+		@@MIDDLE_ROWS:
+		ld a, e						; Compensa el desplazamiento de la primera final
+		sub 8
+		ld e, a
+		ld hl, [KEY_NAMES_TABLE]	; Apunta a la tabla de nombres de teclas
+
+		; Imprime el valor de la tecla
+		@@PRINT_KEY:
+		add hl, de						; Desplazamiento segun la tecla
+		ld a, [hl]						; Lee el texto
+		jp $00A2						; Imprime el caracter. Rutina [CHPUT] de la BIOS
+		; El return lo realiza la propia rutina de la bios
 
 
 

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip01
+;	Version 1.1.0-wip02
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -11,11 +11,38 @@
 
 
 
+
+
 ; ----------------------------------------------------------
 ; Valores iniciales del programa
 ; ----------------------------------------------------------
 
 FUNCTION_SYSTEM_START:
+
+	; Inicializa la matriz del teclado
+	call FUNCTION_SYSTEM_RESET_KEYBOARD_MATRIX
+
+	; Tabla de nombres de las teclas
+	call FUNCTION_SYSTEM_SET_KEY_NAMES_TABLE
+
+	; Ultima opcion usada del menu
+	ld a, (MAINMENU_FIRST_OPTION_P1 + 1)
+	ld [MAINMENU_LAST_ITEM], a
+
+	; Deshabilita la visualizacion de las teclas de funcion
+	call NGN_SCREEN_KEYS_OFF
+
+	; Fin de la funcion
+	ret
+
+
+
+
+; ----------------------------------------------------------
+; Inicializa la matriz del teclado
+; ----------------------------------------------------------
+
+FUNCTION_SYSTEM_RESET_KEYBOARD_MATRIX:
 
 	; Variables del teclado del sistema
 	ld hl, SYSKEY_UP
@@ -31,15 +58,57 @@ FUNCTION_SYSTEM_START:
 		cp SYSTEM_KEYS_NUMBER	; Si se ha completado el bucle
 		jr nz, @@LOOP
 
-	; Ultima opcion usada del menu
-	ld a, (MAINMENU_FIRST_OPTION_P1 + 1)
-	ld [MAINMENU_LAST_ITEM], a
-
-	; Deshabilita la visualizacion de las teclas de funcion
-	call NGN_SCREEN_KEYS_OFF
-
-	; Fin de la funcion
+	; Sal de la subrutina
 	ret
+
+
+
+
+
+; ----------------------------------------------------------
+; Apunta a la tabla de nombre de teclas correcta
+; segun el idioma del teclado desde $002C
+
+;	  7   6   5   4   3   2   1   0
+;	+---+---+---+---+---------------+
+;	|Cur|SRC|SLS|SSM| Keyboard Type |
+;	+---+---+---+---+---------------+
+;   Keyboard Type: 0000 (0) = Japan;
+;                  0001 (1) = International;
+;                  0010 (2) = France;
+;                  0011 (3) = United Kingdom;
+;                  0100 (4) = Germany;
+;                  0101 (5) = USSR;
+;                  0110 (6) = Spain.
+; ----------------------------------------------------------
+
+FUNCTION_SYSTEM_SET_KEY_NAMES_TABLE:
+
+	; Lee la informacion regional de la BIOS
+	ld a, [$002C]
+	; Informacion del teclado [Mascara 00001111]
+	and $0F
+
+	@@INTERNATIONAL:
+	cp 1		; Internacional
+	jr nz, @@FRANCE
+	ld hl, KEY_NAMES_INTERNATIONAL
+	ld [KEY_NAMES_TABLE], hl
+	ret
+
+	@@FRANCE:
+	cp 2		; Francia
+	jr nz, @@DEFAULT
+	ld hl, KEY_NAMES_FRANCE
+	ld [KEY_NAMES_TABLE], hl
+	ret
+
+	@@DEFAULT:	; Por defecto / Resto de paises
+	ld hl, KEY_NAMES_INTERNATIONAL
+	ld [KEY_NAMES_TABLE], hl
+	ret
+
+
 
 
 
@@ -114,6 +183,8 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 
 	; Fin de la funcion
 	ret
+
+
 
 
 
