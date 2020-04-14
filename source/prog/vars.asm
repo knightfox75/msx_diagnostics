@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0-wip02
+;   Version 1.1.0-wip03
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -14,12 +14,14 @@
 
 ; --------------------------------------------------------------
 ; Declara las variables	del sistema	[VARIABLE]	[BYTES]
+; TOTAL 96 bytes
 ; --------------------------------------------------------------
 
 ; -----------------------------------------------------------------------
 ;	Teclas
 ;	STATE	[PRESS]	[HELD]		Key num: 6
 ;	BIT	   1	  0		NGN_TOTAL_KEYS
+;   Total: 6 bytes
 ; -----------------------------------------------------------------------
 
 SYSKEY_UP:			    ds	1	    ; Cursor / Joy1 arriba
@@ -33,6 +35,7 @@ SYSKEY_CANCEL:			ds	1	    ; ESC / Joy1 Boton 2
 
 ; ----------------------------------------------------------
 ; Menu principal
+; Total: 3 bytes
 ; ----------------------------------------------------------
 
 MAINMENU_ITEM_SELECTED:		ds	1		; Posicion del cursor
@@ -43,6 +46,7 @@ MAINMENU_LAST_ITEM:         ds  1       ; Posicion al abandonar el menu
 
 ; ----------------------------------------------------------
 ; Sprites Demo
+; Total: 64 bytes
 ; ----------------------------------------------------------
 
 SPRITE_SPEED:			ds	64		; Velocidad de los sprites [Y][X] * 2
@@ -52,7 +56,7 @@ SPRITE_SPEED:			ds	64		; Velocidad de los sprites [Y][X] * 2
 ; --------------------------------------------------------------
 ; Test del teclado
 ; Tabla de nombres de las teclas
-
+;
 ;   Keyboard Type: 0000 (0) = Japan;
 ;                  0001 (1) = International;
 ;                  0010 (2) = France;
@@ -60,14 +64,17 @@ SPRITE_SPEED:			ds	64		; Velocidad de los sprites [Y][X] * 2
 ;                  0100 (4) = Germany;
 ;                  0101 (5) = USSR;
 ;                  0110 (6) = Spain.
-
+;
+; Total: 3 bytes
 ; --------------------------------------------------------------
 
+KEYBOARD_LAYOUT:                ds  1       ; Tipo de teclado
 KEY_NAMES_TABLE:                ds  2       ; Tabla de nombres de las teclas
 
 
 ; ----------------------------------------------------------
 ; Test del PSG
+; Total: 16 bytes
 ; ----------------------------------------------------------
 
 PSG_TEST_OPTION_SELECTED:       ds  1		; Opcion seleccionada del menu (1-3 Freq, 4-6 Vol, 7 Noise Chan, 8 Noise Freq)
@@ -90,13 +97,14 @@ PSG_TEST_FREQ:                  ds  1       ; Frecuencia actual
 
 
 ; ----------------------------------------------------------
-; Test del color y stress del monitor
+; Test del color del monitor
+; Total: 4 bytes
 ; ----------------------------------------------------------
 
-MONITOR_COLOR_STRESS_CURRENT_ITEM:      ds      1       ; Item seleccionado del test
-MONITOR_COLOR_STRESS_CURRENT_COLOR:     ds      1       ; Color actual del test de stress
-MONITOR_COLOR_STRESS_DELAY:             ds      1       ; Numero de frames de espera
-MONITOR_COLOR_STRESS_FRAME:             ds      1       ; Frame actual
+MONITOR_COLOR_CURRENT_ITEM:      ds 1       ; Item seleccionado del test
+MONITOR_COLOR_CURRENT_COLOR:     ds 1       ; Color actual del ciclo de colores
+MONITOR_COLOR_DELAY:             ds 1       ; Numero de frames de espera
+MONITOR_COLOR_FRAME:             ds 1       ; Frame actual
 
 
 

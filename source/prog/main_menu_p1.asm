@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 1)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -101,12 +101,12 @@ FUNCTION_MAIN_MENU_P1:
 		; Si se pulsa la tecla 9
 		ld a, [NGN_KEY_9]						; Tecla 9
 		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE2	; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_SYSTEM_INFO	; Ejecuta la opcion
 
 		; Si se pulsa la tecla 0
 		ld a, [NGN_KEY_0]						; Tecla 0
 		and $02									; Detecta "KEY DOWN"
-		ret nz									; Sal del programa
+		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE2	; Ejecuta la opcion
 
 
 		; ----------------------------------------------------------
@@ -182,10 +182,14 @@ FUNCTION_MAIN_MENU_P1:
 		jp z, FUNCTION_MAIN_MENU_PSG			; Test del sonido PSG
 		; Opcion 9
 		cp 9
-		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE2		; Siguiente pagina del menu (p2)
+		jp z, FUNCTION_MAIN_MENU_SYSTEM_INFO	; Informacion del sistema
 		; Opcion 0
 		cp 10
-		ret z								; Sal del programa (reinicia)
+		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE2		; Siguiente pagina del menu (p2)
+
+		; Error catastrofico (reinicia)
+		ret
+
 
 
 		; ----------------------------------------------------------
@@ -194,6 +198,8 @@ FUNCTION_MAIN_MENU_P1:
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		@@MM_END:
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle
@@ -338,14 +344,31 @@ FUNCTION_MAIN_MENU_PSG:
 
 
 ; ----------------------------------------------------------
-; Siguiente pagina del menu (Pagina 2) [9]
+; Ejecuta la opcion SYSTEM INFO [9]
+; ----------------------------------------------------------
+
+FUNCTION_MAIN_MENU_SYSTEM_INFO:
+
+	; Llama la funcion correspondiente
+	call FUNCTION_SYSTEM_INFO
+	; Deshabilita la pantalla para el cambio
+	call $0041
+	; Vuelve al menu
+	ld a, 9
+	ld [MAINMENU_LAST_ITEM], a
+	jp FUNCTION_MAIN_MENU_P1
+
+
+
+; ----------------------------------------------------------
+; Siguiente pagina del menu (Pagina 2) [0]
 ; ----------------------------------------------------------
 
 FUNCTION_MAIN_MENU_GOTO_PAGE2:
 
 	; Deshabilita la pantalla para el cambio
 	call $0041
-	; Vuelve al menu
+	; Ve a la siguiente pagina del menu
 	ld a, (MAINMENU_FIRST_OPTION_P2 + 1)
 	ld [MAINMENU_LAST_ITEM], a
 	jp FUNCTION_MAIN_MENU_P2

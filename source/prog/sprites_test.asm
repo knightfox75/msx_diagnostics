@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Test de los Sprites (MODO SCREEN 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -56,6 +56,8 @@ FUNCTION_SPRITES_TEST_MENU:
 		ret nz					; Vuelve al menu principal si se pulsa
 
 		; Espera a la interrupcion del VDP (VSYNC)
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle
@@ -143,6 +145,8 @@ FUNCTION_SPRITES_TEST_RUN:
 		ret nz					; Vuelve al menu principal si se pulsa
 
 		; Espera el VSYNC
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -61,7 +61,7 @@ FUNCTION_MAIN_MENU_P2:
 		; Si se pulsa la tecla 1
 		ld a, [NGN_KEY_1]									; Tecla 1
 		and $02												; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS		; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
 
 		; Si se pulsa la tecla 2
 		ld a, [NGN_KEY_2]						; Tecla 2
@@ -101,12 +101,12 @@ FUNCTION_MAIN_MENU_P2:
 		; Si se pulsa la tecla 9
 		ld a, [NGN_KEY_9]						; Tecla 9
 		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1	; Ejecuta la opcion
+		ret nz									; Sal del programa
 
 		; Si se pulsa la tecla 0
 		ld a, [NGN_KEY_0]						; Tecla 0
 		and $02									; Detecta "KEY DOWN"
-		ret nz									; Sal del programa
+		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1	; Ejecuta la opcion
 
 
 		; ----------------------------------------------------------
@@ -158,7 +158,7 @@ FUNCTION_MAIN_MENU_P2:
 		
 		; Opcion 1
 		cp 1
-		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS		; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
 		; Opcion 2
 		cp 2
 		jp z, FUNCTION_MAIN_MENU_P2_2			; Ejecuta la opcion
@@ -182,10 +182,14 @@ FUNCTION_MAIN_MENU_P2:
 		jp z, FUNCTION_MAIN_MENU_P2_8			; Ejecuta la opcion
 		; Opcion 9
 		cp 9
-		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE1		; Ejecuta la opcion
-		; Opcion 0
-		cp 10
 		ret z									; Sal del programa (reinicia)
+		; Opcion 10
+		cp 10
+		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE1		; Ejecuta la opcion
+
+		; Error catastrofico (reinicia)
+		ret
+
 
 
 		; ----------------------------------------------------------
@@ -194,6 +198,8 @@ FUNCTION_MAIN_MENU_P2:
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		@@MM_END:
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle
@@ -202,13 +208,13 @@ FUNCTION_MAIN_MENU_P2:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS [1]
+; FUNCTION_MAIN_MENU_MONITOR_COLOR [1]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_MONITOR_COLOR_STRESS:
+FUNCTION_MAIN_MENU_MONITOR_COLOR:
 
 	; Llama la funcion correspondiente
-	call FUNCTION_MONITOR_COLOR_STRESS_TEST_MENU
+	call FUNCTION_MONITOR_COLOR_TEST_MENU
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041

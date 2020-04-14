@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Test del teclado
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -54,6 +54,8 @@ FUNCTION_KEYBOARD_TEST_MENU:
 		ret nz					; Vuelve al menu principal si se pulsa
 
 		; Espera a la interrupcion del VDP (VSYNC)
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle
@@ -97,6 +99,8 @@ FUNCTION_KEYBOARD_TEST_WAIT_FREE_KEYS:
 		ret nz					; Vuelve al menu principal si se pulsa
 
 		; Espera el VSYNC
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle
@@ -155,6 +159,8 @@ FUNCTION_KEYBOARD_TEST_RUN:
 		call SFX_FUNCTION_UPDATE
 
 		; Espera el VSYNC
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle

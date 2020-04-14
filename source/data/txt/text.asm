@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -26,7 +26,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.0-WIP02", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.0-WIP03", $0D, $0A, $00
 
 
 
@@ -55,7 +55,7 @@ TEXT_MENU_FOOTER:
 TEXT_MAIN_MENU_P1_TITLE:
 
 	db	$0D, $0A
-	db	" TEST MENU [1/2]", $0D, $0A
+	db	" PAGE 1 OF 2", $0D, $0A
 	db	$00
 
 TEXT_MAIN_MENU_P1_ITEMS:
@@ -68,8 +68,8 @@ TEXT_MAIN_MENU_P1_ITEMS:
 	db	"   6. KEYBOARD", $0D, $0A
 	db	"   7. JOYSTICK", $0D, $0A
 	db	"   8. PSG", $0D, $0A
-	db	"   9. NEXT PAGE >>>", $0D, $0A
-	db	"   0. REBOOT", $0D, $0A
+	db	"   9. SYSTEM INFO", $0D, $0A
+	db	"   0. NEXT PAGE >>>", $0D, $0A
 	db	$00
 
 
@@ -78,12 +78,12 @@ TEXT_MAIN_MENU_P1_ITEMS:
 TEXT_MAIN_MENU_P2_TITLE:
 
 	db	$0D, $0A
-	db	" TEST MENU [2/2]", $0D, $0A
+	db	" PAGE 2 OF 2", $0D, $0A
 	db	$00
 
 TEXT_MAIN_MENU_P2_ITEMS:
 	db	$0D, $0A
-	db	"   1. MONITOR COLOR & STRESS", $0D, $0A
+	db	"   1. MONITOR COLOR", $0D, $0A
 	db	"   2. NOT AVAILABLE", $0D, $0A
 	db	"   3. NOT AVAILABLE", $0D, $0A
 	db	"   4. NOT AVAILABLE", $0D, $0A
@@ -91,8 +91,8 @@ TEXT_MAIN_MENU_P2_ITEMS:
 	db	"   6. NOT AVAILABLE", $0D, $0A
 	db	"   7. NOT AVAILABLE", $0D, $0A
 	db	"   8. NOT AVAILABLE", $0D, $0A
-	db	"   9. <<< PREVIOUS PAGE", $0D, $0A
-	db	"   0. REBOOT", $0D, $0A
+	db	"   9. REBOOT", $0D, $0A
+	db	"   0. <<< PREVIOUS PAGE", $0D, $0A
 	db	$00
 
 
@@ -323,18 +323,112 @@ TEXT_PSG_GUI:
 
 
 
-; Textos del menu MONITOR COLOR & STRESS
-TEXT_MONITOR_COLOR_STRESS_MENU_TITLE:
+; Textos de la informacion del sistema
+TEXT_SYSTEM_INFO_TITLE:
+
+	db	" SYSTEM INFORMATION", $0D, $0A, $00
+
+TEXT_SYSTEM_INFO_MSX_MODEL:
+
+	db	$0D, $0A, $0D, $0A, "  MODEL: ", $00
+
+TEXT_SYSTEM_INFO_MSX1:
+
+	db	"MSX", $00
+
+TEXT_SYSTEM_INFO_MSX2:
+
+	db	"MSX2", $00
+
+TEXT_SYSTEM_INFO_MSX2PLUS:
+
+	db	"MSX2+", $00
+
+TEXT_SYSTEM_INFO_MSXTR:
+
+	db	"TURBO-R", $00
+
+TEXT_SYSTEM_INFO_MODEL_UNKNOW:
+
+	db	"UNKNOW", $00
+
+TEXT_SYSTEM_INFO_KEYBOARD:
+
+	db	$0D, $0A, $0D, $0A, "  KEYBOARD LAYOUT: ", $00
+
+TEXT_SYSTEM_INFO_KB_JAPAN:
+
+	db	"JP", $00
+
+TEXT_SYSTEM_INFO_KB_INTERNATIONAL:
+
+	db	"INT", $00
+
+TEXT_SYSTEM_INFO_KB_FRANCE:
+
+	db	"FR", $00
+
+TEXT_SYSTEM_INFO_KB_UK:
+
+	db	"GB", $00
+
+TEXT_SYSTEM_INFO_KB_GERMANY:
+
+	db	"DE", $00
+
+TEXT_SYSTEM_INFO_KB_USSR:
+
+	db	"USSR", $00
+
+TEXT_SYSTEM_INFO_KB_SPAIN:
+
+	db	"SP", $00
+
+
+
+
+; Textos del menu MONITOR COLOR
+TEXT_MONITOR_COLOR_MENU_TITLE:
 
 	db	$0D, $0A
-	db	" MONITOR COLOR & STRESS TEST", $0D, $0A
+	db	" MONITOR COLOR TEST", $0D, $0A
 	db	$00
 
-TEXT_MONITOR_COLOR_STRESS_MENU_INSTRUCTIONS:
+TEXT_MONITOR_COLOR_MENU_INSTRUCTIONS:
 	db	$0D, $0A
 	db	" * PRESS LEFT/RIGHT TO CHANGE", $0D, $0A
-	db	"   THE TEST TYPE.", $0D, $0A
+	db	"   THE COLOR.", $0D, $0A
 	db	$0D, $0A
 	db	" * PRESS UP/DOWN TO CHANGE", $0D, $0A
 	db	"   THE SPEED (IF AVAILABLE).", $0D, $0A
 	db	$00
+
+
+; Textos de la interfaz del MONITOR COLOR
+TEXT_MONITOR_COLOR_TEST:
+	db " TEST", $00
+
+TEXT_MONITOR_COLOR_WHITE:
+	db "WHITE", $00
+
+TEXT_MONITOR_COLOR_BLACK:
+	db "BLACK", $00
+
+TEXT_MONITOR_COLOR_RED:
+	db "RED", $00
+
+TEXT_MONITOR_COLOR_GREEN:
+	db "GREEN", $00
+
+TEXT_MONITOR_COLOR_BLUE:
+	db "BLUE ", $00
+
+TEXT_MONITOR_COLOR_LOOP:
+	db "LOOPING", $00
+
+
+
+;***********************************************************
+; Fin del archivo
+;***********************************************************
+TEXT_EOF:

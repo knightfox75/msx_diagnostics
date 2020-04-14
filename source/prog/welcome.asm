@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Archivo principal
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -52,6 +52,8 @@ FUNCTION_WELCOME:
 		jr z, @@EXIT			; Si el tiempo llega a 0, sal del bucle
 
 		; Espera a la interrupcion del VDP (VSYNC)
+		ei		; Asegurate que las interrupciones estan habilitadas
+		nop		; Espera el ciclo necesario para que se habiliten
 		halt	; Espera a la interrupcion del VDP
 
 		; Repite el bucle

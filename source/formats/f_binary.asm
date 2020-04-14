@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0-wip02
+;   Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para BINARIO de 32kb
 ;
@@ -22,24 +22,27 @@
 
 OUTPUT_FORMAT = 1							; Define el formato de salida
 
+
+; ----------------------------------------------------------
+; Definicion de variables en los ultimos 4KB [$E380]
+; Ultima direccion valida $F380 - $1000
+; ----------------------------------------------------------
+
+; Almacena las variables los ultimos 4KB
+.ORG $E380
+.INCLUDE "ngn/ngn_vars.asm"         ; 2284 bytes
+.INCLUDE "prog/vars.asm"            ; 96 bytes
+
+
 ; ----------------------------------------------------------
 ; Directivas del formato
 ; ----------------------------------------------------------
 
-.ORG $8000									; Selecciona la pagina 2 [$8000] (Codigo del programa)
-.BASIC										; Se creara el binario en formato BASIC de hasta 32kb
+.PAGE 2         ; Selecciona la pagina 2 [$8000] (Codigo del programa)
+.BASIC          ; Se creara el binario
 
 ; Indicale al compilador donde empieza el programa
 .START PROGRAM_START_ADDRESS
-
-
-; ----------------------------------------------------------
-; Definicion de variables
-; ----------------------------------------------------------
-
-; Almacena las variables
-.INCLUDE "ngn/ngn_vars.asm"
-.INCLUDE "prog/vars.asm"
 
 
 ;***********************************************************

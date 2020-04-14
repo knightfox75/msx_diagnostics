@@ -14,12 +14,14 @@
 
 ; --------------------------------------------------------------
 ; Declara las variables	del sistema	[VARIABLE]	[BYTES]
+; TOTAL: 2284 bytes
 ; --------------------------------------------------------------
 
 ; -----------------------------------------------------------------------
 ;	Teclas
 ;	STATE	[LAST]  [UP]  [PRESS]  [HELD]		Key num: 89
 ;	BIT	  3      2       1       0		NGN_TOTAL_KEYS
+;   Total: 89 bytes
 ; -----------------------------------------------------------------------
 ; ROW 0
 NGN_KEY_0:			    ds	1	; Tecla 0
@@ -128,6 +130,7 @@ NGN_KEY_ANY:			ds	1	; Cualquier tecla
 ;	Joysticks
 ;	STATE	[TEMP]	[PRESS]	[HELD]		Key num: 12
 ;	BIT	  2	   1	  0		NGN_TOTAL_JOYKEYS
+;   Total: 12 bytes
 ; -----------------------------------------------------------------------
 
 NGN_JOY1_UP:		ds	1		; Joystick 1 Arriba
@@ -150,6 +153,7 @@ NGN_JOY2_TG2:		ds	1		; Joystick 2 Tigger 2
 ;	Gestion del sistema de sprites
 ;	[Y]	[X]	[GRAIFCO]	[COLOR]
 ;	0-255	0-255	0-63		0-15
+; Total: 128 bytes
 ; -----------------------------------------------------------------------
 
 NGN_SPRITE_00:		ds	4		; Attributos del Sprite nº 00
@@ -188,15 +192,17 @@ NGN_SPRITE_31:		ds	4
 
 
 ; -----------------------------------------------------------------------
-;	Descompresion RLE
+;	Variables genericas
+;   Total: 1 byte
 ; -----------------------------------------------------------------------
 
-NGN_RANDOM_SEED:	ds	1
+NGN_RANDOM_SEED:	ds	1       ; Semilla del random
 
 
 
 ; -----------------------------------------------------------------------
 ;	Descompresion RLE
+;   Total: 2054
 ; -----------------------------------------------------------------------
 
 ; Gestion de la descompresion RLE

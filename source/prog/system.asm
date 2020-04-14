@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip02
+;	Version 1.1.0-wip03
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -84,18 +84,19 @@ FUNCTION_SYSTEM_RESET_KEYBOARD_MATRIX:
 
 FUNCTION_SYSTEM_SET_KEY_NAMES_TABLE:
 
+	; Usa la tabla internacional por defecto
+	ld hl, KEY_NAMES_INTERNATIONAL
+	ld [KEY_NAMES_TABLE], hl
+
 	; Lee la informacion regional de la BIOS
 	ld a, [$002C]
 	; Informacion del teclado [Mascara 00001111]
 	and $0F
 
-	@@INTERNATIONAL:
-	cp 1		; Internacional
-	jr nz, @@FRANCE
-	ld hl, KEY_NAMES_INTERNATIONAL
-	ld [KEY_NAMES_TABLE], hl
-	ret
+	; Guarda el resultado para futuras referencias
+	ld [KEYBOARD_LAYOUT], a
 
+	; Si se identifica como Francia...
 	@@FRANCE:
 	cp 2		; Francia
 	jr nz, @@DEFAULT
@@ -103,9 +104,8 @@ FUNCTION_SYSTEM_SET_KEY_NAMES_TABLE:
 	ld [KEY_NAMES_TABLE], hl
 	ret
 
-	@@DEFAULT:	; Por defecto / Resto de paises
-	ld hl, KEY_NAMES_INTERNATIONAL
-	ld [KEY_NAMES_TABLE], hl
+	; Si es cualquier otro pais
+	@@DEFAULT:
 	ret
 
 

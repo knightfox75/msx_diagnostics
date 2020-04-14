@@ -2,12 +2,21 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-14 Ver. 1.1.0-WIP03
+--------------------------------------------------------------------------------
+- Añadidos textos indicativos al test de color del monitor.
+- El programa ahora reserva 4096 bytes de memoria para variables y las
+  ubica en la dirección más alta disponible ($E380)
+- Añadida la opción para mostrar la información del sistema.
+- Pantalla del menú reestructurada.
+
+
 2020-04-13 Ver. 1.1.0-WIP02
 --------------------------------------------------------------------------------
 - Optimizados los textos de los menus, ahorrando 420 bytes.
 - Añadido el soporte para el teclado francés (AZERTY) en el test de teclado.
   (Se realiza la deteccion automática al iniciarse el programa)
-- Añadido el test de color y stress del monitor
+- Añadido el test de color del monitor
 
 
 2020-04-12 Ver. 1.1.0-WIP01
