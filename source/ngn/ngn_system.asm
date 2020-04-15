@@ -16,18 +16,33 @@
 ; NGN_SYSTEM_RANDOM_NUMBER
 ; Genera un numero aleatorio entre 0-255
 ; A = Devuelve el numero generado 
-; Modifica A, B
+; Modifica A, B y C
 ; ----------------------------------------------------------
 
 NGN_SYSTEM_RANDOM_NUMBER:
 
 	ld a, [NGN_RANDOM_SEED]
 	ld b, a
-	add a, a
-	add a, a
-	add a, b
-	add a, 7
+
+	@@REPEAT:
+
+		add 1
+		rlca
+		add 11
+		rlca
+		add 31
+		rlca
+		add 41
+
+		cp b
+		jr nz, @@EXIT
+		inc a
+
+	jr @@REPEAT
+
+	@@EXIT:
 	ld [NGN_RANDOM_SEED], a
+
 	ret
 
 

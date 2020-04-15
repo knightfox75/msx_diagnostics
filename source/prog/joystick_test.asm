@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Test de los Joysticks
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -93,7 +93,7 @@ FUNCTION_JOYSTICK_TEST_RUN:
 
 	; Joy 1
 	; Crea el sprite P1 UP [0]
-	ld a, 0				; Slot del sprite [A]
+	xor a				; Slot del sprite [A]
 	ld de, $403F			; Posicion del sprite [D = Pos X] [E = Pos Y]
 	ld bc, $0001			; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite

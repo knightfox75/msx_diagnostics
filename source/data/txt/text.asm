@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -26,7 +26,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.0-WIP03", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.0", $0D, $0A, $00
 
 
 
@@ -68,8 +68,8 @@ TEXT_MAIN_MENU_P1_ITEMS:
 	db	"   6. KEYBOARD", $0D, $0A
 	db	"   7. JOYSTICK", $0D, $0A
 	db	"   8. PSG", $0D, $0A
-	db	"   9. SYSTEM INFO", $0D, $0A
-	db	"   0. NEXT PAGE >>>", $0D, $0A
+	db	"   9. SYSTEM INFO *", $0D, $0A
+	db	"   0. NEXT PAGE >>", $0D, $0A
 	db	$00
 
 
@@ -84,15 +84,15 @@ TEXT_MAIN_MENU_P2_TITLE:
 TEXT_MAIN_MENU_P2_ITEMS:
 	db	$0D, $0A
 	db	"   1. MONITOR COLOR", $0D, $0A
-	db	"   2. NOT AVAILABLE", $0D, $0A
-	db	"   3. NOT AVAILABLE", $0D, $0A
-	db	"   4. NOT AVAILABLE", $0D, $0A
-	db	"   5. NOT AVAILABLE", $0D, $0A
-	db	"   6. NOT AVAILABLE", $0D, $0A
-	db	"   7. NOT AVAILABLE", $0D, $0A
-	db	"   8. NOT AVAILABLE", $0D, $0A
+	db	"   2. ---", $0D, $0A
+	db	"   3. ---", $0D, $0A
+	db	"   4. ---", $0D, $0A
+	db	"   5. ---", $0D, $0A
+	db	"   6. ---", $0D, $0A
+	db	"   7. ---", $0D, $0A
+	db	"   8. ---", $0D, $0A
 	db	"   9. REBOOT", $0D, $0A
-	db	"   0. <<< PREVIOUS PAGE", $0D, $0A
+	db	"   0. << PREVIOUS PAGE", $0D, $0A
 	db	$00
 
 
@@ -225,7 +225,7 @@ TEXT_KEYBOARD_MENU_INSTRUCTIONS:
 	db	"   DETECTED, YOU'LL BE WARNED WITH A", $0D, $0A
 	db	"   TEXT, COLOR CHANGE AND A SOUND.", $0D, $0A
 	db	$0D, $0A
-	db	" * PRESS CTRL + ESC OR BUTTON 2 TO", $0D, $0A
+	db	" * PRESS SHIFT + ESC OR BUTTON 2 TO", $0D, $0A
 	db	"   BACK TO THE MAIN MENU.", $0D, $0A
 	db	$00
 
@@ -323,10 +323,14 @@ TEXT_PSG_GUI:
 
 
 
+
 ; Textos de la informacion del sistema
+
 TEXT_SYSTEM_INFO_TITLE:
 
 	db	" SYSTEM INFORMATION", $0D, $0A, $00
+
+
 
 TEXT_SYSTEM_INFO_MSX_MODEL:
 
@@ -348,9 +352,49 @@ TEXT_SYSTEM_INFO_MSXTR:
 
 	db	"TURBO-R", $00
 
-TEXT_SYSTEM_INFO_MODEL_UNKNOW:
+TEXT_SYSTEM_INFO_UNKNOW:
 
 	db	"UNKNOW", $00
+
+
+
+TEXT_SYSTEM_INFO_N_16:
+
+	db "16", $00
+
+TEXT_SYSTEM_INFO_N_32:
+
+	db "32", $00
+
+TEXT_SYSTEM_INFO_N_64:
+
+	db "64", $00
+
+TEXT_SYSTEM_INFO_N_128:
+
+	db "128", $00
+
+TEXT_SYSTEM_INFO_N_256:
+
+	db "256", $00
+
+TEXT_SYSTEM_INFO_N_512:
+
+	db "512", $00
+
+TEXT_SYSTEM_INFO_KB:
+
+	db "KB", $00
+
+TEXT_SYSTEM_INFO_VRAM:
+
+	db	$0D, $0A, $0D, $0A, "  VRAM: ", $00
+
+TEXT_SYSTEM_INFO_RAM:
+
+	db	$0D, $0A, $0D, $0A, "  RAM: ", $00
+
+
 
 TEXT_SYSTEM_INFO_KEYBOARD:
 
@@ -383,6 +427,15 @@ TEXT_SYSTEM_INFO_KB_USSR:
 TEXT_SYSTEM_INFO_KB_SPAIN:
 
 	db	"SP", $00
+
+TEXT_SYSTEM_INFO_EXIT:
+
+	db	$0D, $0A, $0D, $0A, $0D, $0A, $0D, $0A
+	db	"    THIS OPTION STILL IN", $0D, $0A
+	db	"    WORK IN PROGRESS STATUS."
+	db	$0D, $0A, $0D, $0A, $0D, $0A, $0D, $0A, $0D, $0A
+	db	" PRESS ACCEPT OR CANCEL TO EXIT."
+	db	$00
 
 
 

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Test del teclado
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -90,11 +90,11 @@ FUNCTION_KEYBOARD_TEST_WAIT_FREE_KEYS:
 		; Lee la entrada
 		call FUNCTION_SYSTEM_HID_READ
 
-		ld a, [NGN_KEY_ANY]			; Si esta pulsada "Cualquier tecla"
+		ld a, [NGN_KEY_ANY]		; Si esta pulsada "Cualquier tecla"
 		and $FF					; Detecta "KEY DOWN"
 		jp z, FUNCTION_KEYBOARD_TEST_RUN	; Ejecuta el test si no hay pulsada ninguna tecla
 
-		ld a, [SYSKEY_CANCEL]			; Si se pulsa "CANCELAR"
+		ld a, [SYSKEY_CANCEL]	; Si se pulsa "CANCELAR"
 		and $02					; Detecta "KEY DOWN"
 		ret nz					; Vuelve al menu principal si se pulsa
 
@@ -144,7 +144,7 @@ FUNCTION_KEYBOARD_TEST_RUN:
 		and $02						; Detecta "KEY DOWN"
 		jr nz, @@EXIT				; Vuelve al menu principal
 
-		ld a, [NGN_KEY_CTRL]		; Si se pulsa "CTRL"
+		ld a, [NGN_KEY_SHIFT]		; Si se pulsa "SHIFT"
 		and $01						; Detecta "KEY HELD"
 		jr z, @@NO_ESC				; Si no esta presionada, no verifiques ESC
 

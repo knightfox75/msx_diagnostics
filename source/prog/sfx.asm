@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Funciones de efectos de sonido
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -20,13 +20,13 @@ SFX_FUNCTION_PLAY_PING:
 	di		; Deshabilita las interrupciones
 
 	; Tono en el Canal A:  111,861 Hz / 186 = 601 hz
-	ld a, 0
+	xor a
 	out ($A0), a
 	ld a, 186
 	out ($A1), a
 	ld a, 1
 	out ($A0), a
-	ld a, 0
+	xor a
 	out ($A1), a
 
 	; Volumen a 15
@@ -50,7 +50,7 @@ SFX_FUNCTION_PLAY_PONG:
 	di		; Deshabilita las interrupciones
 
 	; Tono en el Canal A:  111,861 Hz / 280 = 400 hz
-	ld a, 0
+	xor a
 	out ($A0), a
 	ld a, $18
 	out ($A1), a
@@ -108,18 +108,18 @@ SFX_FUNCTION_CLOSE:
 	di		; Deshabilita las interrupciones
 
 	; Canal A
-	ld a, 0		; Anula el tono
+	xor a		; Anula el tono
 	out ($A0), a
-	ld a, 0
+	xor a
 	out ($A1), a
 	ld a, 1
 	out ($A0), a
-	ld a, 0
+	xor a
 	out ($A1), a
 
 	ld a, 8			; Volumen del canal A
 	out ($A0), a
-	ld a, 0
+	xor a
 	out ($A1), a	; Nuevo volumen
 
 	ei		; Habilita las interrupciones

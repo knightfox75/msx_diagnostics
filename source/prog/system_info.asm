@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Informacion del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -73,7 +73,7 @@ FUNCTION_SYSTEM_INFO:
 	jr @@PRINT_MSX_MODEL
 
 	@@MODEL_UNKNOW:
-	ld hl, TEXT_SYSTEM_INFO_MODEL_UNKNOW
+	ld hl, TEXT_SYSTEM_INFO_UNKNOW
 
 	@@PRINT_MSX_MODEL:
 	call NGN_TEXT_PRINT							; Imprimelo
@@ -81,8 +81,56 @@ FUNCTION_SYSTEM_INFO:
 
 
 	; ----------------------------------------------------------
+	; 		VRAM
+	; ----------------------------------------------------------
+
+	ld hl, TEXT_SYSTEM_INFO_VRAM				; VRAM
+	call NGN_TEXT_PRINT							; Imprimelo
+
+	ld a, [$FAFC]								; BIOS, tamaño de la VRAM
+	and $06										; 0 0 0 0 0 X X 0
+												;           | |      00 -  16 kb
+												;	        |  --->  01 -  64 kb
+												;            ----->  10 - 128 kb
+
+	; 16kb
+	;or a	; 0000
+	jr nz, @@VRAM64
+	ld hl, TEXT_SYSTEM_INFO_N_16
+	jr @@PRINT_VRAM
+
+	; 64kb
+	@@VRAM64:
+	cp 2	; 0010
+	jr nz, @@VRAM128
+	ld hl, TEXT_SYSTEM_INFO_N_64
+	jr @@PRINT_VRAM
+
+	; 128kb
+	@@VRAM128:
+	cp 4	; 0100
+	jr nz, @@VRAM_UNKNOW
+	ld hl, TEXT_SYSTEM_INFO_N_128
+	jr @@PRINT_VRAM
+
+	; Desconocido
+	@@VRAM_UNKNOW:
+	ld hl, TEXT_SYSTEM_INFO_UNKNOW
+	call NGN_TEXT_PRINT
+	jr @@KEYBOARD_LAYOUT
+
+	; Imprime el tamaño de la VRAM
+	@@PRINT_VRAM:
+	call NGN_TEXT_PRINT
+	ld hl, TEXT_SYSTEM_INFO_KB
+	call NGN_TEXT_PRINT
+
+
+	; ----------------------------------------------------------
 	; 		Distribucion del teclado
 	; ----------------------------------------------------------
+
+	@@KEYBOARD_LAYOUT:
 
 	ld hl, TEXT_SYSTEM_INFO_KEYBOARD			; Distribucion del teclado
 	call NGN_TEXT_PRINT							; Imprimelo
@@ -139,6 +187,12 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT							; Imprimelo
 
 
+	; ----------------------------------------------------------
+	; 		Pie de pagina
+	; ----------------------------------------------------------
+
+	ld hl, TEXT_SYSTEM_INFO_EXIT	; Cancelar para salir
+	call NGN_TEXT_PRINT				; Imprimelo
 
 
 	; Ejecuta la rutina [ENASCR] para habilitar la pantalla

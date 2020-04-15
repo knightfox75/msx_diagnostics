@@ -2,28 +2,25 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
-2020-04-14 Ver. 1.1.0-WIP03
+2020-04-15 Ver. 1.1.0
 --------------------------------------------------------------------------------
-- Añadidos textos indicativos al test de color del monitor.
-- El programa ahora reserva 4096 bytes de memoria para variables y las
-  ubica en la dirección más alta disponible ($E380)
-- Añadida la opción para mostrar la información del sistema.
-- Pantalla del menú reestructurada.
-
-
-2020-04-13 Ver. 1.1.0-WIP02
---------------------------------------------------------------------------------
+- Ahora el menú recuerda la opción selecciona al volver desde un test.
+- Añadida la segunda página al menú de selección de test.
 - Optimizados los textos de los menus, ahorrando 420 bytes.
 - Añadido el soporte para el teclado francés (AZERTY) en el test de teclado.
   (Se realiza la deteccion automática al iniciarse el programa)
 - Añadido el test de color del monitor
+- El programa ahora reserva 4096 bytes de memoria para variables y las
+  ubica en la dirección más alta disponible ($E380)
+- Añadida la opción para mostrar la información del sistema.
+  Por ahora muestra el modelo de MSX, la cantidad de VRAM instalada y
+  la distribución del teclado.
+- Pantalla del menú reestructurada.
+- Corregido un bug en el test de sprites que causaba una corrupción aleatoria
+  en el área de variables al usarse.
+- Se ha cambiado la combinación de teclas para salir del menú de test del
+  teclado (ahora es SHIFT + ESC) para facilitar el uso en emuladores.
 
-
-2020-04-12 Ver. 1.1.0-WIP01
---------------------------------------------------------------------------------
-- Ahora el menú recuerda la opción selecciona al volver desde un test.
-- Añadida la segunda página al menú de selección de test.
-  
 
 2020-04-11 Ver. 1.0.1.
 --------------------------------------------------------------------------------

@@ -109,52 +109,52 @@ NGN_PSG_INIT:
 	or $80			; Pon el BIT 7 a 1 y el BIT 6 a 0			[10xxxxxx]
 	out ($A1), a	; Escribe los datos en el registro
 
-	ld a, 0		; Frecuencia del canal A (low-byte)
+	xor a		; Frecuencia del canal A (low-byte)
 	out ($A0), a
-	ld a, $00
+	xor a
 	out ($A1), a
 	ld a, 1		; Frecuencia del canal A (hi-byte)
 	out ($A0), a
-	ld a, $00
+	xor a
 	out ($A1), a
 
 	ld a, 8		; Volumen del canal A
 	out ($A0), a
-	ld a, 0		; Volumen a 0 (sin modulacion)
+	xor a		; Volumen a 0 (sin modulacion)
 	out ($A1), a
 
 	ld a, 2		; Frecuencia del canal B (low-byte)
 	out ($A0), a
-	ld a, $00
+	xor a
 	out ($A1), a
 	ld a, 3		; Frecuencia del canal B (hi-byte)
 	out ($A0), a
-	ld a, $00
+	xor a
 	out ($A1), a
 
 	ld a, 9		; Volumen del canal B
 	out ($A0), a
-	ld a, 0		; Volumen a 0 (sin modulacion)
+	xor a		; Volumen a 0 (sin modulacion)
 	out ($A1), a
 
 	ld a, 4		; Frecuencia del canal C (low-byte)
 	out ($A0), a
-	ld a, $00
+	xor a
 	out ($A1), a
 	ld a, 5		; Frecuencia del canal C (hi-byte)
 	out ($A0), a
-	ld a, $00
+	xor a
 	out ($A1), a
 
 	ld a, 10	; Volumen del canal C
 	out ($A0), a
-	ld a, 0		; Volumen a 0 (sin modulacion)
+	xor a		; Volumen a 0 (sin modulacion)
 	out ($A1), a
 
 	; Frecuencia del ruido
-	ld a, 6						; Seleccion del canal de ruido
+	ld a, 6					; Seleccion del canal de ruido
 	out ($A0), a
-	ld a, $00					; Frecuencia
+	xor a					; Frecuencia
 	out ($A1), a
 
 	; Habilita las interupciones

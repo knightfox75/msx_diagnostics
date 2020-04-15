@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Test de los Sprites (MODO SCREEN 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -114,35 +114,35 @@ FUNCTION_SPRITES_TEST_RUN:
 
 		; Decide el modo que estas
 		@@MODE:
-		pop bc		; Recupera el estado
-		ld a, b		; Consulta el modo
-		cp 0		; Si es 0, modo STANDBY
-		jr nz, @@MOVE	; Si es 1, modo MOVE
+		pop bc				; Recupera el estado
+		ld a, b				; Consulta el modo
+		cp 0				; Si es 0, modo STANDBY
+		jr nz, @@MOVE		; Si es 1, modo MOVE
 
 		; Modo espera
 		@@STANDBY:
 		ld a, [SYSKEY_ACCEPT]		; Si se pulsa ACEPTAR, cambia el modo
-		and $02				; Detecta "KEY DOWN"
-		jr z, @@CANCEL			; Si no se ha pulsado, salta
-		ld b, 1				; Cambia el modo
+		and $02						; Detecta "KEY DOWN"
+		jr z, @@CANCEL				; Si no se ha pulsado, salta
+		ld b, 1						; Cambia el modo
 		jr @@CANCEL
 
 		; Modo movimiento
 		@@MOVE:
-		push bc					; Guarda el estado
+		push bc								; Guarda el estado
 		call FUNCTION_SPRITES_TEST_MOVE		; Mueve los sprites
-		call NGN_SPRITE_UPDATE			; Actualiza los sprites
-		pop bc					; Recuperalo
-		ld a, [SYSKEY_ACCEPT]			; Si se pulsa ACEPTAR, cambia el modo
-		and $02					; Detecta "KEY DOWN"
-		jr z, @@CANCEL				; Si no se ha pulsado, salta
-		ld b, 0					; Cambia el modo
+		call NGN_SPRITE_UPDATE				; Actualiza los sprites
+		pop bc								; Recuperalo
+		ld a, [SYSKEY_ACCEPT]				; Si se pulsa ACEPTAR, cambia el modo
+		and $02								; Detecta "KEY DOWN"
+		jr z, @@CANCEL						; Si no se ha pulsado, salta
+		ld b, 0								; Cambia el modo
 		jr @@CANCEL
 
 		@@CANCEL:
-		ld a, [SYSKEY_CANCEL]			; Si se pulsa "CANCELAR"
-		and $02					; Detecta "KEY DOWN"
-		ret nz					; Vuelve al menu principal si se pulsa
+		ld a, [SYSKEY_CANCEL]				; Si se pulsa "CANCELAR"
+		and $02								; Detecta "KEY DOWN"
+		ret nz								; Vuelve al menu principal si se pulsa
 
 		; Espera el VSYNC
 		ei		; Asegurate que las interrupciones estan habilitadas
@@ -161,7 +161,7 @@ FUNCTION_SPRITES_TEST_RUN:
 FUNCTION_SPRITES_TEST_CREATE:
 
 	; Genera 32 Sprites (Colores 2-15)
-	ld a, 0			; Slot del sprite [A]
+	xor a				; Slot del sprite [A] 0
 	ld de, $1803		; Posicion del sprite [D = Pos X] [E = Pos Y]
 	ld bc, $0002		; Slot grafico [B] / Color de la paleta [C]
 
@@ -189,18 +189,18 @@ FUNCTION_SPRITES_TEST_CREATE:
 		ld e, a
 
 		@@NEXT_COLOR:
-		inc c		; Siguiente color
+		inc c				; Siguiente color
 		ld a, c
-		cp 16		; Si has llegado al ultimo color, reinicia
+		cp 16				; Si has llegado al ultimo color, reinicia
 		jr nz, @@NEXT_SPRITE
 		ld c, 2
 
 		@@NEXT_SPRITE:
-		pop af		; Recupera el numero de sprite
-		inc a		; Siguiente slot de sprite
+		pop af				; Recupera el numero de sprite
+		inc a				; Siguiente slot de sprite
 
-		cp 32		; Si aun no has generado 32 sprites
-		jp nz, @@LOOP	; Repite el bucle
+		cp 32				; Si aun no has generado 32 sprites
+		jp nz, @@LOOP		; Repite el bucle
 
 
 	; Actualiza los atributos de los sprites
@@ -216,13 +216,17 @@ FUNCTION_SPRITES_TEST_CREATE:
 
 FUNCTION_SPRITES_TEST_SET_SPEED:
 
-	ld hl, SPRITE_SPEED	; Variables
-	ld b, 0			; Contador
+	ld hl, SPRITE_SPEED			; Variables
+	ld b, 0						; Contador
 
 	; Loop
 	@@LOOP:
 		
+		push bc		; Salva los registros alterados por el call NGN_SYSTEM_RANDOM_NUMBER
+		push hl
 		call NGN_SYSTEM_RANDOM_NUMBER
+		pop hl		; Restaura los registros alterados por el call NGN_SYSTEM_RANDOM_NUMBER
+		pop bc
 		add 128
 		jr nc, @@ZERO
 		
@@ -234,8 +238,8 @@ FUNCTION_SPRITES_TEST_SET_SPEED:
 
 		@@NEXT:
 		inc hl		; Siguiente variable
-		inc e		; Siguiente interacion
-		ld a, e
+		inc b		; Siguiente interacion
+		ld a, b
 		cp 64
 		jr nz, @@LOOP
 
@@ -250,9 +254,9 @@ FUNCTION_SPRITES_TEST_SET_SPEED:
 
 FUNCTION_SPRITES_TEST_MOVE:
 
-	ld a, 0			; Contador de sprites
-	ld bc, SPRITE_SPEED	; Primera variable de velocidad
-	ld de, NGN_SPRITE_00	; Primer sprite
+	xor a						; Contador de sprites (0)
+	ld bc, SPRITE_SPEED			; Primera variable de velocidad
+	ld de, NGN_SPRITE_00		; Primer sprite
 
 	; Loop de movimiento
 	@@LOOP:
@@ -261,70 +265,70 @@ FUNCTION_SPRITES_TEST_MOVE:
 		push af
 
 		; Eje Y
-		ld a, [bc]		; Analiza si suma o resta
-		cp 0
-		jr z, @@ADD_Y		; Si es 0 Suma, si no resta
+		ld a, [bc]				; Analiza si suma o resta
+		or a
+		jr z, @@ADD_Y			; Si es 0 Suma, si no resta
 
 		; Resta en Y
-		ld a, [de]		; Restale 1
+		ld a, [de]				; Restale 1
 		dec a
-		cp 0			; Si llegas al limite, invierte la velocidad
 		ld [de], a
-		jr nz, @@AXIS_X		; Si no continua al eje X
+		or a					; Si llegas al limite, invierte la velocidad
+		jr nz, @@AXIS_X			; Si no continua al eje X
 		xor a
-		ld [bc], a		; Guarda la inversion
+		ld [bc], a				; Guarda la inversion
 		jr @@AXIS_X
 
 		; Suma en Y
 		@@ADD_Y:
-		ld a, [de]		; Sumale 1
+		ld a, [de]				; Sumale 1
 		inc a
-		cp 175			; Si llegas al limite, invierte la velocidad
 		ld [de], a
-		jr nz, @@AXIS_X		; Si no continua al eje X
+		cp 175					; Si llegas al limite, invierte la velocidad
+		jr nz, @@AXIS_X			; Si no continua al eje X
 		ld a, 1
-		ld [bc], a		; Guarda la inversion
+		ld [bc], a				; Guarda la inversion
 
 		; Eje X
 		@@AXIS_X:
-		inc bc			; Velocidad X
-		inc de			; Posicion X
+		inc bc					; Velocidad X
+		inc de					; Posicion X
 
-		ld a, [bc]		; Analiza si suma o resta
-		cp 0
-		jr z, @@ADD_X		; Si es 0 Suma, si no resta
+		ld a, [bc]				; Analiza si suma o resta
+		or a
+		jr z, @@ADD_X			; Si es 0 Suma, si no resta
 
 		; Resta en X
-		ld a, [de]		; Restale 1
+		ld a, [de]				; Restale 1
 		dec a
-		cp 0			; Si llegas al limite, invierte la velocidad
 		ld [de], a
-		jr nz, @@NEXT		; Si no continua al siguiente sprite
+		or a					; Si llegas al limite, invierte la velocidad
+		jr nz, @@NEXT			; Si no continua al siguiente sprite
 		xor a
-		ld [bc], a		; Guarda la inversion
+		ld [bc], a				; Guarda la inversion
 		jr @@NEXT
 
 		; Suma en X
 		@@ADD_X:
-		ld a, [de]		; Sumale 1
+		ld a, [de]				; Sumale 1
 		inc a
-		cp 239			; Si llegas al limite, invierte la velocidad
 		ld [de], a
-		jr nz, @@NEXT		; Si no continua al siguiente sprite
+		cp 239					; Si llegas al limite, invierte la velocidad
+		jr nz, @@NEXT			; Si no continua al siguiente sprite
 		ld a, 1
-		ld [bc], a		; Guarda la inversion
+		ld [bc], a				; Guarda la inversion
 
 		; Siguiente Sprite
 		@@NEXT:
 
-		inc bc		; Siguiente Velocidad
-		inc de		; Siguiente Sprite
+		inc bc					; Siguiente Velocidad
+		inc de					; Siguiente Sprite
 		inc de
 		inc de		
 
-		pop af		; Recupera en numero de sprite
+		pop af					; Recupera en numero de sprite
 		inc a
-		cp 32		; Si no has movido los 32 sprite, repite
+		cp 32					; Si no has movido los 32 sprite, repite
 		jp nz, @@LOOP
 
 

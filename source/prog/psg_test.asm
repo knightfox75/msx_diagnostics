@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0-wip03
+;	Version 1.1.0
 ;	ASM Z80 MSX
 ;	Test PSG
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -74,8 +74,24 @@ FUNCTION_PSG_TEST_RUN:
 	; Reinicia e PSG
 	call NGN_PSG_INIT
 
+	; Coloca el volumen de los 3 canales de melodia al maximo
+	di
+	ld a, 8		; Volumen del canal A
+	out ($A0), a
+	ld a, 15	; Volumen a 15 (sin modulacion)
+	out ($A1), a
+	ld a, 9		; Volumen del canal B
+	out ($A0), a
+	ld a, 15	; Volumen a 15 (sin modulacion)
+	out ($A1), a
+	ld a, 10	; Volumen del canal C
+	out ($A0), a
+	ld a, 15	; Volumen a 15 (sin modulacion)
+	out ($A1), a
+	ei
+
 	; Valores por iniciales de este test
-	ld a, 0									; Por defecto, las opciones estan a 0
+	xor a									; Por defecto, las opciones estan a 0
 	ld [SNDCHN1_FRQ], a 					; Frecuencia del canal A
 	ld [SNDCHN2_FRQ], a 					; Frecuencia del canal B
 	ld [SNDCHN3_FRQ], a 					; Frecuencia del canal C
@@ -83,7 +99,7 @@ FUNCTION_PSG_TEST_RUN:
 	ld [SNDCHN1_VOL], a						; Volumen del canal A
 	ld [SNDCHN2_VOL], a						; Volumen del canal B
 	ld [SNDCHN3_VOL], a						; Volumen del canal C
-	ld a, 0									; Por defecto el canal de ruido no esta asignado
+	xor a									; Por defecto el canal de ruido no esta asignado
 	ld [SNDNOISE_CHAN], a					; Volumen del canal de ruido
 	ld a, 8									; Y tiene la frecuencia media
 	ld [SNDNOISE_FRQ], a 					; Frecuencia del canal de ruido
@@ -180,7 +196,7 @@ FUNCTION_PSG_TEST_RUN:
 
 		; Reset de comandos (IZQ/DER) (0 ninguno, 1 derecha, 2 izquierda)
 		@@MOVE_LEFT_RIGHT:
-		ld a, 0
+		xor a
 		ld b, a
 
 		; Si se pulsa "DERECHA"
@@ -478,7 +494,7 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, [PSG_TEST_CURSOR_Y]		; Posicion inicial Y
 		ld l, a
 		ld h, PSGTEST_FREQ_X_START		; Posicion inicial X
-		ld a, 0
+		xor a
 		ld b, a					; Contador
 		ld a, [PSG_TEST_FREQ]	; Freq actual
 		ld c, a
@@ -684,7 +700,7 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, 7
 		out ($A0), a
 		; Datos a enviar al registro 7
-		ld a, e		; Mascara de la configuracion de canales
+		ld a, e			; Mascara de la configuracion de canales
 		and $3F			; Proteccion al PSG, los BITs 6 y 7 a 0		[00xxxxxx]
 		or $80			; Pon el BIT 7 a 1 y el BIT 6 a 0			[10xxxxxx]
 		out ($A1), a	; Escribe los datos en el registro
@@ -696,7 +712,7 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, [PSG_TEST_CURSOR_Y]				; Posicion inicial Y
 		ld l, a
 		ld h, PSGTEST_NOISE_CHAN_X_START		; Posicion inicial X
-		ld a, 0
+		xor a
 		ld b, a									; Contador
 		ld a, [SNDNOISE_CHAN]					; Canal actual
 		ld c, a

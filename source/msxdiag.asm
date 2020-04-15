@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0-wip03
+;   Version 1.1.0
 ;	ASM Z80 MSX
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -31,10 +31,10 @@
 ; Selecciona la directiva de compilacion (descomentar)
 ; ----------------------------------------------------------
 
-OUTPUT_FORMAT_BINARY = 1	; Formato de salida binario de BASIC
-OUTPUT_FORMAT_ROM = 2		; Formato de salida ROM
-OUTPUT_FORMAT_COM = 3		; Formato de salida COM para MSX-DOS
-OUTPUT_FORMAT_CAS = 4		; Formato de salida binario de BASIC (Salida en formato .CAS y .WAV)
+OUTPUT_FORMAT_BINARY = 1				; Formato de salida binario de BASIC
+OUTPUT_FORMAT_ROM = 2					; Formato de salida ROM
+OUTPUT_FORMAT_COM = 3					; Formato de salida COM para MSX-DOS
+OUTPUT_FORMAT_CAS = 4					; Formato de salida binario de BASIC (Salida en formato .CAS y .WAV)
 
 ;.INCLUDE "formats/f_binary.asm"		; Binario de BASIC
 .INCLUDE "formats/f_rom.asm"			; Cartucho ROM
