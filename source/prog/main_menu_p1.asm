@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0
+;	Version 1.1.1-WIP01
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 1)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -198,9 +198,7 @@ FUNCTION_MAIN_MENU_P1:
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		@@MM_END:
-		ei		; Asegurate que las interrupciones estan habilitadas
-		nop		; Espera el ciclo necesario para que se habiliten
-		halt	; Espera a la interrupcion del VDP
+		call NGN_SCREEN_WAIT_VBL
 
 		; Repite el bucle
 		jp @@LOOP

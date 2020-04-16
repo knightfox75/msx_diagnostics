@@ -2,6 +2,14 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-16 Ver. 1.1.1-wip01
+--------------------------------------------------------------------------------
+- La pantalla de información del sistema ahora muestra el chip VDP instalado
+  y la frecuencia de refresco a la que funciona.
+- A partir de ahora se usa una rutina personalizada para esperar al Vsync.
+  Esta rutina se ha incorporado también a MSX Ngine.
+  
+
 2020-04-15 Ver. 1.1.0
 --------------------------------------------------------------------------------
 - Ahora el menú recuerda la opción selecciona al volver desde un test.

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0
+;	Version 1.1.1-WIP01
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -18,6 +18,9 @@
 ; ----------------------------------------------------------
 
 FUNCTION_SYSTEM_START:
+
+	; Identifica al VDP instalada
+	call FUNCTION_SYSTEM_GET_VDP_TYPE
 
 	; Inicializa la matriz del teclado
 	call FUNCTION_SYSTEM_RESET_KEYBOARD_MATRIX
@@ -68,7 +71,7 @@ FUNCTION_SYSTEM_RESET_KEYBOARD_MATRIX:
 ; ----------------------------------------------------------
 ; Apunta a la tabla de nombre de teclas correcta
 ; segun el idioma del teclado desde $002C
-
+;
 ;	  7   6   5   4   3   2   1   0
 ;	+---+---+---+---+---------------+
 ;	|Cur|SRC|SLS|SSM| Keyboard Type |
@@ -185,6 +188,156 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 	ret
 
 
+
+
+
+; ----------------------------------------------------------
+; Identifica el VDP instalado		[VDP_TYPE_ID]
+;	
+;	0 - TMS9918A/28A/29A
+;	1 - V9938
+;	2 - V9958
+;	255 - Otros
+;
+; Y la frecuencia de refresco		[VDP_HZ]
+;
+;	0 - 50hz
+;	1 - 60hz
+;
+; ----------------------------------------------------------
+
+FUNCTION_SYSTEM_GET_VDP_TYPE:
+
+	; Verifica si la VDP es un TMS9918A/28A/29A
+
+	ld a, [$0006]		; Puerto de lectura
+	inc a
+	ld c, a	
+	in a, [c]			; Lee el valor del Registro S0 del VDP
+	
+	di								; Deshabilita las interrupciones
+	@@WAIT_INTERRUPT:
+		in a, [c]					; Lee el valor del Registro S0 del VDP
+		and $80 					; Bitmask para el flag F (Vsync)
+		jp z, @@WAIT_INTERRUPT
+
+	ld a, [$0007]		; Puerto de escritura
+	inc a
+	ld c, a
+	ld a, 2				; Selecciona el registro S2 del VDP V9938 (si es posible)
+	out [c], a
+	ld a, $8F      		; Selecciona el registro R7/R15 en la VDP (1000 1111)
+	out [c], a			; Si se ha podido seleccionar S1, sera R15, si no R7
+
+	ld a, [$0006]		; Puerto de lectura
+	inc a
+	ld c, a	
+	in a, [c]			; Lee el registro S0/S2
+	
+	ei					; Vuelve a habilitar las interrupciones
+
+	and $40				; Mascara con el bit 6
+						; Si es cero, flag del 5º sprite del registro S0 (TMS9918A)
+						; Si es uno, flag del sync vertical del registro S2 (V99xx)
+
+	jr nz, @@V99XX
+	xor a				; TMS9918A/29A
+	ld [VDP_TYPE_ID], a
+	jp @@GET_VDP_HZ
+
+
+	; Verifica si la VDP es un V99XX
+
+	@@V99XX:
+
+	ld a, [$0007]		; Puerto de escritura
+	inc a
+	ld c, a
+	ld a, 1				; Selecciona el registro S1
+	di					; Deshabilita la interrupciones
+	out [c], a			; Aplica la seleccion de registro 
+
+	ld a, $8F      		; Selecciona el registro R15 en la VDP (1000 1111)
+	out [c], a			; Aplica la seleccion de S1 como registro de estado
+
+	ld a, [$0006]		; Puerto de lectura
+	inc a
+	ld c, a	
+	in a, [c]			; El el contenido de S1
+	ei					; Habilita las interrupciones
+
+	and $3E				; Bitmask para obtener el ID del VDP (0011 1110)
+						; 0 = V9938
+						; 2 = TMS99XX
+						; 4 = V9958
+
+	; 0 = V9938
+	or a
+	jr nz, @@V9958
+	ld a, 1
+	ld [VDP_TYPE_ID], a
+	jp @@GET_VDP_HZ
+
+	; 4 = V9958
+	@@V9958:
+	cp 4
+	jr nz, @@UNKNOW
+	ld a, 2
+	ld [VDP_TYPE_ID], a
+	jp @@GET_VDP_HZ
+
+	; Desconocida
+	@@UNKNOW:
+	ld a, $FF
+	ld [VDP_TYPE_ID], a
+
+
+	; Frecuencia del VDP
+	@@GET_VDP_HZ:
+
+	; Asegurate que el registro  de estado S0 esta seleccionado en modelos MSX2 y superiores
+	ld a, [$0007]		; Puerto de escritura
+	inc a
+	ld c, a
+	xor a				; Selecciona el registro S0
+	di					; Deshabilita la interrupciones
+	out [c], a			; Aplica la seleccion de registro 
+
+	ld a, $8F      		; Selecciona el registro R15 en la VDP (1000 1111)
+	out [c], a			; Aplica la seleccion de S1 como registro de estado
+
+	; Habilita de nuevo las interrupciones y espera a la siguiente
+	ei
+	halt
+
+	ld de, $0000
+
+	ld a, [$0006]		; Puerto de lectura
+	inc a
+	ld c, a	
+	in a, [c]			; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
+	di					; Deshabilita las interrupciones
+	@@WAIT_VBL:
+		inc de				; Conteo de ciclos
+		in a, [c]			; Lee el valor del Registro S0 del VDP
+		and $80 			; Bitmask para el flag F (Vsync)
+		jp z, @@WAIT_VBL	; Si no hay flag de Vsync, repite
+	ei		; Habilita las interrupciones
+
+	; Son 60hz?
+	ld hl, $0668		; Numero de ciclos superior a 60hz, pero inferior a 50hz
+	sbc hl, de			; (en medio de los dos, 1640 ciclos del bucle)
+	jr c, @@HZ50
+	ld a, 1
+	ld [VDP_HZ], a		; 60hz
+	jr @@EXIT
+
+	@@HZ50:
+	xor a
+	ld [VDP_HZ], a		; 50hz
+
+	@@EXIT:
+	ret
 
 
 

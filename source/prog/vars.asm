@@ -14,7 +14,7 @@
 
 ; --------------------------------------------------------------
 ; Declara las variables	del sistema	[VARIABLE]	[BYTES]
-; TOTAL 96 bytes
+; TOTAL 98 bytes
 ; --------------------------------------------------------------
 
 ; -----------------------------------------------------------------------
@@ -94,6 +94,19 @@ PSG_TEST_CHANNEL:               ds  1       ; Canal actual (1-4)
 PSG_TEST_VOLUME:                ds  1       ; Volumen actual
 PSG_TEST_FREQ:                  ds  1       ; Frecuencia actual
 
+
+; ----------------------------------------------------------
+; Identifica el VDP instalado
+;	
+;	0 - TMS9918A/29A
+;	1 - V9938
+;	2 - V9958
+;	3 - Otros
+;   Total: 2 bytes
+; ----------------------------------------------------------
+
+VDP_TYPE_ID:                    ds  1       ; Tipo de VDP instalado
+VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
 
 
 ; ----------------------------------------------------------

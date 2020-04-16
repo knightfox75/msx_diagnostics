@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0
+;	Version 1.1.1-WIP01
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -26,7 +26,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.0", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.1-WIP01", $0D, $0A, $00
 
 
 
@@ -334,7 +334,7 @@ TEXT_SYSTEM_INFO_TITLE:
 
 TEXT_SYSTEM_INFO_MSX_MODEL:
 
-	db	$0D, $0A, $0D, $0A, "  MODEL: ", $00
+	db	$0D, $0A, $0D, $0A, " MODEL:    ", $00
 
 TEXT_SYSTEM_INFO_MSX1:
 
@@ -388,17 +388,45 @@ TEXT_SYSTEM_INFO_KB:
 
 TEXT_SYSTEM_INFO_VRAM:
 
-	db	$0D, $0A, $0D, $0A, "  VRAM: ", $00
+	db	$0D, $0A, $0D, $0A, " VRAM:     ", $00
+
+TEXT_SYSTEM_INFO_VDP:
+
+	db	$0D, $0A, $0D, $0A, " VDP:      ", $00
+
+TEXT_SYSTEM_INFO_TMS9918A:
+
+	db	"TMS9918A/28A", $00
+
+TEXT_SYSTEM_INFO_TMS9929A:
+
+	db	"TMS9929A", $00
+
+TEXT_SYSTEM_INFO_V9938:
+
+	db	"V9938", $00
+
+TEXT_SYSTEM_INFO_V9958:
+
+	db	"V9958", $00
+
+TEXT_SYSTEM_INFO_50HZ:
+
+	db " - 50HZ", $00
+
+TEXT_SYSTEM_INFO_60HZ:
+
+	db " - 60HZ", $00
 
 TEXT_SYSTEM_INFO_RAM:
 
-	db	$0D, $0A, $0D, $0A, "  RAM: ", $00
+	db	$0D, $0A, $0D, $0A, " RAM:      ", $00
 
 
 
 TEXT_SYSTEM_INFO_KEYBOARD:
 
-	db	$0D, $0A, $0D, $0A, "  KEYBOARD LAYOUT: ", $00
+	db	$0D, $0A, $0D, $0A, " KEYBOARD: ", $00
 
 TEXT_SYSTEM_INFO_KB_JAPAN:
 

@@ -203,6 +203,7 @@ NGN_SCREEN_SET_MODE_3:
 ; Muestra las teclas de funcion en pantalla
 ; Modifica todos los registros
 ; ----------------------------------------------------------
+
 NGN_SCREEN_KEYS_ON:
 
 	; Muestra las teclas de funcion llamando a la funcion de la BIOS [DSPFNK]
@@ -219,12 +220,47 @@ NGN_SCREEN_KEYS_ON:
 ; Oculta las teclas de funcion en pantalla
 ; Modifica todos los registros
 ; ----------------------------------------------------------
+
 NGN_SCREEN_KEYS_OFF:
 
 	; Oculta las teclas de funcion llamando a la funcion de la BIOS [ERAFNK]
 	jp $00CC
 
 	; El RET lo aplica la propia rutina de BIOS
+
+
+
+
+
+; ----------------------------------------------------------
+; NGN_SCREEN_WAIT_VBL
+; Oculta las teclas de funcion en pantalla
+; Modifica A y C, pero los restaura automaticamente
+; ----------------------------------------------------------
+
+NGN_SCREEN_WAIT_VBL:
+
+	push af					; Copia de los registros afectados
+	push bc
+
+	ld a, [$0006]			; Puerto de lectura
+	inc a
+	ld c, a	
+	in a, [c]				; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
+
+	di						; Deshabilita las interrupciones
+
+	@@WAIT_VBL:
+		in a, [c]			; Lee el valor del Registro S0 del VDP
+		and $80 			; Bitmask para el flag F (Vsync)
+		jp z, @@WAIT_VBL	; Si no hay flag de Vsync, repite
+
+	ei						; Habilita las interrupciones
+
+	pop bc
+	pop af
+	
+	ret						; Vuelve
 
 
 

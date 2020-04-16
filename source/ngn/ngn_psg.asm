@@ -74,9 +74,9 @@ NGN_PSG_COMMAND:
 	di			; Deshabilita las interrupciones
 
 	ld a, b
-	out ($A0), a		; Selecciona el registro
+	out [$A0], a		; Selecciona el registro
 	ld a, c
-	out ($A1), a		; Escribe el dato
+	out [$A1], a		; Escribe el dato
 
 	ei			; Habilita las interrupciones
 
@@ -101,61 +101,61 @@ NGN_PSG_INIT:
 
 	; Configura el I/O del PSG mediante el registro nº7
 	ld a, 7
-	out ($A0), a
+	out [$A0], a
 
 	; Datos a enviar al registro 7
 	ld a, $38		; Canales A, B y C como melodia				[xx111000] (Usa logica inversa)
 	and $3F			; Proteccion al PSG, los BITs 6 y 7 a 0		[00xxxxxx]
 	or $80			; Pon el BIT 7 a 1 y el BIT 6 a 0			[10xxxxxx]
-	out ($A1), a	; Escribe los datos en el registro
+	out [$A1], a	; Escribe los datos en el registro
 
 	xor a		; Frecuencia del canal A (low-byte)
-	out ($A0), a
+	out [$A0], a
 	xor a
-	out ($A1), a
+	out [$A1], a
 	ld a, 1		; Frecuencia del canal A (hi-byte)
-	out ($A0), a
+	out [$A0], a
 	xor a
-	out ($A1), a
+	out [$A1], a
 
 	ld a, 8		; Volumen del canal A
-	out ($A0), a
+	out [$A0], a
 	xor a		; Volumen a 0 (sin modulacion)
-	out ($A1), a
+	out [$A1], a
 
 	ld a, 2		; Frecuencia del canal B (low-byte)
-	out ($A0), a
+	out [$A0], a
 	xor a
-	out ($A1), a
+	out [$A1], a
 	ld a, 3		; Frecuencia del canal B (hi-byte)
-	out ($A0), a
+	out [$A0], a
 	xor a
-	out ($A1), a
+	out [$A1], a
 
 	ld a, 9		; Volumen del canal B
-	out ($A0), a
+	out [$A0], a
 	xor a		; Volumen a 0 (sin modulacion)
-	out ($A1), a
+	out [$A1], a
 
 	ld a, 4		; Frecuencia del canal C (low-byte)
-	out ($A0), a
+	out [$A0], a
 	xor a
-	out ($A1), a
+	out [$A1], a
 	ld a, 5		; Frecuencia del canal C (hi-byte)
-	out ($A0), a
+	out [$A0], a
 	xor a
-	out ($A1), a
+	out [$A1], a
 
 	ld a, 10	; Volumen del canal C
-	out ($A0), a
+	out [$A0], a
 	xor a		; Volumen a 0 (sin modulacion)
-	out ($A1), a
+	out [$A1], a
 
 	; Frecuencia del ruido
 	ld a, 6					; Seleccion del canal de ruido
-	out ($A0), a
+	out [$A0], a
 	xor a					; Frecuencia
-	out ($A1), a
+	out [$A1], a
 
 	; Habilita las interupciones
 	ei
@@ -181,18 +181,18 @@ NGN_PSG_READ_JOY1:
 
 	; Seleccion del Puerto 1
 	ld a, 15	; Seleccion del registro 15
-	out ($A0), a
-	out ($A1), a	; Puerto 1 seleccionado [00001111] = 15
+	out [$A0], a
+	out [$A1], a	; Puerto 1 seleccionado [00001111] = 15
 
 	; Selecciona el registro de datos de puerto de JoyStick [14]
 	ld a, 14
-	out ($A0), a
+	out [$A0], a
 
 	; Habilita las interrupciones
 	ei
 
 	; Guarda la informacion de este Joystick en el registro C
-	in a, ($A2)
+	in a, [$A2]
 	ld c, a
 
 	; JOY1: ARRIBA		[BIT 0]
@@ -239,19 +239,19 @@ NGN_PSG_READ_JOY2:
 
 	; Seleccion del Puerto 2
 	ld a, 15	; Seleccion del registro 15
-	out ($A0), a
+	out [$A0], a
 	ld a, 79	; Puerto 1 seleccionado [01001111] = 79
-	out ($A1), a
+	out [$A1], a
 
 	; Selecciona el registro de datos de puerto de JoyStick [14]
 	ld a, 14
-	out ($A0), a
+	out [$A0], a
 
 	; Habilita las interrupciones
 	ei
 
 	; Guarda la informacion de este Joystick en el registro C
-	in a, ($A2)
+	in a, [$A2]
 	ld c, a
 
 	; JOY2: ARRIBA		[BIT 0]

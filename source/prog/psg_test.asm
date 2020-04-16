@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0
+;	Version 1.1.1-WIP01
 ;	ASM Z80 MSX
 ;	Test PSG
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -56,9 +56,7 @@ FUNCTION_PSG_TEST_MENU:
 		ret nz							; Vuelve al menu principal
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		ei		; Asegurate que las interrupciones estan habilitadas
-		nop		; Espera el ciclo necesario para que se habiliten
-		halt	; Espera a la interrupcion del VDP
+		call NGN_SCREEN_WAIT_VBL
 
 		; Repite el bucle
 		jr @@LOOP
@@ -77,17 +75,17 @@ FUNCTION_PSG_TEST_RUN:
 	; Coloca el volumen de los 3 canales de melodia al maximo
 	di
 	ld a, 8		; Volumen del canal A
-	out ($A0), a
+	out [$A0], a
 	ld a, 15	; Volumen a 15 (sin modulacion)
-	out ($A1), a
+	out [$A1], a
 	ld a, 9		; Volumen del canal B
-	out ($A0), a
+	out [$A0], a
 	ld a, 15	; Volumen a 15 (sin modulacion)
-	out ($A1), a
+	out [$A1], a
 	ld a, 10	; Volumen del canal C
-	out ($A0), a
+	out [$A0], a
 	ld a, 15	; Volumen a 15 (sin modulacion)
-	out ($A1), a
+	out [$A1], a
 	ei
 
 	; Valores por iniciales de este test
@@ -107,13 +105,13 @@ FUNCTION_PSG_TEST_RUN:
 	; Frecuencia del ruido inicial
 	di
 	ld a, 6									; Seleccion del canal de ruido
-	out ($A0), a
+	out [$A0], a
 	ld a, [SNDNOISE_FRQ]					; Frecuencia
 	sla a									; Multiplica x2 el valor
 	ld b, a									; y guardalo en B
 	ld a, $1F								; Frecuencia mas baja (mas valor, menos frecuencia)
 	sub b									; Restale a la frecuencia minima el valor calculado
-	out ($A1), a
+	out [$A1], a
 	ei
 
 	; Valores iniciales del menu
@@ -251,9 +249,7 @@ FUNCTION_PSG_TEST_RUN:
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		@@LOOP_END:
-		ei		; Asegurate que las interrupciones estan habilitadas
-		nop		; Espera el ciclo necesario para que se habiliten
-		halt	; Espera a la interrupcion del VDP
+		call NGN_SCREEN_WAIT_VBL
 
 		; Repite el bucle
 		jp @@LOOP
@@ -475,18 +471,18 @@ FUNCTION_PSG_TEST_RUN:
 		di				; Deshabilita las interrupciones
 		; Frecuencia
 		ld a, e			; Canal A (LO byte)
-		out ($A0), a
+		out [$A0], a
 		ld a, c			; LO byte data
-		out ($A1), a
+		out [$A1], a
 		ld a, d			; Canal A (HI byte)
-		out ($A0), a
+		out [$A0], a
 		ld a, b			; HI byte data
-		out ($A1), a
+		out [$A1], a
 		; Volumen
 		ld a, l						; Seleccion del canal (lo-byte)
-		out ($A0), a
+		out [$A0], a
 		ld a, [PSG_TEST_VOLUME]		; Volumen
-		out ($A1), a
+		out [$A1], a
 		ei				; Habilita las interrupciones
 
 
@@ -587,9 +583,9 @@ FUNCTION_PSG_TEST_RUN:
 		di							; Deshabilita las interrupciones
 		; Volumen
 		ld a, e						; Seleccion del canal (lo-byte)
-		out ($A0), a
+		out [$A0], a
 		ld a, [PSG_TEST_VOLUME]		; Volumen
-		out ($A1), a
+		out [$A1], a
 		ei							; Habilita las interrupciones
 
 
@@ -698,12 +694,12 @@ FUNCTION_PSG_TEST_RUN:
 		di
 		; Configura el I/O del PSG mediante el registro nº7
 		ld a, 7
-		out ($A0), a
+		out [$A0], a
 		; Datos a enviar al registro 7
 		ld a, e			; Mascara de la configuracion de canales
 		and $3F			; Proteccion al PSG, los BITs 6 y 7 a 0		[00xxxxxx]
 		or $80			; Pon el BIT 7 a 1 y el BIT 6 a 0			[10xxxxxx]
-		out ($A1), a	; Escribe los datos en el registro
+		out [$A1], a	; Escribe los datos en el registro
 		; Habilita las interupciones
 		ei
 
@@ -789,9 +785,9 @@ FUNCTION_PSG_TEST_RUN:
 		di							; Deshabilita las interrupciones
 		; Frecuencia del ruido
 		ld a, 6						; Seleccion del canal de ruido
-		out ($A0), a
+		out [$A0], a
 		ld a, c						; Frecuencia
-		out ($A1), a
+		out [$A1], a
 		ei							; Habilita las interrupciones
 
 

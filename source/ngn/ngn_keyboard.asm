@@ -68,11 +68,11 @@ NGN_KEYBOARD_READ:
 
 	@@GET_KEY:
 	
-		in a, ($AA)			; Lee el contenido del selector de filas
+		in a, [$AA]			; Lee el contenido del selector de filas
 		and $F0				; Manten los datos de los BITs 4 a 7 (resetea los bits 0 a 3)
 		or b				; Indica la fila
-		out ($AA), a		; y seleccionala
-		in a, ($A9)			; Lee el contenido de la fila
+		out [$AA], a		; y seleccionala
+		in a, [$A9]			; Lee el contenido de la fila
 		and c				; Lee el estado de la tecla segun el registro C
 		jr z, @@KEY_HELD	; En caso de que se haya pulsado, salta
 

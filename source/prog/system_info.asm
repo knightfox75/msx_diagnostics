@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.0
+;	Version 1.1.1-WIP01
 ;	ASM Z80 MSX
 ;	Informacion del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -126,6 +126,81 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT
 
 
+
+	; ----------------------------------------------------------
+	; 	Identifica el VDP instalado		[VDP_TYPE_ID]
+	;	
+	;	0 - TMS9918A/28A/29A
+	;	1 - V9938
+	;	2 - V9958
+	;	255 - Otros
+	;
+	; 	Y la frecuencia de refresco		[VDP_HZ]
+	;
+	;	0 - 50hz
+	;	1 - 60hz
+	;
+	; ----------------------------------------------------------
+
+	ld hl, TEXT_SYSTEM_INFO_VDP					; VDP
+	call NGN_TEXT_PRINT							; Imprimelo
+
+	ld a, [VDP_TYPE_ID]							; Recupera el ID del VDP
+	
+	; Si es 0 - TMS9918A/28A/29A
+	or a
+	jr nz, @@V9938
+	; Si es un TMS, selecciona el modelo segun el refresco detectado
+	ld a, [VDP_HZ]
+	or a
+	jr nz, @@TMS9918A
+	ld hl, TEXT_SYSTEM_INFO_TMS9929A			; TMS9929A
+	jr @@PRINT_VDP
+	@@TMS9918A:
+	ld hl, TEXT_SYSTEM_INFO_TMS9918A			; TMS9918A/28A
+	jr @@PRINT_VDP
+
+	; Si es 1 - V9938
+	@@V9938:
+	cp 1
+	jr nz, @@V9958
+	ld hl, TEXT_SYSTEM_INFO_V9938				; V9938
+	jr @@PRINT_VDP
+
+	; Si es 2 - V9958
+	@@V9958:
+	cp 2
+	jr nz, @@VDP_UNKNOW
+	ld hl, TEXT_SYSTEM_INFO_V9958				; V9958
+	jr @@PRINT_VDP
+
+	; VDP desconocida
+	@@VDP_UNKNOW:
+	ld hl, TEXT_SYSTEM_INFO_UNKNOW				; Desconocida
+
+	; Imprime el tipo de VDP instalado
+	@@PRINT_VDP:
+	call NGN_TEXT_PRINT							; Imprimelo
+
+
+	; HZ del VDP
+	ld a, [VDP_HZ]
+
+	; 50hz
+	or a
+	jr nz, @@VDP60HZ
+	ld hl, TEXT_SYSTEM_INFO_50HZ				; 50hz
+	jr @@PRINT_HZ
+
+	; 60hz
+	@@VDP60HZ:
+	ld hl, TEXT_SYSTEM_INFO_60HZ				; 60hz
+
+	; Imprime los HZ
+	@@PRINT_HZ:
+	call NGN_TEXT_PRINT							; Imprimelo
+
+
 	; ----------------------------------------------------------
 	; 		Distribucion del teclado
 	; ----------------------------------------------------------
@@ -215,9 +290,7 @@ FUNCTION_SYSTEM_INFO:
 		ret nz								; Vuelve al menu principal
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		ei		; Asegurate que las interrupciones estan habilitadas
-		nop		; Espera el ciclo necesario para que se habiliten
-		halt	; Espera a la interrupcion del VDP
+		call NGN_SCREEN_WAIT_VBL
 
 		; Repite el bucle
 		jr @@LOOP
