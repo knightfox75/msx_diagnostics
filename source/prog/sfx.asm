@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP01
+;	Version 1.1.1-WIP02
 ;	ASM Z80 MSX
 ;	Funciones de efectos de sonido
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -83,7 +83,7 @@ SFX_FUNCTION_UPDATE:
 	in a, [$A2]		; Volumen actual
 	ei				; Habilita las interrupciones
 
-	cp 0			; Si no hay volumen, sal
+	or a			; Si no hay volumen, sal
 	ret z
 
 	di				; Deshabilita las interrupciones
@@ -91,7 +91,7 @@ SFX_FUNCTION_UPDATE:
 	out [$A1], a	; Nuevo volumen
 	ei				; Habilita las interrupciones
 
-	cp 0
+	or a
 	ret nz			; Si el volumen no es 0, vuelve
 
 	; Resetea el canal del PSG

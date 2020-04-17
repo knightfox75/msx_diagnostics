@@ -37,7 +37,6 @@ NGN_KEYBOARD_READ:
 			ld a, c
 			cp $80				; Si has leido el bit 7,
 			jr z, @@NEXT_ROW	; lee la siguiente fila
-			;rlc c				; Siguiente BIT
 			sla c				; Siguiente BIT
 			jr @@BIT_LOOP
 		@@NEXT_ROW:

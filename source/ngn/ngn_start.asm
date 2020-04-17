@@ -23,6 +23,9 @@ NGN_START:
 	; Habilita las interrupciones
 	ei
 
+	; Espera al menos una interrupcion
+	halt
+
 	; Inicializa las variables
 	call @@INIT_VARIABLES
 
@@ -34,6 +37,7 @@ NGN_START:
 	ld [$F3DB], a		; [CLIKSW]
 
 	; Sal de la rutina
+	@@END:
 	ret
 
 

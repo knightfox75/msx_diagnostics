@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP01
+;	Version 1.1.1-WIP02
 ;	ASM Z80 MSX
 ;	Test de color del monitor
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -112,11 +112,11 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
         jp z, @@COLOR_LOOP
 
         ; Si es alguno de los otros test, cuenta atras
-        ld a, [MONITOR_COLOR_FRAME]      ; Frame actual
+        ld a, [MONITOR_COLOR_FRAME]             ; Frame actual
         cp 120                                  ; Si ya has alcanzado la marca
         jr z, @@LOOP_END                        ; No hagas nada
         inc a                                   ; Si no, suma 1
-        ld [MONITOR_COLOR_FRAME], a      ; Guarda el numero de frames
+        ld [MONITOR_COLOR_FRAME], a             ; Guarda el numero de frames
         cp 120                                  ; Si no se ha alcanzado la marca
         jr nz, @@LOOP_END                       ; No hagas nada
         call NGN_TEXT_CLS                       ; Si no, borra la pantalla

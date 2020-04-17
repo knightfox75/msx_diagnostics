@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0
+;   Version 1.1.1-WIP02
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -14,8 +14,24 @@
 
 ; --------------------------------------------------------------
 ; Declara las variables	del sistema	[VARIABLE]	[BYTES]
-; TOTAL 98 bytes
+; TOTAL 110 bytes
 ; --------------------------------------------------------------
+
+
+; ----------------------------------------------------------
+; Identifica el VDP instalado
+;	
+;	0 - TMS9918A/29A
+;	1 - V9938
+;	2 - V9958
+;	3 - Otros
+;   Total: 2 bytes
+; ----------------------------------------------------------
+
+VDP_TYPE_ID:                    ds  1       ; Tipo de VDP instalado
+VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
+
+
 
 ; -----------------------------------------------------------------------
 ;	Teclas
@@ -24,12 +40,12 @@
 ;   Total: 6 bytes
 ; -----------------------------------------------------------------------
 
-SYSKEY_UP:			    ds	1	    ; Cursor / Joy1 arriba
-SYSKEY_DOWN:			ds	1	    ; Cursor / Joy1 arriba
-SYSKEY_LEFT:			ds	1	    ; Cursor / Joy1 arriba
-SYSKEY_RIGHT:			ds	1	    ; Cursor / Joy1 arriba
-SYSKEY_ACCEPT:			ds	1	    ; Espacio / Joy1 Boton 1
-SYSKEY_CANCEL:			ds	1	    ; ESC / Joy1 Boton 2
+SYSKEY_UP:			            ds	1	    ; Cursor / Joy1 arriba
+SYSKEY_DOWN:			        ds	1	    ; Cursor / Joy1 arriba
+SYSKEY_LEFT:			        ds	1	    ; Cursor / Joy1 arriba
+SYSKEY_RIGHT:			        ds	1	    ; Cursor / Joy1 arriba
+SYSKEY_ACCEPT:			        ds	1	    ; Espacio / Joy1 Boton 1
+SYSKEY_CANCEL:			        ds	1	    ; ESC / Joy1 Boton 2
 
 
 
@@ -38,9 +54,9 @@ SYSKEY_CANCEL:			ds	1	    ; ESC / Joy1 Boton 2
 ; Total: 3 bytes
 ; ----------------------------------------------------------
 
-MAINMENU_ITEM_SELECTED:		ds	1		; Posicion del cursor
-MAINMENU_ITEM_OLD:		    ds	1		; Posicion anterior del cursor
-MAINMENU_LAST_ITEM:         ds  1       ; Posicion al abandonar el menu
+MAINMENU_ITEM_SELECTED:         ds  1		; Posicion del cursor
+MAINMENU_ITEM_OLD:              ds	1		; Posicion anterior del cursor
+MAINMENU_LAST_ITEM:             ds  1       ; Posicion al abandonar el menu
 
 
 
@@ -49,7 +65,7 @@ MAINMENU_LAST_ITEM:         ds  1       ; Posicion al abandonar el menu
 ; Total: 64 bytes
 ; ----------------------------------------------------------
 
-SPRITE_SPEED:			ds	64		; Velocidad de los sprites [Y][X] * 2
+SPRITE_SPEED:                   ds  64      ; Velocidad de los sprites [Y][X] * 2
 
 
 
@@ -95,18 +111,20 @@ PSG_TEST_VOLUME:                ds  1       ; Volumen actual
 PSG_TEST_FREQ:                  ds  1       ; Frecuencia actual
 
 
+
 ; ----------------------------------------------------------
-; Identifica el VDP instalado
-;	
-;	0 - TMS9918A/29A
-;	1 - V9938
-;	2 - V9958
-;	3 - Otros
-;   Total: 2 bytes
+; Informacion del sistema
+; Total: 10 bytes
 ; ----------------------------------------------------------
 
-VDP_TYPE_ID:                    ds  1       ; Tipo de VDP instalado
-VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
+; Textos a mostrar
+SYS_INFO_MODEL:                 ds  2       ; Modelo de MSX
+SYS_INFO_KB:                    ds  2       ; Layout de teclado
+SYS_INFO_RAM:                   ds  2       ; RAM
+SYS_INFO_VRAM:                  ds  2       ; VRAM
+SYS_INFO_VDP:                   ds  2       ; VDP
+SYS_INFO_HZ:                    ds  2       ; HZ de refresco
+
 
 
 ; ----------------------------------------------------------
@@ -114,10 +132,10 @@ VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
 ; Total: 4 bytes
 ; ----------------------------------------------------------
 
-MONITOR_COLOR_CURRENT_ITEM:      ds 1       ; Item seleccionado del test
-MONITOR_COLOR_CURRENT_COLOR:     ds 1       ; Color actual del ciclo de colores
-MONITOR_COLOR_DELAY:             ds 1       ; Numero de frames de espera
-MONITOR_COLOR_FRAME:             ds 1       ; Frame actual
+MONITOR_COLOR_CURRENT_ITEM:     ds  1       ; Item seleccionado del test
+MONITOR_COLOR_CURRENT_COLOR:    ds  1       ; Color actual del ciclo de colores
+MONITOR_COLOR_DELAY:            ds  1       ; Numero de frames de espera
+MONITOR_COLOR_FRAME:            ds  1       ; Frame actual
 
 
 

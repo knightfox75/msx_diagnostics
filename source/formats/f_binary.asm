@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.0
+;   Version 1.1.1-WIP02
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para BINARIO de 32kb
 ;
@@ -31,7 +31,7 @@ OUTPUT_FORMAT = 1							; Define el formato de salida
 ; Almacena las variables los ultimos 4KB
 .ORG $E380
 .INCLUDE "ngn/ngn_vars.asm"         ; 2284 bytes
-.INCLUDE "prog/vars.asm"            ; 96 bytes
+.INCLUDE "prog/vars.asm"            ; 110 bytes
 
 
 ; ----------------------------------------------------------

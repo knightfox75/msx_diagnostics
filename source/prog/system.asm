@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP01
+;	Version 1.1.1-WIP02
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -210,16 +210,20 @@ FUNCTION_SYSTEM_GET_VDP_TYPE:
 
 	; Verifica si la VDP es un TMS9918A/28A/29A
 
-	ld a, [$0006]		; Puerto de lectura
+	xor a
+	ld [$F3F6], a			; [SCNCNT] Fuerza saltarse la lectura del teclado
+	ld [$FCA2], a			; [INTCNT] Fuerza saltarse la lectura de ON INTERVAL
+
+	ld a, [$0006]			; Puerto de lectura
 	inc a
 	ld c, a	
-	in a, [c]			; Lee el valor del Registro S0 del VDP
+	in a, [c]				; Lee el valor del Registro S0 del VDP
 	
 	di								; Deshabilita las interrupciones
 	@@WAIT_INTERRUPT:
 		in a, [c]					; Lee el valor del Registro S0 del VDP
-		and $80 					; Bitmask para el flag F (Vsync)
-		jp z, @@WAIT_INTERRUPT
+		and a 						; Bitmask para el flag F (Vsync)
+		jp p, @@WAIT_INTERRUPT		; Si no hay flag de Vsync, repite
 
 	ld a, [$0007]		; Puerto de escritura
 	inc a
@@ -306,27 +310,45 @@ FUNCTION_SYSTEM_GET_VDP_TYPE:
 	ld a, $8F      		; Selecciona el registro R15 en la VDP (1000 1111)
 	out [c], a			; Aplica la seleccion de S1 como registro de estado
 
-	; Habilita de nuevo las interrupciones y espera a la siguiente
-	ei
-	halt
-
-	ld de, $0000
-
-	ld a, [$0006]		; Puerto de lectura
+	; Espera a la interrupcion de la VDP, antes de calcular los HZ
+	ld a, [$0006]				; Puerto de lectura
 	inc a
 	ld c, a	
-	in a, [c]			; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
-	di					; Deshabilita las interrupciones
+	in a, [c]					; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
+	di							; Deshabilita las interrupciones
+	@@WAIT_VDP_INT:
+		inc hl					; Conteo de ciclos
+		in a, [c]				; Lee el valor del Registro S0 del VDP
+		and a 					; Bitmask para el flag F (Vsync)
+		jp p, @@WAIT_VDP_INT	; Si no hay flag de Vsync, repite
+
+
+	; Rutina de conteo de ciclos para el calculo de los HZ
+	ld hl, $0000			; Contador a 0
+
+	xor a
+	ld [$F3F6], a			; [SCNCNT] Fuerza saltarse la lectura del teclado
+	ld [$FCA2], a			; [INTCNT] Fuerza saltarse la lectura de ON INTERVAL
+
+	ld a, [$0006]			; Puerto de lectura
+	inc a
+	ld c, a	
+	in a, [c]				; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
+	di						; Deshabilita las interrupciones
 	@@WAIT_VBL:
-		inc de				; Conteo de ciclos
+		inc hl				; Conteo de ciclos
 		in a, [c]			; Lee el valor del Registro S0 del VDP
-		and $80 			; Bitmask para el flag F (Vsync)
-		jp z, @@WAIT_VBL	; Si no hay flag de Vsync, repite
-	ei		; Habilita las interrupciones
+		and a 				; Bitmask para el flag F (Vsync)
+		jp p, @@WAIT_VBL	; Si no hay flag de Vsync, repite
+	ei						; Habilita las interrupciones
+
+	; Guarda el resultado del contador
+	ld d, h
+	ld e, l
 
 	; Son 60hz?
-	ld hl, $0668		; Numero de ciclos superior a 60hz, pero inferior a 50hz
-	sbc hl, de			; (en medio de los dos, 1640 ciclos del bucle)
+	ld hl, $06EE		; Numero de ciclos superior a 60hz, pero inferior a 50hz
+	sbc hl, de			; (en medio de los dos, 1774 ciclos del bucle)
 	jr c, @@HZ50
 	ld a, 1
 	ld [VDP_HZ], a		; 60hz

@@ -243,6 +243,10 @@ NGN_SCREEN_WAIT_VBL:
 	push af					; Copia de los registros afectados
 	push bc
 
+	xor a
+	ld [$F3F6], a			; [SCNCNT] Fuerza saltarse la lectura del teclado
+	ld [$FCA2], a			; [INTCNT] Fuerza saltarse la lectura de ON INTERVAL
+
 	ld a, [$0006]			; Puerto de lectura
 	inc a
 	ld c, a	
@@ -252,8 +256,8 @@ NGN_SCREEN_WAIT_VBL:
 
 	@@WAIT_VBL:
 		in a, [c]			; Lee el valor del Registro S0 del VDP
-		and $80 			; Bitmask para el flag F (Vsync)
-		jp z, @@WAIT_VBL	; Si no hay flag de Vsync, repite
+		and a 				; Bitmask para el flag F (Vsync)
+		jp p, @@WAIT_VBL	; Si no hay flag de Vsync, repite
 
 	ei						; Habilita las interrupciones
 

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP01
+;	Version 1.1.1-WIP02
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -26,7 +26,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.1-WIP01", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.1-WIP02", $0D, $0A, $00
 
 
 
@@ -334,7 +334,7 @@ TEXT_SYSTEM_INFO_TITLE:
 
 TEXT_SYSTEM_INFO_MSX_MODEL:
 
-	db	$0D, $0A, $0D, $0A, " MODEL:    ", $00
+	db	"MODEL: ", $00
 
 TEXT_SYSTEM_INFO_MSX1:
 
@@ -354,45 +354,23 @@ TEXT_SYSTEM_INFO_MSXTR:
 
 TEXT_SYSTEM_INFO_UNKNOW:
 
-	db	"UNKNOW", $00
-
-
-
-TEXT_SYSTEM_INFO_N_16:
-
-	db "16", $00
-
-TEXT_SYSTEM_INFO_N_32:
-
-	db "32", $00
-
-TEXT_SYSTEM_INFO_N_64:
-
-	db "64", $00
-
-TEXT_SYSTEM_INFO_N_128:
-
-	db "128", $00
-
-TEXT_SYSTEM_INFO_N_256:
-
-	db "256", $00
-
-TEXT_SYSTEM_INFO_N_512:
-
-	db "512", $00
+	db	"???", $00
 
 TEXT_SYSTEM_INFO_KB:
 
-	db "KB", $00
+	db	"KB", $00
+
+TEXT_SYSTEM_INFO_RAM:
+
+	db	"RAM: ", $00
 
 TEXT_SYSTEM_INFO_VRAM:
 
-	db	$0D, $0A, $0D, $0A, " VRAM:     ", $00
+	db	"VRAM: ", $00
 
 TEXT_SYSTEM_INFO_VDP:
 
-	db	$0D, $0A, $0D, $0A, " VDP:      ", $00
+	db	"VDP: ", $00
 
 TEXT_SYSTEM_INFO_TMS9918A:
 
@@ -410,23 +388,17 @@ TEXT_SYSTEM_INFO_V9958:
 
 	db	"V9958", $00
 
-TEXT_SYSTEM_INFO_50HZ:
+TEXT_SYSTEM_INFO_VDPFREQ:
 
-	db " - 50HZ", $00
+	db	"FREQ: ", $00
 
-TEXT_SYSTEM_INFO_60HZ:
+TEXT_SYSTEM_INFO_HZ:
 
-	db " - 60HZ", $00
-
-TEXT_SYSTEM_INFO_RAM:
-
-	db	$0D, $0A, $0D, $0A, " RAM:      ", $00
-
-
+	db	"HZ", $00
 
 TEXT_SYSTEM_INFO_KEYBOARD:
 
-	db	$0D, $0A, $0D, $0A, " KEYBOARD: ", $00
+	db	"KEYBOARD: ", $00
 
 TEXT_SYSTEM_INFO_KB_JAPAN:
 
@@ -456,12 +428,18 @@ TEXT_SYSTEM_INFO_KB_SPAIN:
 
 	db	"SP", $00
 
+
+TEXT_SYSTEM_INFO_DASH:
+
+	db	" - ", $00
+
+
 TEXT_SYSTEM_INFO_EXIT:
 
-	db	$0D, $0A, $0D, $0A, $0D, $0A, $0D, $0A
-	db	"    THIS OPTION STILL IN", $0D, $0A
-	db	"    WORK IN PROGRESS STATUS."
-	db	$0D, $0A, $0D, $0A, $0D, $0A, $0D, $0A, $0D, $0A
+	db	$0D, $0A
+	db	" THIS OPTION STILL IN", $0D, $0A
+	db	" WORK IN PROGRESS STATUS.", $0D, $0A
+	db	$0D, $0A
 	db	" PRESS ACCEPT OR CANCEL TO EXIT."
 	db	$00
 
