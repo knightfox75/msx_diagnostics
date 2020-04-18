@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Informacion del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -361,13 +361,184 @@ FUNCTION_SYSTEM_INFO:
 		and $02								; Detecta "KEY DOWN"
 		ret nz								; Vuelve al menu principal
 
+		; Lectura del RTC
+		call @@RTC_READ
+		
+
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jr @@LOOP
 
 
+
+	; ----------------------------------------------------------
+	; 		Lectura del RTC
+	;
+	;			Block 0       Block 1       Block 2       Block 3
+	;	Index  (BCD Timer)   (BCD Alarm)   (Screen)      (Ascii)
+	;	-----  ------------  ------------  ------------  ------------
+	;	0      Seconds, low  ---           Scratch       Type
+	;	1      Seconds, hi   ---           X-Adjust      Char 1, low
+	;	2      Minutes, low  Minutes, low  Y-Adjust      Char 1, hi
+	;	3      Minutes, hi   Minutes, hi   Screen        Char 2, low
+	;	4      Hours, low    Hours, low    Width, low    Char 2, hi
+	;	5      Hours, hi     Hours, hi     Width, hi     Char 3, low
+	;	6      Day of Week   Day of Week   Color, Text   Char 3, hi
+	;	7      Day, low      Day, low      Color, BG     Char 4, low
+	;	8      Day, hi       Day, hi       Color, Border Char 4, hi
+	;	9      Month, low    ---           Cas/Prn/Key   Char 5, low
+	;	A      Month, hi     12/24 hours   Beep Frq/Vol  Char 5, hi
+	;	B      Year, low     Leap Year     Color, Title  Char 6, low
+	;	C      Year, hi      ---           Native Code?  Char 6, hi
+	;	D  Mode Register  (Read/Write)
+	;	E  Test Register  (Write Only)
+	;	F  Reset Register (Write Only)
+	; ----------------------------------------------------------
+
+	@@RTC_READ:
+
+		; Posiciona el texto (Fecha)
+		ld hl, $0212
+		call NGN_TEXT_POSITION
+		ld hl, TEXT_SYSTEM_INFO_RTC_DATE
+		call NGN_TEXT_PRINT
+		; Mes
+		ld hl, $090A
+		call @@RTC_PRINT_DATA
+		; Separador
+		ld a, $2F
+		call $00A2					; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
+		; Dia
+		ld hl, $0708
+		call @@RTC_PRINT_DATA
+		; Separador
+		ld a, $2F
+		call $00A2					; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
+		; Año
+		ld hl, $0B0C
+		call @@RTC_PRINT_DATA
+
+		; Posiciona el texto (Hora)
+		ld hl, $1612
+		call NGN_TEXT_POSITION
+		ld hl, TEXT_SYSTEM_INFO_RTC_TIME
+		call NGN_TEXT_PRINT
+		; Horas
+		ld hl, $0405
+		call @@RTC_PRINT_DATA
+		; Separador
+		ld a, $3A
+		call $00A2					; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
+		; Minutos
+		ld hl, $0203
+		call @@RTC_PRINT_DATA
+		; Separador
+		ld a, $3A
+		call $00A2					; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
+		; Segundos
+		ld hl, $0001
+		call @@RTC_PRINT_DATA
+
+		; Sal de la rutina de actualizacion del RTC
+		ret
+
+
+	@@RTC_PRINT_DATA:				; Solo MSX2 y posteriores
+		ld a, [$002D]				; Direccion del BIOS con el modelo
+		or a						; Si la ID de modelo es superior a 0
+		jp nz, @@RTC_MSX2			; Lee la informacion REAL del RTC
+		ld bc, $0000				; Si marcala como desconocida
+		ld d, $FF					; para mostrar ??
+		call NGN_TEXT_PRINT_BCD		; Imprime el numero en formato BCD
+		ret							; y vuelve al terminar
+		@@RTC_MSX2:
+		ld c, h						; Selecciona la lectura de las unidades
+		call @@RTC_GET_DATA
+		and $0F						; Ultimos 4 bits
+		ld d, a						; Guarda las unidades en D
+		ld c, l						; Selecciona la lectura de las decenas
+		call @@RTC_GET_DATA
+		and $0F						; Ultimos 4 bits
+		ld e, a						; Guarda la decenas en E
+		call @@RTC_SET_TENS			; Calcula las decenas (0 extra?)
+		ld a, d						; Coloca las unidades en el digito D del BCD
+		or e						; Coloca las decenas en el digito D del BCD
+		ld d, a						; Manda el digito empaquetado a D
+		ld a, h						; Es el año? Si es asi, calcula el valor correcto
+		cp $0B
+		call z, @@RTC_CALCULATE_YEAR	; Salta a la rutina de compensacion de año
+		call NGN_TEXT_PRINT_BCD			; Imprime el numero en formato BCD
+		ret								; Vuelve al terminar
+
+
+	@@RTC_SET_TENS:
+		ld bc, $0000				; De los 5 digitos del BCD, los tres primeros son 0 sin signo
+		sla e						; Coloca las decenas en la parte alta (<< 4)
+		sla e
+		sla e
+		sla e
+		xor a						; Analiza las decenas (E)
+		or e						; Si es 0, fuerza que se muestre
+		call z, @@LEFT_ZERO
+		xor a						; Analiza las unidades (D)
+		or d						; Si las unidades y las decenas son 0, muestra los 2 ceros
+		or e					
+		call z, @@LEFT_ZERO
+		ret							; Vuelve
+
+	@@LEFT_ZERO:
+		ld a, b
+		add a, $10 
+		ld b, a
+		ret							; Vuelve
+
+
+	@@RTC_GET_DATA:
+		push bc				; Salva los registros
+		push de
+		push hl
+		ld ix, $01F5		; Apunta a la rutina de lectura del RTC [REDCLK]
+		call $015F			; Realiza una Inter Slot Call [EXTROM]
+		pop hl				; Recupera los registros
+		pop de
+		pop bc
+		ret					; vuelve
+
+	@@RTC_CALCULATE_YEAR:
+
+		; Año base (1980) en RAM_BUFFER 
+		ld hl, NGN_RAM_BUFFER
+		ld [hl], $80		; D
+		inc hl
+		ld [hl], $19		; C
+		inc hl
+		ld [hl], $00		; B
+
+		; Suma de el año del RTC en RAM_BUFFER + 3
+		ld hl, NGN_RAM_BUFFER + 3
+		ld [hl], d			; D
+		inc hl
+		ld [hl], $00		; C
+		inc hl
+		ld [hl], $00		; B
+
+		; Realiza la suma BCD
+		ld de, NGN_RAM_BUFFER			; Numero base
+		ld hl, NGN_RAM_BUFFER + 3		; Sumando
+		call FUNCTION_BCD_ADD			; Funcion de suma
+
+		; Actualiza los datos en BCD
+		ld hl, NGN_RAM_BUFFER
+		ld d, [hl]
+		inc hl
+		ld c, [hl]
+		inc hl
+		ld b, [hl]
+
+		; Vuelve a la rutina de impresion
+		ret
 
 
 

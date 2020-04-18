@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -26,7 +26,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.1-WIP02", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.1-WIP03", $0D, $0A, $00
 
 
 
@@ -432,6 +432,14 @@ TEXT_SYSTEM_INFO_KB_SPAIN:
 TEXT_SYSTEM_INFO_DASH:
 
 	db	" - ", $00
+
+TEXT_SYSTEM_INFO_RTC_DATE:
+
+	db	"DATE: ", $00
+
+TEXT_SYSTEM_INFO_RTC_TIME:
+
+	db	"TIME: ", $00
 
 
 TEXT_SYSTEM_INFO_EXIT:

@@ -2,6 +2,15 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+
+2020-04-18 Ver. 1.1.1-wip03
+--------------------------------------------------------------------------------
+- Ahora se pueden usar las telcas derecha e izquierda para cambiar de página
+  en el menú de opciones.
+- La pantalla de información del sistema ahora muestra la fecha y hora
+  del RTC en sistemas MSX2 y superiores.
+
+
 2020-04-17 Ver. 1.1.1-wip02
 --------------------------------------------------------------------------------
 - Los datos numéricos de la pantalla de información se imprimien usando la

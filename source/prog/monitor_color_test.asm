@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Test de color del monitor
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -55,7 +55,7 @@ FUNCTION_MONITOR_COLOR_TEST_MENU:
 		ret nz								                ; Vuelve al menu principal
 
 		; Espera a la interrupcion del VDP (VSYNC)
-        call NGN_SCREEN_WAIT_VBL
+        halt
 
 		; Repite el bucle
 		jr @@LOOP
@@ -133,7 +133,7 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
 		jr nz, @@EXIT			; Sal del bucle
 
 		; Espera a la interrupcion del VDP (VSYNC)
-        call NGN_SCREEN_WAIT_VBL
+        halt
 
 		; Repite el bucle
 		jr @@LOOP

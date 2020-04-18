@@ -24,6 +24,10 @@
 
 NGN_SCREEN_SET_MODE_0:
 
+	; Guarda el modo de pantalla
+	xor a
+	ld [NGN_SCREEN_MODE], a
+
 	; Guarda los parametros de la funcion
 	push bc
 	push de
@@ -71,6 +75,10 @@ NGN_SCREEN_SET_MODE_0:
 ; ----------------------------------------------------------
 
 NGN_SCREEN_SET_MODE_1:
+
+	; Guarda el modo de pantalla
+	ld a, 1
+	ld [NGN_SCREEN_MODE], a
 
 	; Guarda los parametros de la funcion
 	push bc
@@ -120,6 +128,10 @@ NGN_SCREEN_SET_MODE_1:
 
 NGN_SCREEN_SET_MODE_2:
 
+	; Guarda el modo de pantalla
+	ld a, 2
+	ld [NGN_SCREEN_MODE], a
+
 	; Guarda los parametros de la funcion
 	push bc
 	push de
@@ -164,6 +176,10 @@ NGN_SCREEN_SET_MODE_2:
 ; ----------------------------------------------------------
 
 NGN_SCREEN_SET_MODE_3:
+
+	; Guarda el modo de pantalla
+	ld a, 3
+	ld [NGN_SCREEN_MODE], a
 
 	; Guarda los parametros de la funcion
 	push bc
@@ -227,44 +243,6 @@ NGN_SCREEN_KEYS_OFF:
 	jp $00CC
 
 	; El RET lo aplica la propia rutina de BIOS
-
-
-
-
-
-; ----------------------------------------------------------
-; NGN_SCREEN_WAIT_VBL
-; Oculta las teclas de funcion en pantalla
-; Modifica A y C, pero los restaura automaticamente
-; ----------------------------------------------------------
-
-NGN_SCREEN_WAIT_VBL:
-
-	push af					; Copia de los registros afectados
-	push bc
-
-	xor a
-	ld [$F3F6], a			; [SCNCNT] Fuerza saltarse la lectura del teclado
-	ld [$FCA2], a			; [INTCNT] Fuerza saltarse la lectura de ON INTERVAL
-
-	ld a, [$0006]			; Puerto de lectura
-	inc a
-	ld c, a	
-	in a, [c]				; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
-
-	di						; Deshabilita las interrupciones
-
-	@@WAIT_VBL:
-		in a, [c]			; Lee el valor del Registro S0 del VDP
-		and a 				; Bitmask para el flag F (Vsync)
-		jp p, @@WAIT_VBL	; Si no hay flag de Vsync, repite
-
-	ei						; Habilita las interrupciones
-
-	pop bc
-	pop af
-	
-	ret						; Vuelve
 
 
 

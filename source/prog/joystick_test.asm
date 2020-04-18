@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Test de los Joysticks
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -54,7 +54,7 @@ FUNCTION_JOYSTICK_TEST_MENU:
 		ret nz					; Vuelve al menu principal si se pulsa
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jr @@LOOP
@@ -91,66 +91,66 @@ FUNCTION_JOYSTICK_TEST_RUN:
 
 	; Joy 1
 	; Crea el sprite P1 UP [0]
-	xor a				; Slot del sprite [A]
-	ld de, $403F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0001			; Slot grafico [B] / Color de la paleta [C]
+	xor a						; Slot del sprite [A]
+	ld de, $403F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0001				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P1 RIGHT [1]
-	ld a, 1				; Slot del sprite [A]
-	ld de, $5857			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0101			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 1						; Slot del sprite [A]
+	ld de, $5857				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0101				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P1 DOWN [2]
-	ld a, 2				; Slot del sprite [A]
-	ld de, $406F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0201			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 2						; Slot del sprite [A]
+	ld de, $406F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0201				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P1 LEFT [3]
-	ld a, 3				; Slot del sprite [A]
-	ld de, $2857			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0301			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 3						; Slot del sprite [A]
+	ld de, $2857				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0301				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P1 TG1 [4]
-	ld a, 4				; Slot del sprite [A]
-	ld de, $308F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0401			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 4						; Slot del sprite [A]
+	ld de, $308F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0401				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P1 TG2 [5]
-	ld a, 5				; Slot del sprite [A]
-	ld de, $508F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0401			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 5						; Slot del sprite [A]
+	ld de, $508F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0401				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 
 	; Joy 2
 	; Crea el sprite P2 UP [6]
-	ld a, 6				; Slot del sprite [A]
-	ld de, $B03F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0001			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 6						; Slot del sprite [A]
+	ld de, $B03F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0001				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P2 RIGHT [7]
-	ld a, 7				; Slot del sprite [A]
-	ld de, $C857			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0101			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 7						; Slot del sprite [A]
+	ld de, $C857				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0101				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P2 DOWN [8]
-	ld a, 8				; Slot del sprite [A]
-	ld de, $B06F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0201			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 8						; Slot del sprite [A]
+	ld de, $B06F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0201				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P2 LEFT [9]
-	ld a, 9				; Slot del sprite [A]
-	ld de, $9857			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0301			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 9						; Slot del sprite [A]
+	ld de, $9857				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0301				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P2 TG1 [10]
-	ld a, 10			; Slot del sprite [A]
-	ld de, $A08F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0401			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 10					; Slot del sprite [A]
+	ld de, $A08F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0401				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 	; Crea el sprite P2 TG2 [11]
-	ld a, 11				; Slot del sprite [A]
-	ld de, $C08F			; Posicion del sprite [D = Pos X] [E = Pos Y]
-	ld bc, $0401			; Slot grafico [B] / Color de la paleta [C]
+	ld a, 11					; Slot del sprite [A]
+	ld de, $C08F				; Posicion del sprite [D = Pos X] [E = Pos Y]
+	ld bc, $0401				; Slot grafico [B] / Color de la paleta [C]
 	call NGN_SPRITE_CREATE		; Genera el sprite
 
 	; Actualiza los atributos de los sprites
@@ -311,7 +311,7 @@ FUNCTION_JOYSTICK_TEST_RUN:
 		call NGN_SPRITE_UPDATE
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jp @@LOOP

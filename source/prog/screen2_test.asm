@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Test SCREEN 2
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -56,7 +56,7 @@ FUNCTION_SCREEN2_TEST_MENU:
 		ret nz					; Vuelve al menu principal si se pulsa
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jr @@LOOP
@@ -183,7 +183,7 @@ FUNCTION_SCREEN2_TEST_RUN:
 		ret nz			; Vuelve al menu principal si se pulsa
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jp @@LOOP

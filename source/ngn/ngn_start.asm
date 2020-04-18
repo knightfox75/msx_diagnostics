@@ -20,11 +20,8 @@
 
 NGN_START:
 
-	; Habilita las interrupciones
-	ei
-
-	; Espera al menos una interrupcion
-	halt
+	; Habilita el parche de las interrupciones
+	call NGN_SYSTEM_FD9A_PATCH_ON
 
 	; Inicializa las variables
 	call @@INIT_VARIABLES
@@ -79,6 +76,10 @@ NGN_START:
 	; Random Seed
 	ld a, 13
 	ld [NGN_RANDOM_SEED], a
+
+	; Modo de pantalla por defecto
+	xor a
+	ld [NGN_SCREEN_MODE], a
 	
 
 	; Vuelve

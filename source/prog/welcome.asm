@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Archivo principal
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -52,7 +52,7 @@ FUNCTION_WELCOME:
 		jr z, @@EXIT			; Si el tiempo llega a 0, sal del bucle
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jr @@LOOP

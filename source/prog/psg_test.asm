@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Test PSG
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -56,7 +56,7 @@ FUNCTION_PSG_TEST_MENU:
 		ret nz							; Vuelve al menu principal
 
 		; Espera a la interrupcion del VDP (VSYNC)
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jr @@LOOP
@@ -249,7 +249,7 @@ FUNCTION_PSG_TEST_RUN:
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		@@LOOP_END:
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jp @@LOOP

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.1-WIP02
+;   Version 1.1.1-WIP03
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -114,7 +114,7 @@ PSG_TEST_FREQ:                  ds  1       ; Frecuencia actual
 
 ; ----------------------------------------------------------
 ; Informacion del sistema
-; Total: 10 bytes
+; Total: 12 bytes
 ; ----------------------------------------------------------
 
 ; Textos a mostrar

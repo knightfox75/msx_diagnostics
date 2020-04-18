@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -22,12 +22,23 @@ FUNCTION_MAIN_MENU_P2:
 	ld [MAINMENU_ITEM_SELECTED], a
 	ld [MAINMENU_ITEM_OLD], a
 
-	; Pon la VDP en MODO SCR0
-	ld bc, $0F04			; Color de frente/fondo
-	ld de, $0128			; Color de borde/ancho en columnas (40)
+	; Pon la VDP en MODO SCR0 si es necesario
+	ld a, [NGN_SCREEN_MODE]			; Lee el modo de pantalla actual
+	or a
+	jr z, @@CLS_SCREEN
+	ld bc, $0F04					; Color de frente/fondo
+	ld de, $0128					; Color de borde/ancho en columnas (40)
 	call NGN_SCREEN_SET_MODE_0
+	jr @@DRAW_SCREEN
+
+	; Borra la pantalla y pon el color adecuado
+	@@CLS_SCREEN:
+	call NGN_TEXT_CLS
+	ld bc, $0F04
+	call NGN_TEXT_COLOR
 
 	; Ejecuta la rutina [DISSCR] para deshabilitar la pantalla
+	@@DRAW_SCREEN:
 	call $0041
 
 	; Texto del menu
@@ -105,6 +116,11 @@ FUNCTION_MAIN_MENU_P2:
 
 		; Si se pulsa la tecla 0
 		ld a, [NGN_KEY_0]						; Tecla 0
+		and $02									; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1	; Ejecuta la opcion
+
+		; Si se pulsa la tecla <=
+		ld a, [SYSKEY_LEFT]						; Tecla <=
 		and $02									; Detecta "KEY DOWN"
 		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1	; Ejecuta la opcion
 
@@ -198,7 +214,7 @@ FUNCTION_MAIN_MENU_P2:
 
 		; Espera a la interrupcion del VDP (VSYNC)
 		@@MM_END:
-		call NGN_SCREEN_WAIT_VBL
+		halt
 
 		; Repite el bucle
 		jp @@LOOP

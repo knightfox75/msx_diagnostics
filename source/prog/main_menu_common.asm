@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Menu Principal (Funciones comunes)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"

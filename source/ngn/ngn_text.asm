@@ -43,11 +43,12 @@ NGN_TEXT_PRINT:
 ;
 ; 	B				C				D
 ;	0000	0000	0000	0000	0000	0000
-;	| ||	0-9		0-9		0-9		0-9		0-9
-;	| ||
-;	| | ----	SIGNO +
-;	| ------	SIGNO -	
-;	--------	Ceros a la izquierda 1 = SI, 0 = NO
+;	||||	0-9		0-9		0-9		0-9		0-9
+;	||||
+;	|||| ----
+;	|| ------|-->	Numero de ceros a mostrar (0 - 5)	
+;	| -------
+;	------------>	Muestra el signo (-)
 ;
 ;
 ; Modifica A, BC, DE, HL
@@ -55,31 +56,22 @@ NGN_TEXT_PRINT:
 
 NGN_TEXT_PRINT_BCD:
 
-	; Signo	+						High	B
-	ld a, b
-	and $10
-	jr z, @@MINUS
-	ld a, $2B
-	push bc
-	push de
-	call $00A2			; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
-	pop de
-	pop bc
-	jr @@DIGITS
-
-	; Signo	-						High	B
-	@@MINUS:
-	ld a, b
-	and $20
+	; Signo	-				High	B
+	bit 7, b
 	jr z, @@DIGITS
 	ld a, $2D
-	push bc
-	push de
-	call $00A2			; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
-	pop de
-	pop bc
+	call @@PRINT_DIGIT		; Imprimelo
 
 	@@DIGITS:
+	; Guarda el numero de ceros a imprimir
+	ld a, b
+	srl a						; Manda los bits a la parte baja >> 4
+	srl a
+	srl a
+	srl a
+	and 7						; Mascara de los 3 primeros bits
+	ld [NGN_RAM_BUFFER], a		; Usa el primer bit del RAM_BUFFER para almacenar el valor
+	
 	; Decenas de millar		x____	Low		B
 	ld e, b
 	call @@LO_HALF
@@ -99,42 +91,54 @@ NGN_TEXT_PRINT_BCD:
 	; Termina la rutina
 	ret
 
+
 	; Subrutina de impresion de los digitos
 
 	@@HI_HALF:
-		srl	e				; Desplaza 4 bits a la derecha
+		srl	e					; Desplaza 4 bits a la derecha
 		srl e
 		srl e
 		srl e
+
 	@@LO_HALF:
-		ld a, b				; Has de imprimir el caracter si es 0?
-		srl a
-		srl a
-		srl a
-		srl a
-		and $08
-		or e
-		and $0F
-		ret z				; Si el caracter es 0 y no has de imprimirlo, sal
+		ld a, [NGN_RAM_BUFFER]	; Recupera el numero de 0 pendientes
+		or e					; OR logico del numero de ceros con el valor a imprimir
+		and $0F					; Analiza solo los 4 bits bajos
+		jr nz, @@DO_PRINT		; Si no es cero, o es cero y hay que imprimirlo...
+		ret						; Vuelve si es cero y no hay que imprimirlo
 
 		; Imprime el caracter en E
+		@@DO_PRINT:
 		ld a, e
 		and $0F				; Bitmask de los bits menos significativos
 		ld e, a				; Respalda el valor filtrado
 		add a, $30			; Desplazamiento en la tabla ASCII hasta el 0
+		call @@PRINT_DIGIT	; Imprimelo
+
+		; Si es diferente de 0, marca que a partir de ahora se impriman los 0 que se encuentrenten
+		ld a, e						; El ultimo valor mostrado
+		or a						; era un 0?
+		jr z, @@LAST_ZERO			; Descuenta uno al contador de zeros restantes
+		ld a, 7						; Si no, muestra todos los 0 a partir de ahora
+		ld [NGN_RAM_BUFFER], a		; Guardalo
+		ret							; Vuelve
+
+		; Resta un cero al contador
+		@@LAST_ZERO:
+		ld a, [NGN_RAM_BUFFER]
+		dec a
+		ld [NGN_RAM_BUFFER], a
+		ret
+
+		; Imprime el digito usando la rutina de la BIOS, preservando los registros
+		@@PRINT_DIGIT:
 		push bc
 		push de
 		call $00A2			; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
 		pop de
 		pop bc
-		; Si es diferente de 0, marca que a partir de ahora se impriman siempre los 0
-		ld a, e
-		or a
-		ret z
-		ld a, b				; Marca el bit mas alto
-		or $80
-		ld b, a
 		ret
+
 
 
 

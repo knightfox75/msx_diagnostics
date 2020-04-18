@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP02
+;	Version 1.1.1-WIP03
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -78,7 +78,7 @@ FUNCTION_SYSTEM_RESET_KEYBOARD_MATRIX:
 ;	+---+---+---+---+---------------+
 ;   Keyboard Type: 0000 (0) = Japan;
 ;                  0001 (1) = International;
-;                  0010 (2) = France;
+;                  0010 (2) = France (AZERTY);
 ;                  0011 (3) = United Kingdom;
 ;                  0100 (4) = Germany;
 ;                  0101 (5) = USSR;
@@ -311,17 +311,8 @@ FUNCTION_SYSTEM_GET_VDP_TYPE:
 	out [c], a			; Aplica la seleccion de S1 como registro de estado
 
 	; Espera a la interrupcion de la VDP, antes de calcular los HZ
-	ld a, [$0006]				; Puerto de lectura
-	inc a
-	ld c, a	
-	in a, [c]					; Lee el valor del Registro S0 del VDP (resetea la interrupcion)
-	di							; Deshabilita las interrupciones
-	@@WAIT_VDP_INT:
-		inc hl					; Conteo de ciclos
-		in a, [c]				; Lee el valor del Registro S0 del VDP
-		and a 					; Bitmask para el flag F (Vsync)
-		jp p, @@WAIT_VDP_INT	; Si no hay flag de Vsync, repite
-
+	ei
+	halt
 
 	; Rutina de conteo de ciclos para el calculo de los HZ
 	ld hl, $0000			; Contador a 0
@@ -360,6 +351,36 @@ FUNCTION_SYSTEM_GET_VDP_TYPE:
 
 	@@EXIT:
 	ret
+
+
+
+; ----------------------------------------------------------
+; Suma BCD
+; DE = Direccion de memoria con el numero base
+; y almacena el resultado
+; HL = Direccion de memoria con el sumando
+; Numeros en formato BCD de 3 bytes
+; Modifica AF, BC, DE, HL
+; Info: https://www.chibiakumas.com/z80/advanced.php
+; ----------------------------------------------------------
+
+FUNCTION_BCD_ADD:
+
+	ld b, 3		; Suma BCD de 3 bytes
+	or a		; Resetea el flag
+
+	@@BCD_ADD_LOOP:
+		ld a, [de]		; Carga en a el valor del byte del sumando
+		adc [hl]		; Sumale el valor del byte valor base
+		daa				; Corrige el formato a BCD
+		ld [de], a		; Guarda el valor actualizado
+		inc de			; Siguiente byte en ambos operadores
+		inc hl
+		djnz @@BCD_ADD_LOOP
+
+	ret			; Conversion Finalizada
+
+
 
 
 
