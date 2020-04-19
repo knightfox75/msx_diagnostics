@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP03
+;	Version 1.1.4
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -18,6 +18,9 @@
 ; ----------------------------------------------------------
 
 FUNCTION_SYSTEM_START:
+
+	; Post	(3 pitidos con parpadeo del led CAPS)
+	call FUNCTION_SYSTEM_POST
 
 	; Identifica al VDP instalada
 	call FUNCTION_SYSTEM_GET_VDP_TYPE
@@ -37,6 +40,41 @@ FUNCTION_SYSTEM_START:
 
 	; Fin de la funcion
 	ret
+
+
+
+; ----------------------------------------------------------
+; Post del programa
+; ----------------------------------------------------------
+FUNCTION_SYSTEM_POST:
+
+	ld b, 3					; Numero de pitidos/parpadeos
+	ld d, 12				; Intervalo inicial
+	@@POST_COUNT:
+		push bc
+		push de
+		xor a
+		call $0132			; Enciende el led CAPS con la rutina de BIOS [CHGCAP]
+		call $00C0			; Emite un pitido con la rutina de BIOS [BEEP]
+		pop de
+		ld b, d
+		@@WAIT_ON_LOOP:
+			halt
+			djnz @@WAIT_ON_LOOP
+		ld a, $FF
+		push de
+		call $0132			; Apaga el led CAPS con la rutina de BIOS [CHGCAP]
+		pop de
+		ld b, d
+		@@WAIT_OFF_LOOP:
+			halt
+			djnz @@WAIT_OFF_LOOP
+		srl d				; Divide el intervalo entre 2
+		pop bc
+		djnz @@POST_COUNT
+
+	ret		; Sal de la funcion
+
 
 
 
@@ -201,8 +239,8 @@ FUNCTION_SYSTEM_HID_READ:	; (Human Interface Devices)
 ;
 ; Y la frecuencia de refresco		[VDP_HZ]
 ;
-;	0 - 50hz
-;	1 - 60hz
+;	1 - 50hz
+;	0 - 60hz
 ;
 ; ----------------------------------------------------------
 
@@ -341,12 +379,12 @@ FUNCTION_SYSTEM_GET_VDP_TYPE:
 	ld hl, $06EE		; Numero de ciclos superior a 60hz, pero inferior a 50hz
 	sbc hl, de			; (en medio de los dos, 1774 ciclos del bucle)
 	jr c, @@HZ50
-	ld a, 1
+	xor a
 	ld [VDP_HZ], a		; 60hz
 	jr @@EXIT
 
 	@@HZ50:
-	xor a
+	ld a, 1
 	ld [VDP_HZ], a		; 50hz
 
 	@@EXIT:
@@ -355,30 +393,18 @@ FUNCTION_SYSTEM_GET_VDP_TYPE:
 
 
 ; ----------------------------------------------------------
-; Suma BCD
-; DE = Direccion de memoria con el numero base
-; y almacena el resultado
-; HL = Direccion de memoria con el sumando
-; Numeros en formato BCD de 3 bytes
-; Modifica AF, BC, DE, HL
-; Info: https://www.chibiakumas.com/z80/advanced.php
+; Tabla de caracteres personalizados en SCREEN 0
+; La tabla de caracteres (patterns) empieza en $0800 (2048)
 ; ----------------------------------------------------------
 
-FUNCTION_BCD_ADD:
+FUNCTION_SYSTEM_SCREEN0_CHARSET:
 
-	ld b, 3		; Suma BCD de 3 bytes
-	or a		; Resetea el flag
-
-	@@BCD_ADD_LOOP:
-		ld a, [de]		; Carga en a el valor del byte del sumando
-		adc [hl]		; Sumale el valor del byte valor base
-		daa				; Corrige el formato a BCD
-		ld [de], a		; Guarda el valor actualizado
-		inc de			; Siguiente byte en ambos operadores
-		inc hl
-		djnz @@BCD_ADD_LOOP
-
-	ret			; Conversion Finalizada
+	; Carga la tabla de 16 caracteres ($C0 a CF) Offset en $600
+	ld de, $0E00					; Direccion de destino ($0800 + $0600)
+	ld hl, CUSTOM_CHARACTERS_SET
+	ld bc, $0080					; Bytes a copiar (8 * 16)
+	call $005C						; Ejecuta la rutina [LDIRVM]
+	ret								; Fin de la rutina
 
 
 

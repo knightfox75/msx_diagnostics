@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP03
+;	Version 1.1.4
 ;	ASM Z80 MSX
 ;	Test PSG
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -25,6 +25,8 @@ FUNCTION_PSG_TEST_MENU:
 
 	; Texto del menu
 	call FUNCTION_MAIN_MENU_HEADER_PRINT		; Cabecera
+	ld hl, $0104								; Posicion inicial del cuerpo de texto
+	call NGN_TEXT_POSITION
 	ld hl, TEXT_PSG_MENU_TITLE					; Titulo
 	call NGN_TEXT_PRINT							; Imprimelo
 	ld hl, TEXT_DASHED_LINE						; Linea
@@ -509,11 +511,11 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, b						; Lee el numero de iteracion
 		cp c						; Si coincide con la opcion activa...
 		jr z, @@FREQ_CURSOR_ON
-		ld a, $C4					; Si no coincide, caracter OFF
+		ld a, $C2					; Si no coincide, caracter OFF
 		jr @@FREQ_CURSOR_PRINT
 
 		@@FREQ_CURSOR_ON:			; Si coincide, caracter ON
-		ld a, $DB
+		ld a, $C1
 
 		@@FREQ_CURSOR_PRINT:
 		call $00A2		; Imprime el caracter del registro A. Rutina [CHPUT] de la BIOS
@@ -612,11 +614,11 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, c						; Recupera el volumen actual
 		sub b						; Restale el numero de iteracion
 		jr nc, @@VOL_CURSOR_ON
-		ld a, $C4					; Si la iteracion es mayor, caracter OFF
+		ld a, $C2					; Si la iteracion es mayor, caracter OFF
 		jr @@VOL_CURSOR_PRINT
 
 		@@VOL_CURSOR_ON:			; Si es igualo menor, caracter ON
-		ld a, $DB
+		ld a, $C1
 
 		@@VOL_CURSOR_PRINT:
 		call $00A2		; Imprime el caracter del registro A. Rutina [CHPUT] de la BIOS
@@ -727,11 +729,11 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, b						; Lee el numero de iteracion
 		cp c						; Si coincide con la opcion activa...
 		jr z, @@NOISE_CHAN_CURSOR_ON
-		ld a, $C4					; Si no coincide, caracter OFF
+		ld a, $C2					; Si no coincide, caracter OFF
 		jr @@NOISE_CHAN_CURSOR_PRINT
 
 		@@NOISE_CHAN_CURSOR_ON:			; Si coincide, caracter ON
-		ld a, $DB
+		ld a, $C1
 
 		@@NOISE_CHAN_CURSOR_PRINT:
 		call $00A2		; Imprime el caracter del registro A. Rutina [CHPUT] de la BIOS
@@ -814,11 +816,11 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, c						; Recupera el volumen actual
 		sub b						; Restale el numero de iteracion
 		jr nc, @@NOISE_FREQ_CURSOR_ON
-		ld a, $C4					; Si la iteracion es mayor, caracter OFF
+		ld a, $C2					; Si la iteracion es mayor, caracter OFF
 		jr @@NOISE_FREQ_CURSOR_PRINT
 
 		@@NOISE_FREQ_CURSOR_ON:			; Si es igualo menor, caracter ON
-		ld a, $DB
+		ld a, $C1
 
 		@@NOISE_FREQ_CURSOR_PRINT:
 		call $00A2		; Imprime el caracter del registro A. Rutina [CHPUT] de la BIOS

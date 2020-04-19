@@ -2,23 +2,35 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
-
-2020-04-18 Ver. 1.1.1-wip03
+2020-04-19 Ver. 1.1.4
 --------------------------------------------------------------------------------
-- Ahora se pueden usar las telcas derecha e izquierda para cambiar de página
+- Se ha añadido una tabla personalizada de caracteres para el diseño de las
+  pantallas de los menús. Ahora se muestran con el mismo aspecto en los
+  ordenadores de todas las regiones.
+- En la pantalla de información del sistema, si los Hz calculados no coinciden
+  con la información de la BIOS, se indica con un símbolo de alerta.
+- Ahora el programa emite 3 pitidos y realiza 3 parpadeos del led CAPS antes
+  de mostrar la pantalla del título para indicar que el programa ha iniciado.
+  Esto nos permite verificar que el ordenador está iniciando el programa
+  incluso sin disponer de una pantalla conectada.
+
+
+2020-04-18 Ver. 1.1.3
+--------------------------------------------------------------------------------
+- Ahora se pueden usar las teclas derecha e izquierda para cambiar de página
   en el menú de opciones.
 - La pantalla de información del sistema ahora muestra la fecha y hora
   del RTC en sistemas MSX2 y superiores.
 
 
-2020-04-17 Ver. 1.1.1-wip02
+2020-04-17 Ver. 1.1.2
 --------------------------------------------------------------------------------
-- Los datos numéricos de la pantalla de información se imprimien usando la
-  nueva función de MSX N'gine, que permite la impresion de números en formato
+- Los datos numéricos de la pantalla de información se imprimen usando la
+  nueva función de MSX N'gine, que permite la impresión de números en formato
   BCD. La pantalla de información además detecta sistemas con 192kb de VRAM.
 
 
-2020-04-16 Ver. 1.1.1-wip01
+2020-04-16 Ver. 1.1.1
 --------------------------------------------------------------------------------
 - La pantalla de información del sistema ahora muestra el chip VDP instalado
   y la frecuencia de refresco a la que funciona.
@@ -30,9 +42,9 @@ MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 - Ahora el menú recuerda la opción selecciona al volver desde un test.
 - Añadida la segunda página al menú de selección de test.
-- Optimizados los textos de los menus, ahorrando 420 bytes.
+- Optimizados los textos de los menús, ahorrando 420 bytes.
 - Añadido el soporte para el teclado francés (AZERTY) en el test de teclado.
-  (Se realiza la deteccion automática al iniciarse el programa)
+  (Se realiza la detección automática al iniciarse el programa)
 - Añadido el test de color del monitor
 - El programa ahora reserva 4096 bytes de memoria para variables y las
   ubica en la dirección más alta disponible ($E380)

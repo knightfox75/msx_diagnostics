@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.2.1-WIP01
+;	Version 0.3.0
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -38,8 +38,8 @@ NGN_BACKGROUND_CREATE:
 	
 	ld hl, NGN_NAMTBL	; Apunta a la tabla de nombres
 	ld bc, $0300		; Longitud de 768 celdas
-	xor a			; Pon A a 0
-	call $0056		; Ejecuta la rutina [FILVRM]
+	xor a				; Pon A a 0
+	call $0056			; Ejecuta la rutina [FILVRM]
 
 	; Copia los datos a la VRAM
 	; ----------------------------------------------------------
@@ -54,7 +54,7 @@ NGN_BACKGROUND_CREATE:
 	pop hl
 
 	; Copia el banco 1 de patterns
-	ld de, NGN_CHRTBL			; Destino de los datos
+	ld de, NGN_CHRTBL				; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 2 de patterns
@@ -66,7 +66,7 @@ NGN_BACKGROUND_CREATE:
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 1 de colors
-	ld de, NGN_CLRTBL			; Destino de los datos
+	ld de, NGN_CLRTBL				; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 2 de colors
@@ -78,7 +78,7 @@ NGN_BACKGROUND_CREATE:
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 1 de names
-	ld de, NGN_NAMTBL			; Destino de los datos
+	ld de, NGN_NAMTBL				; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 2 de names
@@ -113,7 +113,7 @@ NGN_BACKGROUND_CREATE:
 		pop hl				
 		add hl, bc			; Y actualiza el puntero
 
-		ret				; Sal de la subrutina
+		ret					; Sal de la subrutina
 
 
 
@@ -142,9 +142,9 @@ NGN_BACKGROUND_CREATE_RLE:
 	; ----------------------------------------------------------
 	
 	ld hl, NGN_NAMTBL	; Apunta a la tabla de nombres
-	ld bc, $300		; Longitud de 768 celdas
-	xor a			; Pon A a 0
-	call $0056		; Ejecuta la rutina [FILVRM]
+	ld bc, $300			; Longitud de 768 celdas
+	xor a				; Pon A a 0
+	call $0056			; Ejecuta la rutina [FILVRM]
 
 	; Copia los datos a la VRAM
 	; ----------------------------------------------------------
@@ -160,7 +160,7 @@ NGN_BACKGROUND_CREATE_RLE:
 	pop hl
 
 	; Copia el banco 1 de patterns
-	ld de, NGN_CHRTBL			; Destino de los datos
+	ld de, NGN_CHRTBL				; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 2 de patterns
@@ -172,7 +172,7 @@ NGN_BACKGROUND_CREATE_RLE:
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 1 de colors
-	ld de, NGN_CLRTBL			; Destino de los datos
+	ld de, NGN_CLRTBL				; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 2 de colors
@@ -184,15 +184,15 @@ NGN_BACKGROUND_CREATE_RLE:
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 1 de names
-	ld de, NGN_NAMTBL			; Destino de los datos
+	ld de, NGN_NAMTBL				; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 2 de names
-	ld de, NGN_NAMTBL + 256		; Destino de los datos
+	ld de, NGN_NAMTBL + 256			; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Copia el banco 3 de names
-	ld de, NGN_NAMTBL + 512		; Destino de los datos
+	ld de, NGN_NAMTBL + 512			; Destino de los datos
 	call @@DATA_TO_VRAM
 
 	; Habilita la pantalla
@@ -205,7 +205,7 @@ NGN_BACKGROUND_CREATE_RLE:
 	; Rutina de carga de datos en VRAM desde el RAM_BUFFER del RLE
 	@@DATA_TO_VRAM:
 
-		push de				; Guarda la direccion de destino en VRAM
+		push de						; Guarda la direccion de destino en VRAM
 
 		ld de, NGN_RAM_BUFFER		; Destino de los datos RLE
 		call NGN_RLE_DECOMPRESS		; Descomprime los datos
@@ -216,8 +216,8 @@ NGN_BACKGROUND_CREATE_RLE:
 		ld c, [hl]
 
 		ld hl, NGN_RAM_BUFFER		; Puntero a los datos
-		pop de				; Destino de los datos
-		call $005C			; Ejecuta la rutina [LDIRVM]
+		pop de						; Destino de los datos
+		call $005C					; Ejecuta la rutina [LDIRVM]
 
 		ld hl, NGN_RLE_COMPRESSED_SIZE	; Recupera el tamaño de los datos comprimidos
 		ld b, [hl]
@@ -231,9 +231,9 @@ NGN_BACKGROUND_CREATE_RLE:
 		ld h, d
 		ld l, e
 
-		add hl, bc			; Y sumale el tamaño de los datos comprimidos
+		add hl, bc					; Y sumale el tamaño de los datos comprimidos
 
-		ret				; Sal de la subrutina
+		ret							; Sal de la subrutina
 
 
 

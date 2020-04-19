@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.2.1-WIP01
+;	Version 0.3.0
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -17,6 +17,9 @@
 
 ; Funciones del sistema
 .INCLUDE "ngn/ngn_system.asm"
+
+; Funciones matematicas
+.INCLUDE "ngn/ngn_math.asm"
 
 ; Funciones graficas
 .INCLUDE "ngn/ngn_screen.asm"

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP03
+;	Version 1.1.4
 ;	ASM Z80 MSX
 ;	Menu Principal (Funciones comunes)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -16,8 +16,6 @@
 ; ----------------------------------------------------------
 FUNCTION_MAIN_MENU_HEADER_PRINT:
 
-	ld hl, TEXT_DASHED_LINE			; Linea
-	call NGN_TEXT_PRINT				; Imprimelo
 	ld hl, TEXT_MENU_HEADER			; Texto de la cabecera
 	call NGN_TEXT_PRINT				; Imprimelo
 	ld hl, TEXT_DASHED_LINE			; Linea

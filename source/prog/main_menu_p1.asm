@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP03
+;	Version 1.1.4
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 1)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -41,8 +41,13 @@ FUNCTION_MAIN_MENU_P1:
 	@@DRAW_SCREEN:
 	call $0041
 
+	; Tabla de caracteres personalizados
+	call FUNCTION_SYSTEM_SCREEN0_CHARSET
+
 	; Texto del menu
 	call FUNCTION_MAIN_MENU_HEADER_PRINT	; Cabecera del menu
+	ld hl, $0104							; Posicion inicial del cuerpo de texto
+	call NGN_TEXT_POSITION
 	ld hl, TEXT_MAIN_MENU_P1_TITLE			; Titulo de la pagina
 	call NGN_TEXT_PRINT						; Imprimelo
 	ld hl, TEXT_DASHED_LINE					; Linea

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP03
+;	Version 1.1.4
 ;	ASM Z80 MSX
 ;	Test SCREEN 0
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -25,6 +25,8 @@ FUNCTION_SCREEN0_TEST_MENU:
 
 	; Texto del menu
 	call FUNCTION_MAIN_MENU_HEADER_PRINT		; Cabecera
+	ld hl, $0104								; Posicion inicial del cuerpo de texto
+	call NGN_TEXT_POSITION
 	ld hl, TEXT_SCREEN0_MENU_TITLE				; Titulo
 	call NGN_TEXT_PRINT							; Imprimelo
 	ld hl, TEXT_DASHED_LINE						; Linea
@@ -69,8 +71,9 @@ FUNCTION_SCREEN0_TEST_MENU:
 
 FUNCTION_SCREEN0_TEST_RUN:
 
-	; Borra la pantalla
-	call NGN_TEXT_CLS
+	ld bc, $0F04					; Color de frente/fondo
+	ld de, $0128					; Color de borde/ancho en columnas (40)
+	call NGN_SCREEN_SET_MODE_0
 
 	; Ejecuta la rutina [DISSCR] para deshabilitar la pantalla
 	call $0041

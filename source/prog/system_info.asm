@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.1-WIP03
+;	Version 1.1.4
 ;	ASM Z80 MSX
 ;	Informacion del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -131,8 +131,8 @@ FUNCTION_SYSTEM_INFO:
 	;
 	; 	Y la frecuencia de refresco		[VDP_HZ]
 	;
-	;	0 - 50hz
-	;	1 - 60hz
+	;	1 - 50hz
+	;	0 - 60hz
 	;
 	; ----------------------------------------------------------
 
@@ -144,7 +144,7 @@ FUNCTION_SYSTEM_INFO:
 	; Si es un TMS, selecciona el modelo segun el refresco detectado
 	ld a, [VDP_HZ]
 	or a
-	jr nz, @@TMS9918A
+	jr z, @@TMS9918A
 	ld hl, TEXT_SYSTEM_INFO_TMS9929A			; TMS9929A
 	jr @@VDP_SET
 	@@TMS9918A:
@@ -179,7 +179,7 @@ FUNCTION_SYSTEM_INFO:
 
 	; 50hz
 	or a
-	jr nz, @@VDP60HZ
+	jr z, @@VDP60HZ
 	ld hl, $0050			; 50hz
 	jr @@SET_HZ
 
@@ -202,47 +202,47 @@ FUNCTION_SYSTEM_INFO:
 	; Japon
 	or a	; 0
 	jr nz, @@KB_INTERNATIONAL
-	ld hl, TEXT_SYSTEM_INFO_KB_JAPAN
+	ld hl, TEXT_SYSTEM_INFO_LANG_JAPAN
 	jr @@KB_SET
 
 	; Internacional
 	@@KB_INTERNATIONAL:
 	cp 1
 	jr nz, @@KB_FRANCE
-	ld hl, TEXT_SYSTEM_INFO_KB_INTERNATIONAL
+	ld hl, TEXT_SYSTEM_INFO_LANG_INTERNATIONAL
 	jr @@KB_SET
 
 	; Francia
 	@@KB_FRANCE:
 	cp 2
 	jr nz, @@KB_UK
-	ld hl, TEXT_SYSTEM_INFO_KB_FRANCE
+	ld hl, TEXT_SYSTEM_INFO_LANG_FRANCE
 	jr @@KB_SET
 
 	; UK
 	@@KB_UK:
 	cp 3
 	jr nz, @@KB_GERMANY
-	ld hl, TEXT_SYSTEM_INFO_KB_UK
+	ld hl, TEXT_SYSTEM_INFO_LANG_UK
 	jr @@KB_SET
 
 	; GERMANY
 	@@KB_GERMANY:
 	cp 4
 	jr nz, @@KB_USSR
-	ld hl, TEXT_SYSTEM_INFO_KB_GERMANY
+	ld hl, TEXT_SYSTEM_INFO_LANG_GERMANY
 	jr @@KB_SET
 
 	; USSR
 	@@KB_USSR:
 	cp 5
 	jr nz, @@KB_SPAIN
-	ld hl, TEXT_SYSTEM_INFO_KB_USSR
+	ld hl, TEXT_SYSTEM_INFO_LANG_USSR
 	jr @@KB_SET
 
 	; SPAIN
 	@@KB_SPAIN:
-	ld hl, TEXT_SYSTEM_INFO_KB_SPAIN
+	ld hl, TEXT_SYSTEM_INFO_LANG_SPAIN
 
 	; Guarda la distribucion
 	@@KB_SET:
@@ -254,8 +254,6 @@ FUNCTION_SYSTEM_INFO:
 	; 		Cabecera
 	; ----------------------------------------------------------
 
-	ld hl, TEXT_DASHED_LINE						; Linea
-	call NGN_TEXT_PRINT							; Imprimelo
 	ld hl, TEXT_SYSTEM_INFO_TITLE				; Titulo
 	call NGN_TEXT_PRINT							; Imprimelo
 	ld hl, TEXT_DASHED_LINE						; Linea
@@ -273,6 +271,7 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT
 	ld hl, [SYS_INFO_MODEL]
 	call NGN_TEXT_PRINT
+
 	; Distribucion de teclado
 	ld hl, $1605
 	call NGN_TEXT_POSITION
@@ -280,6 +279,7 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT
 	ld hl, [SYS_INFO_KB]
 	call NGN_TEXT_PRINT
+
 	; Memoria RAM
 	ld hl, $0207
 	call NGN_TEXT_POSITION
@@ -292,6 +292,7 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT_BCD
 	ld hl, TEXT_SYSTEM_INFO_KB
 	call NGN_TEXT_PRINT
+
 	; Memoria VRAM
 	ld hl, $1607
 	call NGN_TEXT_POSITION
@@ -304,6 +305,7 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT_BCD
 	ld hl, TEXT_SYSTEM_INFO_KB
 	call NGN_TEXT_PRINT
+
 	; VDP
 	ld hl, $0209
 	call NGN_TEXT_POSITION
@@ -311,6 +313,7 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT
 	ld hl, [SYS_INFO_VDP]
 	call NGN_TEXT_PRINT
+
 	; VDP FREQUENCY
 	ld hl, $1609
 	call NGN_TEXT_POSITION
@@ -323,6 +326,29 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_PRINT_BCD
 	ld hl, TEXT_SYSTEM_INFO_HZ
 	call NGN_TEXT_PRINT
+	; Verifica que coincidan los HZ detectados con los de la BIOS
+	ld a, [$002B]		; Info en la BIOS de los HZ
+	and $80				; En el bit 7	(0 = 60Hz, 1 = 50Hz)
+	rlc a				; Pasa el bit 7 al 0
+	ld b, a				; Guarda el resultado en B
+	ld a, [VDP_HZ]		; Carga los herzios calculados (0 = 60Hz, 1 = 50Hz)
+	xor b				; Coinciden?
+	jr z, @@HZ_MATCH	; Si coinciden, no hagas nada mas
+	ld a, $CF			; Imprime un indicador de no coincidencia
+	call $00A2			; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
+	@@HZ_MATCH:
+
+	; Fecha
+	ld hl, $0214
+	call NGN_TEXT_POSITION
+	ld hl, TEXT_SYSTEM_INFO_RTC_DATE
+	call NGN_TEXT_PRINT
+	; Hora
+	ld hl, $1614
+	call NGN_TEXT_POSITION
+	ld hl, TEXT_SYSTEM_INFO_RTC_TIME
+	call NGN_TEXT_PRINT
+	
 
 
 
@@ -330,9 +356,11 @@ FUNCTION_SYSTEM_INFO:
 	; 		Pie de pagina
 	; ----------------------------------------------------------
 
-	ld hl, $0014
+	ld hl, $0117
 	call NGN_TEXT_POSITION
-	ld hl, TEXT_SYSTEM_INFO_EXIT				; Cancelar para salir
+	ld hl, TEXT_DASHED_LINE						; Linea
+	call NGN_TEXT_PRINT							; Imprimelo
+	ld hl, TEXT_SYSTEM_INFO_EXIT				; Aceptar/Cancelar para salir
 	call NGN_TEXT_PRINT							; Imprimelo
 
 
@@ -400,10 +428,8 @@ FUNCTION_SYSTEM_INFO:
 	@@RTC_READ:
 
 		; Posiciona el texto (Fecha)
-		ld hl, $0212
+		ld hl, $0814
 		call NGN_TEXT_POSITION
-		ld hl, TEXT_SYSTEM_INFO_RTC_DATE
-		call NGN_TEXT_PRINT
 		; Mes
 		ld hl, $090A
 		call @@RTC_PRINT_DATA
@@ -421,10 +447,8 @@ FUNCTION_SYSTEM_INFO:
 		call @@RTC_PRINT_DATA
 
 		; Posiciona el texto (Hora)
-		ld hl, $1612
+		ld hl, $1C14
 		call NGN_TEXT_POSITION
-		ld hl, TEXT_SYSTEM_INFO_RTC_TIME
-		call NGN_TEXT_PRINT
 		; Horas
 		ld hl, $0405
 		call @@RTC_PRINT_DATA
@@ -527,7 +551,7 @@ FUNCTION_SYSTEM_INFO:
 		; Realiza la suma BCD
 		ld de, NGN_RAM_BUFFER			; Numero base
 		ld hl, NGN_RAM_BUFFER + 3		; Sumando
-		call FUNCTION_BCD_ADD			; Funcion de suma
+		call NGN_BCD_ADD				; Funcion de suma
 
 		; Actualiza los datos en BCD
 		ld hl, NGN_RAM_BUFFER

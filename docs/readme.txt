@@ -65,6 +65,7 @@ La versión actual del programa está provista de las siguientes funcionalidades
 	
 - SYSTEM INFO
 	Muestra un resumen de las características técnicas de nuestro equipo.
+	* Versión preliminar, faltan algunos datos.
 	
 - MONITOR COLOR
 	Muestra en pantalla cada uno de los colores básicos (rojo, verde, azul),

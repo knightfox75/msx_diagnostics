@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.1-WIP03
+;   Version 1.1.4
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para BINARIO de 32kb
 ;
