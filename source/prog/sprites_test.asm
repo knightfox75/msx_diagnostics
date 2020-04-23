@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.4
+;	Version 1.1.5
 ;	ASM Z80 MSX
 ;	Test de los Sprites (MODO SCREEN 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -214,7 +214,7 @@ FUNCTION_SPRITES_TEST_CREATE:
 
 FUNCTION_SPRITES_TEST_SET_SPEED:
 
-	ld hl, SPRITE_SPEED			; Variables
+	ld hl, NGN_RAM_BUFFER		; Variables (Usa el NGN_RAM_BUFFER para almacenar los valores)
 	ld b, 0						; Contador
 
 	; Loop
@@ -253,7 +253,7 @@ FUNCTION_SPRITES_TEST_SET_SPEED:
 FUNCTION_SPRITES_TEST_MOVE:
 
 	xor a						; Contador de sprites (0)
-	ld bc, SPRITE_SPEED			; Primera variable de velocidad
+	ld bc, NGN_RAM_BUFFER			; Primera variable de velocidad
 	ld de, NGN_SPRITE_00		; Primer sprite
 
 	; Loop de movimiento

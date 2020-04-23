@@ -2,6 +2,23 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-19 Ver. 1.1.5
+-------------------------------------------------------------------------------- 
+- Se ahorran 64 bytes de RAM usando el NGN_RAM_BUFFER en vez del array
+  personalizado en el test de sprites.
+- Se ahorran 16 bytes de RAM usando el NGN_RAM_BUFFER en vez de las variables
+  personalizadas en test del PSG.
+- Se ahorran 4 bytes de RAM usando el NGN_RAM_BUFFER en vez de las variables
+  personalizadas en test del color del monitor.
+- Se ahorran 12 bytes de RAM usando el NGN_RAM_BUFFER en vez de las variables
+  personalizadas en la pantalla de información del sistema.
+- El total ahorrado de RAM es de 96 bytes.
+- Ahora se detecta y muestra la disposición de slots y subslots y la RAM
+  instalada en ellos. La detección de RAM es parcial, mostrando solo la que
+  se encuentra instalada en las páginas 0, 1 y 2 de los slots sin mapper.
+- Nueva distribución de la pantalla de información de sistema.
+
+
 2020-04-19 Ver. 1.1.4
 --------------------------------------------------------------------------------
 - Se ha añadido una tabla personalizada de caracteres para el diseño de las

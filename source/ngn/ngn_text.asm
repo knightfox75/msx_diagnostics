@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.0
+;	Version 0.3.1
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -85,6 +85,12 @@ NGN_TEXT_PRINT_BCD:
 	ld e, d
 	call @@HI_HALF
 	; Unidades				____x	Low 	D
+	ld a, d
+	and $0F
+	jr nz, @@NO_LAST_ZERO
+	ld a, 1
+	ld [NGN_RAM_BUFFER], a
+	@@NO_LAST_ZERO:
 	ld e, d
 	call @@LO_HALF
 

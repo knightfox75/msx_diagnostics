@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.4
+;	Version 1.1.5
 ;	ASM Z80 MSX
 ;	Test de los Joysticks
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"

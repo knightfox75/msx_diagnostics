@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.4
+;	Version 1.1.5
 ;	ASM Z80 MSX
 ;	Test PSG
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -91,44 +91,44 @@ FUNCTION_PSG_TEST_RUN:
 	ei
 
 	; Valores por iniciales de este test
-	xor a									; Por defecto, las opciones estan a 0
-	ld [SNDCHN1_FRQ], a 					; Frecuencia del canal A
-	ld [SNDCHN2_FRQ], a 					; Frecuencia del canal B
-	ld [SNDCHN3_FRQ], a 					; Frecuencia del canal C
-	ld a, 15								; Por defecto, el volumen de los tres canales esta al maximo
-	ld [SNDCHN1_VOL], a						; Volumen del canal A
-	ld [SNDCHN2_VOL], a						; Volumen del canal B
-	ld [SNDCHN3_VOL], a						; Volumen del canal C
-	xor a									; Por defecto el canal de ruido no esta asignado
-	ld [SNDNOISE_CHAN], a					; Volumen del canal de ruido
-	ld a, 8									; Y tiene la frecuencia media
-	ld [SNDNOISE_FRQ], a 					; Frecuencia del canal de ruido
+	xor a										; Por defecto, las opciones estan a 0
+	ld [(NGN_RAM_BUFFER + SNDCHN1_FRQ)], a 		; Frecuencia del canal A
+	ld [(NGN_RAM_BUFFER + SNDCHN2_FRQ)], a 		; Frecuencia del canal B
+	ld [(NGN_RAM_BUFFER + SNDCHN3_FRQ)], a 		; Frecuencia del canal C
+	ld a, 15									; Por defecto, el volumen de los tres canales esta al maximo
+	ld [(NGN_RAM_BUFFER + SNDCHN1_VOL)], a		; Volumen del canal A
+	ld [(NGN_RAM_BUFFER + SNDCHN2_VOL)], a		; Volumen del canal B
+	ld [(NGN_RAM_BUFFER + SNDCHN3_VOL)], a		; Volumen del canal C
+	xor a										; Por defecto el canal de ruido no esta asignado
+	ld [(NGN_RAM_BUFFER + SNDNOISE_CHAN)], a	; Volumen del canal de ruido
+	ld a, 8										; Y tiene la frecuencia media
+	ld [(NGN_RAM_BUFFER + SNDNOISE_FRQ)], a 	; Frecuencia del canal de ruido
 
 	; Frecuencia del ruido inicial
 	di
-	ld a, 6									; Seleccion del canal de ruido
+	ld a, 6										; Seleccion del canal de ruido
 	out [$A0], a
-	ld a, [SNDNOISE_FRQ]					; Frecuencia
-	sla a									; Multiplica x2 el valor
-	ld b, a									; y guardalo en B
-	ld a, $1F								; Frecuencia mas baja (mas valor, menos frecuencia)
-	sub b									; Restale a la frecuencia minima el valor calculado
+	ld a, [(NGN_RAM_BUFFER + SNDNOISE_FRQ)]		; Frecuencia
+	sla a										; Multiplica x2 el valor
+	ld b, a										; y guardalo en B
+	ld a, $1F									; Frecuencia mas baja (mas valor, menos frecuencia)
+	sub b										; Restale a la frecuencia minima el valor calculado
 	out [$A1], a
 	ei
 
 	; Valores iniciales del menu
 	ld a, (PSGTEST_FIRST_OPTION + 1)
-	ld [PSG_TEST_OPTION_SELECTED], a
+	ld [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)], a
 
 	; Posicion inicial del cursor
-	ld a, 3								; Posicion X
-	ld [PSG_TEST_CURSOR_X], a			; Guarda las posiciones X
-	ld [PSG_TEST_CURSOR_OLD_X], a 
-	ld a, [PSG_TEST_OPTION_SELECTED]	; Lee la opcion del menu
-	sla a								; Multiplicala x2
-	add PSGTEST_ITEM_START				; Asignale el offset de la Y
-	ld [PSG_TEST_CURSOR_Y], a			; Guarda las posiciones Y
-	ld [PSG_TEST_CURSOR_OLD_Y], a
+	ld a, 3													; Posicion X
+	ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_X)], a			; Guarda las posiciones X
+	ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_OLD_X)], a 
+	ld a, [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)]		; Lee la opcion del menu
+	sla a													; Multiplicala x2
+	add PSGTEST_ITEM_START									; Asignale el offset de la Y
+	ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)], a			; Guarda las posiciones Y
+	ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_OLD_Y)], a
 
 	; Borra la pantalla
 	call NGN_TEXT_CLS
@@ -164,7 +164,7 @@ FUNCTION_PSG_TEST_RUN:
 		and $02								; Detecta "KEY DOWN"
 		jr z, @@OPTION_DOWN					; Si no se pulsa, siguiente bloque
 		
-		ld a, [PSG_TEST_OPTION_SELECTED]	; Carga la opcion actual
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)]		; Carga la opcion actual
 		dec a								; Resta una opcion
 		cp PSGTEST_FIRST_OPTION				; Si no era la primera opcion
 		jr nz, @@OPTION_UPDATE				; actualizala
@@ -179,7 +179,7 @@ FUNCTION_PSG_TEST_RUN:
 		and $02								; Detecta "KEY DOWN"
 		jr z, @@MOVE_LEFT_RIGHT				; Si no se pulsa, siguiente bloque
 
-		ld a, [PSG_TEST_OPTION_SELECTED]	; Carga la opcion actual
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)]		; Carga la opcion actual
 		inc a								; Suma una opcion
 		cp PSGTEST_LAST_OPTION				; Si no era la ultima opcion
 		jp nz, @@OPTION_UPDATE				; actualizala
@@ -189,8 +189,8 @@ FUNCTION_PSG_TEST_RUN:
 
 		; Actualiza la opcion y el cursor si es necesario
 		@@OPTION_UPDATE:
-		ld [PSG_TEST_OPTION_SELECTED], a	; Guarda los datos del cursor
-		call @@PRINT_CURSOR					; Imprime su posicion actualizada
+		ld [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)], a		; Guarda los datos del cursor
+		call @@PRINT_CURSOR										; Imprime su posicion actualizada
 
 
 
@@ -217,7 +217,7 @@ FUNCTION_PSG_TEST_RUN:
 
 		; Opcion actual
 		@@EXECUTE_OPTION:
-		ld a, [PSG_TEST_OPTION_SELECTED]	; Lee la opcion seleccionada		
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)]	; Lee la opcion seleccionada		
 		; Opcion 1
 		cp 1
 		jp z, @@PSGTEST_FREQ1		; Frecuencia del canal A
@@ -269,18 +269,18 @@ FUNCTION_PSG_TEST_RUN:
 	@@PRINT_CURSOR:
 
 		; Borra el cursor de su posicion actual
-		ld a, [PSG_TEST_CURSOR_OLD_X]		; Posicion X
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_OLD_X)]		; Posicion X
 		ld h, a
-		ld a, [PSG_TEST_CURSOR_OLD_Y]		; Posicion Y
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_OLD_Y)]		; Posicion Y
 		ld l, a
 		call NGN_TEXT_POSITION				; Coloca el cursor
 		ld hl, TEXT_MAIN_MENU_ITEM_OFF		; Lee el espacio en blanco
 		call NGN_TEXT_PRINT					; Y escribelo
 
 		; Imprime el cursor en su nueva posicion
-		ld a, [PSG_TEST_CURSOR_X]			; Posicion X
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_X)]			; Posicion X
 		ld h, a
-		ld a, [PSG_TEST_OPTION_SELECTED]	; Lee la opcion del menu
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_OPTION_SELECTED)]		; Lee la opcion del menu
 		ld b, a								; Guarda el valor leido en B
 		sla a								; Multiplicala x2
 		add PSGTEST_ITEM_START				; Asignale el offset de la Y
@@ -294,16 +294,16 @@ FUNCTION_PSG_TEST_RUN:
 		@@TOP_MENU:
 		ld a, c								; Recupera la posicion Y del cursor en Y
 		ld l, a								; Posicion Y
-		ld [PSG_TEST_CURSOR_Y], a
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)], a
 		call NGN_TEXT_POSITION				; Coloca el cursor
 		ld hl, TEXT_MAIN_MENU_ITEM_ON		; Lee el caracter del cursor
 		call NGN_TEXT_PRINT					; Y escribelo
 
 		; Guarda las coordenadas de borrado
-		ld a, [PSG_TEST_CURSOR_X]
-		ld [PSG_TEST_CURSOR_OLD_X], a
-		ld a, [PSG_TEST_CURSOR_Y]
-		ld [PSG_TEST_CURSOR_OLD_Y], a		
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_X)]
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_OLD_X)], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)]
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_OLD_Y)], a		
 		
 		; Vuelve
 		ret
@@ -317,68 +317,68 @@ FUNCTION_PSG_TEST_RUN:
 
 	@@PSGTEST_FREQ1:
 		ld a, 1
-		ld [PSG_TEST_CHANNEL], a		; Selecciona el canal
-		ld a, [SNDCHN1_FRQ]				
-		ld [PSG_TEST_FREQ], a			; Guarda la frecuencia
-		ld a, [SNDCHN1_VOL]				
-		ld [PSG_TEST_VOLUME], a			; Guarda el volumen
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)], a			; Selecciona el canal
+		ld a, [(NGN_RAM_BUFFER + SNDCHN1_FRQ)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_FREQ)], a			; Guarda la frecuencia
+		ld a, [(NGN_RAM_BUFFER + SNDCHN1_VOL)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a			; Guarda el volumen
 		call @@APPLY_FREQ
-		ld a, [PSG_TEST_FREQ]			; Actualiza la frecuencia
-		ld [SNDCHN1_FRQ], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_FREQ)]			; Actualiza la frecuencia
+		ld [(NGN_RAM_BUFFER + SNDCHN1_FRQ)], a
 		jp @@LOOP_END 
 
 	@@PSGTEST_FREQ2:
 		ld a, 2
-		ld [PSG_TEST_CHANNEL], a		; Selecciona el canal
-		ld a, [SNDCHN2_FRQ]				
-		ld [PSG_TEST_FREQ], a			; Guarda la frecuencia
-		ld a, [SNDCHN2_VOL]				
-		ld [PSG_TEST_VOLUME], a			; Guarda el volumen
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)], a			; Selecciona el canal
+		ld a, [(NGN_RAM_BUFFER + SNDCHN2_FRQ)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_FREQ)], a			; Guarda la frecuencia
+		ld a, [(NGN_RAM_BUFFER + SNDCHN2_VOL)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a			; Guarda el volumen
 		call @@APPLY_FREQ
-		ld a, [PSG_TEST_FREQ]			; Actualiza la frecuencia
-		ld [SNDCHN2_FRQ], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_FREQ)]			; Actualiza la frecuencia
+		ld [(NGN_RAM_BUFFER + SNDCHN2_FRQ)], a
 		jp @@LOOP_END 
 
 	@@PSGTEST_FREQ3:
 		ld a, 3
-		ld [PSG_TEST_CHANNEL], a		; Selecciona el canal
-		ld a, [SNDCHN3_FRQ]				
-		ld [PSG_TEST_FREQ], a			; Guarda la frecuencia
-		ld a, [SNDCHN3_VOL]				
-		ld [PSG_TEST_VOLUME], a			; Guarda el volumen
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)], a			; Selecciona el canal
+		ld a, [(NGN_RAM_BUFFER + SNDCHN3_FRQ)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_FREQ)], a			; Guarda la frecuencia
+		ld a, [(NGN_RAM_BUFFER + SNDCHN3_VOL)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a			; Guarda el volumen
 		call @@APPLY_FREQ
-		ld a, [PSG_TEST_FREQ]			; Actualiza la frecuencia
-		ld [SNDCHN3_FRQ], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_FREQ)]			; Actualiza la frecuencia
+		ld [(NGN_RAM_BUFFER + SNDCHN3_FRQ)], a
 		jp @@LOOP_END 
 
 	@@PSGTEST_VOL1:
 		ld a, 1
-		ld [PSG_TEST_CHANNEL], a		; Selecciona el canal
-		ld a, [SNDCHN1_VOL]				
-		ld [PSG_TEST_VOLUME], a			; Guarda el volumen
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)], a			; Selecciona el canal
+		ld a, [(NGN_RAM_BUFFER + SNDCHN1_VOL)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a			; Guarda el volumen
 		call @@APPLY_VOL
-		ld a, [PSG_TEST_VOLUME]			; Actualiza el volumen
-		ld [SNDCHN1_VOL], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]			; Actualiza el volumen
+		ld [(NGN_RAM_BUFFER + SNDCHN1_VOL)], a
 		jp @@LOOP_END 
 
 	@@PSGTEST_VOL2:
 		ld a, 2
-		ld [PSG_TEST_CHANNEL], a		; Selecciona el canal
-		ld a, [SNDCHN2_VOL]				
-		ld [PSG_TEST_VOLUME], a			; Guarda el volumen
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)], a			; Selecciona el canal
+		ld a, [(NGN_RAM_BUFFER + SNDCHN2_VOL)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a			; Guarda el volumen
 		call @@APPLY_VOL
-		ld a, [PSG_TEST_VOLUME]			; Actualiza el volumen
-		ld [SNDCHN2_VOL], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]			; Actualiza el volumen
+		ld [(NGN_RAM_BUFFER + SNDCHN2_VOL)], a
 		jp @@LOOP_END 
 
 	@@PSGTEST_VOL3:
 		ld a, 3
-		ld [PSG_TEST_CHANNEL], a		; Selecciona el canal
-		ld a, [SNDCHN3_VOL]				
-		ld [PSG_TEST_VOLUME], a			; Guarda el volumen
+		ld [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)], a			; Selecciona el canal
+		ld a, [(NGN_RAM_BUFFER + SNDCHN3_VOL)]				
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a			; Guarda el volumen
 		call @@APPLY_VOL
-		ld a, [PSG_TEST_VOLUME]			; Actualiza el volumen
-		ld [SNDCHN3_VOL], a
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]			; Actualiza el volumen
+		ld [(NGN_RAM_BUFFER + SNDCHN3_VOL)], a
 		jp @@LOOP_END
 
 	@@PSGTEST_NOISE_ASSIGN:
@@ -400,21 +400,21 @@ FUNCTION_PSG_TEST_RUN:
 		cp 1						; Si se pulsa derecha
 		jp nz, @@DEC_FREQ			; Si se pulsa izquierda
 
-		ld a, [PSG_TEST_FREQ]		; Lee el ID de freq actual
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_FREQ)]		; Lee el ID de freq actual
 		cp 3						; Si estas en la ultima frequencia, sal
 		ret z
 
 		inc a						; Increnta el ID
-		ld [PSG_TEST_FREQ], a		; y guardalo
+		ld [(NGN_RAM_BUFFER + PSG_TEST_FREQ)], a		; y guardalo
 		jr @@SELECT_FREQ
 
 		@@DEC_FREQ:
-		ld a, [PSG_TEST_FREQ]		; Lee el ID de freq actual
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_FREQ)]		; Lee el ID de freq actual
 		cp 0						; Si estas en la primera frequencia, sal
 		ret z
 
 		dec a						; Decrementa el ID
-		ld [PSG_TEST_FREQ], a		; y guardalo
+		ld [(NGN_RAM_BUFFER + PSG_TEST_FREQ)], a		; y guardalo
 
 
 		@@SELECT_FREQ:
@@ -443,7 +443,7 @@ FUNCTION_PSG_TEST_RUN:
 		@@UPDATE_FREQ:
 		; Segun el canal	(Registros DE, D = hi-byte, E = lo-byte)	Frecuencia
 		;					(Registros HL, H = hi-byte, L = lo-byte)	Volumen
-		ld a, [PSG_TEST_CHANNEL]
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)]
 		
 		; Canal 1
 		cp 1
@@ -481,20 +481,20 @@ FUNCTION_PSG_TEST_RUN:
 		ld a, b			; HI byte data
 		out [$A1], a
 		; Volumen
-		ld a, l						; Seleccion del canal (lo-byte)
+		ld a, l			; Seleccion del canal (lo-byte)
 		out [$A0], a
-		ld a, [PSG_TEST_VOLUME]		; Volumen
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]		; Volumen
 		out [$A1], a
 		ei				; Habilita las interrupciones
 
 
 		; Actualiza el cursor
-		ld a, [PSG_TEST_CURSOR_Y]		; Posicion inicial Y
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)]		; Posicion inicial Y
 		ld l, a
 		ld h, PSGTEST_FREQ_X_START		; Posicion inicial X
 		xor a
-		ld b, a					; Contador
-		ld a, [PSG_TEST_FREQ]	; Freq actual
+		ld b, a							; Contador
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_FREQ)]			; Freq actual
 		ld c, a
 
 		@@UPDATE_FREQ_CURSOR_LOOP:
@@ -540,26 +540,26 @@ FUNCTION_PSG_TEST_RUN:
 		cp 1						; Si se pulsa derecha
 		jp nz, @@DEC_VOL			; Si se pulsa izquierda
 
-		ld a, [PSG_TEST_VOLUME]		; Lee el volumen
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]		; Lee el volumen
 		cp 15						; Si estas al maximo, sal
 		ret z
 
 		inc a						; Increnta el volumen
-		ld [PSG_TEST_VOLUME], a		; y guardalo
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a		; y guardalo
 		jr @@UPDATE_VOL
 
 		@@DEC_VOL:
-		ld a, [PSG_TEST_VOLUME]		; Lee el volumen
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]		; Lee el volumen
 		cp 0						; Si estas minimo, sal
 		ret z
 
 		dec a						; Baja el volumen
-		ld [PSG_TEST_VOLUME], a		; y guardalo
+		ld [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)], a		; y guardalo
 
 
 		@@UPDATE_VOL:
 		; Segun el canal	(Registros DE, D = hi-byte, E = lo-byte)	Volumen
-		ld a, [PSG_TEST_CHANNEL]
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CHANNEL)]
 		
 		; Canal 1
 		cp 1
@@ -586,18 +586,18 @@ FUNCTION_PSG_TEST_RUN:
 		; Volumen
 		ld a, e						; Seleccion del canal (lo-byte)
 		out [$A0], a
-		ld a, [PSG_TEST_VOLUME]		; Volumen
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]		; Volumen
 		out [$A1], a
 		ei							; Habilita las interrupciones
 
 
 		; Actualiza el cursor
-		ld a, [PSG_TEST_CURSOR_Y]		; Posicion inicial Y
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)]		; Posicion inicial Y
 		ld l, a
 		ld h, PSGTEST_VOL_X_START		; Posicion inicial X
 		ld a, 1
 		ld b, a					; Contador
-		ld a, [PSG_TEST_VOLUME]	; Freq actual
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_VOLUME)]	; Freq actual
 		ld c, a
 
 		@@UPDATE_VOL_CURSOR_LOOP:
@@ -643,26 +643,26 @@ FUNCTION_PSG_TEST_RUN:
 		cp 1						; Si se pulsa derecha
 		jp nz, @@DEC_NOISE_CHAN		; Si se pulsa izquierda
 
-		ld a, [SNDNOISE_CHAN]		; Lee el canal asignado
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_CHAN)]		; Lee el canal asignado
 		cp 3						; Si ya es el ultimo, sal
 		ret z
 
 		inc a						; Selecciona el seguiente canal
-		ld [SNDNOISE_CHAN], a		; y guardalo
+		ld [(NGN_RAM_BUFFER + SNDNOISE_CHAN)], a		; y guardalo
 		jr @@UPDATE_NOISE_CHAN
 
 		@@DEC_NOISE_CHAN:
-		ld a, [SNDNOISE_CHAN]		; Lee el canal asignado
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_CHAN)]		; Lee el canal asignado
 		cp 0						; Si no hay ninguno, sal
 		ret z
 
 		dec a						; Selecciona el canal anterior
-		ld [SNDNOISE_CHAN], a		; y guardalo
+		ld [(NGN_RAM_BUFFER + SNDNOISE_CHAN)], a		; y guardalo
 
 
 		@@UPDATE_NOISE_CHAN:
 		; Segun el canal seleccionado (Guarda la mascara en DE)
-		ld a, [SNDNOISE_CHAN]
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_CHAN)]
 		
 		; Ningun canal asignado
 		cp 0
@@ -707,12 +707,12 @@ FUNCTION_PSG_TEST_RUN:
 
 
 		; Actualiza el cursor
-		ld a, [PSG_TEST_CURSOR_Y]				; Posicion inicial Y
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)]				; Posicion inicial Y
 		ld l, a
 		ld h, PSGTEST_NOISE_CHAN_X_START		; Posicion inicial X
 		xor a
 		ld b, a									; Contador
-		ld a, [SNDNOISE_CHAN]					; Canal actual
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_CHAN)]					; Canal actual
 		ld c, a
 
 		@@NOISE_CHAN_UPDATE_CURSOR_LOOP:
@@ -758,21 +758,21 @@ FUNCTION_PSG_TEST_RUN:
 		cp 1						; Si se pulsa derecha
 		jp nz, @@DEC_NOISE_FREQ		; Si se pulsa izquierda
 
-		ld a, [SNDNOISE_FRQ]		; Lee la frecuencia actual
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_FRQ)]		; Lee la frecuencia actual
 		cp 15						; Si estas al maximo, sal
 		ret z
 
 		inc a						; Incremeta la frecuencia
-		ld [SNDNOISE_FRQ], a		; y guardala
+		ld [(NGN_RAM_BUFFER + SNDNOISE_FRQ)], a		; y guardala
 		jr @@PSG_NOISE_FREQ_UPDATE
 
 		@@DEC_NOISE_FREQ:
-		ld a, [SNDNOISE_FRQ]		; Lee la frecuencia actual
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_FRQ)]		; Lee la frecuencia actual
 		cp 0						; Si estas minimo, sal
 		ret z
 
 		dec a						; Reduce la frecuencia
-		ld [SNDNOISE_FRQ], a		; y guardala
+		ld [(NGN_RAM_BUFFER + SNDNOISE_FRQ)], a		; y guardala
 
 
 		; Calcula la frecuencia segun el registro A
@@ -794,12 +794,12 @@ FUNCTION_PSG_TEST_RUN:
 
 
 		; Actualiza el cursor
-		ld a, [PSG_TEST_CURSOR_Y]				; Posicion inicial Y
+		ld a, [(NGN_RAM_BUFFER + PSG_TEST_CURSOR_Y)]			; Posicion inicial Y
 		ld l, a
-		ld h, PSGTEST_NOISE_FREQ_X_START		; Posicion inicial X
+		ld h, PSGTEST_NOISE_FREQ_X_START						; Posicion inicial X
 		ld a, 1
-		ld b, a									; Contador
-		ld a, [SNDNOISE_FRQ]					; Freq actual
+		ld b, a													; Contador
+		ld a, [(NGN_RAM_BUFFER + SNDNOISE_FRQ)]					; Freq actual
 		ld c, a
 
 		@@UPDATE_NOISE_FREQ_CURSOR_LOOP:
@@ -813,10 +813,10 @@ FUNCTION_PSG_TEST_RUN:
 		inc a
 		ld h, a
 
-		ld a, c						; Recupera el volumen actual
-		sub b						; Restale el numero de iteracion
+		ld a, c		; Recupera el volumen actual
+		sub b		; Restale el numero de iteracion
 		jr nc, @@NOISE_FREQ_CURSOR_ON
-		ld a, $C2					; Si la iteracion es mayor, caracter OFF
+		ld a, $C2						; Si la iteracion es mayor, caracter OFF
 		jr @@NOISE_FREQ_CURSOR_PRINT
 
 		@@NOISE_FREQ_CURSOR_ON:			; Si es igualo menor, caracter ON

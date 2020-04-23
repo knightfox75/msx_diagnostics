@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.0
+;	Version 0.3.1
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -53,8 +53,7 @@ NGN_START:
 		xor a						; Registro A a 0
 		ld [hl], a					; Borra el contenido de la tecla
 		inc hl						; Siguiente tecla
-		dec b						; Cuenta las teclas iniciadas
-		jr nz, @@RESET_KEYS			; Repite el proceso
+		djnz @@RESET_KEYS			; Repite el proceso
 	
 	; Joysticks
 	ld hl, NGN_JOY1_UP				; Puntero donde esta la primera tecla de joystick
@@ -63,8 +62,7 @@ NGN_START:
 		xor a						; Registro A a 0
 		ld [hl], a					; Borra el contenido de la tecla
 		inc hl						; Siguiente tecla
-		dec b						; Cuenta las teclas iniciadas
-		jr nz, @@RESET_JOYKEYS		; Repite el proceso
+		djnz @@RESET_JOYKEYS		; Repite el proceso
 
 	; Atributos de sprites (0-31)
 	call $0069						; Borra los sprites con la rutina [CLRSPR] de la BIOS

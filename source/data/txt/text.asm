@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.4
+;	Version 1.1.5
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -442,11 +442,29 @@ TEXT_SYSTEM_INFO_DASH:
 
 TEXT_SYSTEM_INFO_RTC_DATE:
 
-	db	"DATE: ", $00
+	db	"DATE", $00
 
 TEXT_SYSTEM_INFO_RTC_TIME:
 
-	db	"TIME: ", $00
+	db	"TIME", $00
+
+
+TEXT_SYSTEM_INFO_SLOT_GUI_TOP:
+
+	db	$C5, $C3, $CC, $C3, $C3, $C3, $C3, $CC, $C3, $C3, $C3, $C3, $CC, $C3, $C3, $C3, $C3, $CC, $C3, $C3, $C3, $C3, $CC, $C3, $C6, $00
+
+TEXT_SYSTEM_INFO_SLOT_GUI_DATA:
+
+	db	$C4, $20, $C4, $20, $20, $20, $20, $C4, $20, $20, $20, $20, $C4, $20, $20, $20, $20, $C4, $20, $20, $20, $20, $C4, $20, $C4, $00
+
+TEXT_SYSTEM_INFO_SLOT_GUI_LINE:
+
+	db	$C9, $C3, $CB, $C3, $C3, $C3, $C3, $CB, $C3, $C3, $C3, $C3, $CB, $C3, $C3, $C3, $C3, $CB, $C3, $C3, $C3, $C3, $CB, $C3, $CA, $00
+
+TEXT_SYSTEM_INFO_SLOT_GUI_BOTTOM:
+
+	db	$C7, $C3, $CD, $C3, $C3, $C3, $C3, $CD, $C3, $C3, $C3, $C3, $CD, $C3, $C3, $C3, $C3, $CD, $C3, $C3, $C3, $C3, $CD, $C3, $C8, $00
+
 
 
 TEXT_SYSTEM_INFO_EXIT:

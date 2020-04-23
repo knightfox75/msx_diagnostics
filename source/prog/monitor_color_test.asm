@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.4
+;	Version 1.1.5
 ;	ASM Z80 MSX
 ;	Test de color del monitor
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -75,7 +75,7 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
 
     ; Contador de frames a 0
     xor a
-    ld [MONITOR_COLOR_FRAME], a
+    ld [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)], a
     ; Color por defecto
     ld bc, $010F
     call NGN_TEXT_COLOR
@@ -90,7 +90,7 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
     ; Guarda el nº de test
     ; 1 = WHITE, 2 = BLACK, 3 = RED, 4 = GREEN, 5 = BLUE, 6 = CICLO DE COLOR
     ld a, 1     ; Primer test
-    ld [MONITOR_COLOR_CURRENT_ITEM], a
+    ld [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_ITEM)], a
 
 	; Bucle de ejecucion
 	@@LOOP:
@@ -109,16 +109,16 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
 		jp nz, @@PREV_TEST
 
         ; Si esta seleccionado el ciclo de colores, ejecutalo
-        ld a, [MONITOR_COLOR_CURRENT_ITEM]
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_ITEM)]
         cp 6
         jp z, @@COLOR_LOOP
 
         ; Si es alguno de los otros test, cuenta atras
-        ld a, [MONITOR_COLOR_FRAME]             ; Frame actual
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)]             ; Frame actual
         cp 120                                  ; Si ya has alcanzado la marca
         jr z, @@LOOP_END                        ; No hagas nada
         inc a                                   ; Si no, suma 1
-        ld [MONITOR_COLOR_FRAME], a             ; Guarda el numero de frames
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)], a             ; Guarda el numero de frames
         cp 120                                  ; Si no se ha alcanzado la marca
         jr nz, @@LOOP_END                       ; No hagas nada
         call NGN_TEXT_CLS                       ; Si no, borra la pantalla
@@ -153,7 +153,7 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
     ; ----------------------------------------------------------
 
     @@NEXT_TEST:
-        ld a, [MONITOR_COLOR_CURRENT_ITEM]   ; Recupera la opcion actual
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_ITEM)]   ; Recupera la opcion actual
         inc a
         cp (MONITOR_COLOR_ITEM_LAST + 1)     ; Si es la ultima opcion
         jr nz, @@APPLY_TEST
@@ -166,7 +166,7 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
     ; ----------------------------------------------------------
 
     @@PREV_TEST:
-        ld a, [MONITOR_COLOR_CURRENT_ITEM]   ; Recupera la opcion actual
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_ITEM)]   ; Recupera la opcion actual
         dec a
         cp (MONITOR_COLOR_ITEM_FIRST - 1)    ; Si es la primera opcion
         jr nz, @@APPLY_TEST
@@ -180,12 +180,12 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
 
     @@APPLY_TEST:
 
-        ld [MONITOR_COLOR_CURRENT_ITEM], a      ; Guarda la opcion actualizada
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_ITEM)], a      ; Guarda la opcion actualizada
 
         push af
         call NGN_TEXT_CLS                       ; Borra la pantalla
         xor a                                   ; Contador de frames a 0
-        ld [MONITOR_COLOR_FRAME], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)], a
         pop af
         
         cp 1                         ; Test nº1 - Pantalla en blanco
@@ -246,11 +246,11 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
         call NGN_TEXT_PRINT
         ld bc, $0102                            ; Color inicial de fondo
         ld a, 2
-        ld [MONITOR_COLOR_CURRENT_COLOR], a     ; Color inicial
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_COLOR)], a     ; Color inicial
         ld a, 8                                 ; Tiempo de espera inicial
-        ld [MONITOR_COLOR_DELAY], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)], a
         xor a                                   ; Contador de frames a 0
-        ld [MONITOR_COLOR_FRAME], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)], a
         jp @@LOOP_END                           ; Vuelve al bucle principal
 
         @@TEST_SET_COLOR:
@@ -279,18 +279,18 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
 
         @@NEXT_COLOR:
 
-        ld a, [MONITOR_COLOR_DELAY]      ; Numero de frames de espera
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)]      ; Numero de frames de espera
         ld b, a
-        ld a, [MONITOR_COLOR_FRAME]      ; Frame actual
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)]      ; Frame actual
         inc a                                   ; Sumale 1
-        ld [MONITOR_COLOR_FRAME], a      ; Guarda el frame actual
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)], a      ; Guarda el frame actual
         sub b                                   ; Verifica si aun no se ha alcanzado (si la resta es menor de 0)
         jp c, @@LOOP_END                        ; Vuelve al bucle principal
 
         xor a                                   ; Reinicia el contador de frames
-        ld [MONITOR_COLOR_FRAME], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_FRAME)], a
 
-        ld a, [MONITOR_COLOR_CURRENT_COLOR];     ; Lee el color actual
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_COLOR)];     ; Lee el color actual
         ld b, 1     ; Prepara para aplicarlo al fondo
         ld c, a
         inc a       ; Prepara el siguiente color
@@ -298,25 +298,25 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
         jp nz, @@UPDATE_COLOR       ; Si no es el ultimo color, actualizalo
         ld a, 2                     ; Si lo era, vuelve al primer color del ciclo
         @@UPDATE_COLOR:
-        ld [MONITOR_COLOR_CURRENT_COLOR], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_CURRENT_COLOR)], a
         call NGN_TEXT_COLOR         ; Actualiza el color
         jp @@LOOP_END               ; Vuelve al bucle principal
 
 
     @@SPEED_UP:
-        ld a, [MONITOR_COLOR_DELAY]
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)]
         cp 1
         ret z       ; Si ya es 1 vuelve
         srl a       ; Dividela /2
-        ld [MONITOR_COLOR_DELAY], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)], a
         jp SFX_FUNCTION_PLAY_PING               ; Sonido y vuelve (RET al final de la llamada)
 
     @@SPEED_DOWN:
-        ld a, [MONITOR_COLOR_DELAY]
+        ld a, [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)]
         cp 64
         ret z       ; Si ya es 64, vuelve
         sla a       ; Multiplicala x2
-        ld [MONITOR_COLOR_DELAY], a
+        ld [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)], a
         jp SFX_FUNCTION_PLAY_PONG               ; Sonido y vuelve (RET al final de la llamada)
 
 
