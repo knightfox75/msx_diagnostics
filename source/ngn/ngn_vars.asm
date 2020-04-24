@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.1
+;	Version 0.3.2
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -204,13 +204,21 @@ NGN_SCREEN_MODE:    ds  1       ; Modo de pantalla actual
 
 ; -----------------------------------------------------------------------
 ;	Descompresion RLE
-;   Total: 2054
+;   Total: 6
 ; -----------------------------------------------------------------------
 
 ; Gestion de la descompresion RLE
 NGN_RLE_NORMAL_SIZE:		ds	2
 NGN_RLE_COMPRESSED_SIZE:	ds	2
 NGN_RLE_POINTER:		    ds	2
+
+
+
+; -----------------------------------------------------------------------
+;	Memory Pool
+;   Total: 2048
+; -----------------------------------------------------------------------
+
 ; Buffer de RAM
 NGN_RAM_BUFFER:			    ds	2048
 

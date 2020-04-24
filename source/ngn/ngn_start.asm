@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.1
+;	Version 0.3.2
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -19,6 +19,9 @@
 ; ----------------------------------------------------------
 
 NGN_START:
+
+	; Espera a que se limpien las interrupciones iniciales
+	call NGN_WAIT_FOR_START_UP_INTERRUPTS
 
 	; Habilita el parche de las interrupciones
 	call NGN_SYSTEM_FD9A_PATCH_ON

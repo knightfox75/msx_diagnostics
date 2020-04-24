@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.1
+;	Version 0.3.2
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -9,6 +9,30 @@
 ;	Funciones del sistema
 ;
 ;***********************************************************
+
+
+
+; ----------------------------------------------------------
+; NGN_WAIT_FOR_START_UP_INTERRUPTS:
+; Espera a que se resuelvan todas las interrupciones
+; antes de iniciar la libreria
+; ----------------------------------------------------------
+
+NGN_WAIT_FOR_START_UP_INTERRUPTS:
+
+	ld b, 120		; Espera las siguientes 120 interrupciones (2 segundos?)
+	@@LOOP:			; Esto evita que la unidad de disco siga girando
+		ei			; Despues de iniciar el programa
+		nop
+		nop
+		halt
+		nop
+		nop
+		djnz @@LOOP
+
+	; Sal de la rutina
+	ret
+
 
 
 

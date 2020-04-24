@@ -2,6 +2,17 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-24 Ver. 1.1.6
+-------------------------------------------------------------------------------- 
+- Detección completa e indicación de la ubicación correcta en la pantalla
+  de información del sistema de toda la memoria RAM, (por el momento, sin el
+  uso de mappers), instalada en el ordenador. La detección tiene una precisión
+  de segmentos de 4kb.
+- Se corrige el bug que causaba que si se cargaba el programa desde una unidad
+  de disco, esta siguiera encendida incluso después de iniciar el programa.
+  Este parche se ha aplicado a la librería base MSX N'gine.
+
+
 2020-04-19 Ver. 1.1.5
 -------------------------------------------------------------------------------- 
 - Se ahorran 64 bytes de RAM usando el NGN_RAM_BUFFER en vez del array

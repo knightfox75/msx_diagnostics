@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.5
+;   Version 1.1.6
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para BINARIO de 32kb
 ;	Genera un archivo .CAS y .WAV
@@ -31,7 +31,7 @@ OUTPUT_FORMAT = 4		; Define el formato de salida
 ; Almacena las variables los ultimos 4KB
 .ORG $E380
 .INCLUDE "ngn/ngn_vars.asm"         ; 2285 bytes
-.INCLUDE "prog/vars.asm"            ; 110 bytes
+.INCLUDE "prog/vars.asm"            ; 26 bytes
 
 
 ; ----------------------------------------------------------

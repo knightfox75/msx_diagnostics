@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.5
+;   Version 1.1.6
 ;   ASM Z80 MSX
 ;   Definicion de constantes
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -35,13 +35,6 @@ MEMORY_SLOT_ID            .EQU    $82    ; ID de slot en formato (ExxxSSPP)     
                                             ; bit 4-6 = Unused
                                             ; bit 7 = 1 if Slot is Expanded
 
-MEMORY_SLOT_BACKUP        .EQU    $83    ; Backup de la configuracion del slot       1 byte     ($A8)
-MEMORY_SUBSLOT_BACKUP     .EQU    $84    ; Backup de la configuracion del sub-slot   1 byte     ($FFFF)
-
-MEMORY_SLOT_LAYOUT        .EQU    $85    ; Layout de cada (sub)slot  (byte)          4 bytes x4
-                                            ; $00 Vacio
-                                            ; $01 ROM
-                                            ; $02 RAM
 
 
 
