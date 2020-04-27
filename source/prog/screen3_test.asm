@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
 ;	Test SCREEN 3
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -70,6 +70,10 @@ FUNCTION_SCREEN3_TEST_MENU:
 ; ----------------------------------------------------------
 
 FUNCTION_SCREEN3_TEST_RUN:
+
+	; Fuerza recargar el modo 0 al volver al menu
+	ld a, 1
+	ld [FORCE_SET_SCREEN_0], a
 
 	; Pon la VDP en MODO SCR3
 	ld bc, $0F01			; Color de frente/fondo

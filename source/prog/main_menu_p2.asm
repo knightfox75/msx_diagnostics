@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -23,12 +23,17 @@ FUNCTION_MAIN_MENU_P2:
 	ld [MAINMENU_ITEM_OLD], a
 
 	; Pon la VDP en MODO SCR0 si es necesario
-	ld a, [NGN_SCREEN_MODE]			; Lee el modo de pantalla actual
+	ld a, [FORCE_SET_SCREEN_0]		; Lee si hay que forzar poner el modo 0 de pantalla
 	or a
 	jr z, @@CLS_SCREEN
 	ld bc, $0F04					; Color de frente/fondo
 	ld de, $0128					; Color de borde/ancho en columnas (40)
 	call NGN_SCREEN_SET_MODE_0
+	; Tabla de caracteres personalizados
+	call FUNCTION_SYSTEM_SCREEN0_CHARSET
+	; Resetea el flag
+	xor a
+	ld [FORCE_SET_SCREEN_0], a
 	jr @@DRAW_SCREEN
 
 	; Borra la pantalla y pon el color adecuado
@@ -72,14 +77,14 @@ FUNCTION_MAIN_MENU_P2:
 		; ----------------------------------------------------------
 
 		; Si se pulsa la tecla 1
-		ld a, [NGN_KEY_1]									; Tecla 1
-		and $02												; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
+		ld a, [NGN_KEY_1]								; Tecla 1
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 2
-		ld a, [NGN_KEY_2]						; Tecla 2
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_2			; Ejecuta la opcion
+		ld a, [NGN_KEY_2]								; Tecla 2
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 3
 		ld a, [NGN_KEY_3]						; Tecla 3
@@ -179,7 +184,7 @@ FUNCTION_MAIN_MENU_P2:
 		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
 		; Opcion 2
 		cp 2
-		jp z, FUNCTION_MAIN_MENU_P2_2			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
 		; Opcion 3
 		cp 3
 		jp z, FUNCTION_MAIN_MENU_P2_3			; Ejecuta la opcion
@@ -242,12 +247,13 @@ FUNCTION_MAIN_MENU_MONITOR_COLOR:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_2 [2]
+; FUNCTION_MAIN_MENU_MIXED_MODE [2]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_P2_2:
+FUNCTION_MAIN_MENU_MIXED_MODE:
 
 	; Llama la funcion correspondiente
+	call FUNCTION_MIXED_MODE_TEST_MENU
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041

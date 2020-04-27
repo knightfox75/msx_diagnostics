@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 1)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -23,12 +23,17 @@ FUNCTION_MAIN_MENU_P1:
 	ld [MAINMENU_ITEM_OLD], a
 
 	; Pon la VDP en MODO SCR0 si es necesario
-	ld a, [NGN_SCREEN_MODE]			; Lee el modo de pantalla actual
+	ld a, [FORCE_SET_SCREEN_0]		; Lee si hay que forzar poner el modo 0 de pantalla
 	or a
 	jr z, @@CLS_SCREEN
 	ld bc, $0F04					; Color de frente/fondo
 	ld de, $0128					; Color de borde/ancho en columnas (40)
 	call NGN_SCREEN_SET_MODE_0
+	; Tabla de caracteres personalizados
+	call FUNCTION_SYSTEM_SCREEN0_CHARSET
+	; Resetea el flag
+	xor a
+	ld [FORCE_SET_SCREEN_0], a
 	jr @@DRAW_SCREEN
 
 	; Borra la pantalla y pon el color adecuado
@@ -40,9 +45,6 @@ FUNCTION_MAIN_MENU_P1:
 	; Ejecuta la rutina [DISSCR] para deshabilitar la pantalla
 	@@DRAW_SCREEN:
 	call $0041
-
-	; Tabla de caracteres personalizados
-	call FUNCTION_SYSTEM_SCREEN0_CHARSET
 
 	; Texto del menu
 	call FUNCTION_MAIN_MENU_HEADER_PRINT	; Cabecera del menu

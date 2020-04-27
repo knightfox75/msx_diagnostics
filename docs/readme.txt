@@ -64,7 +64,11 @@ La versión actual del programa está provista de las siguientes funcionalidades
 	la frecuencia del generador de ruido.
 	
 - SYSTEM INFO
-	Muestra un resumen de las características técnicas de nuestro equipo.
+	Muestra un resumen de las características técnicas de nuestro equipo,
+	como el modelo de MSX (1, 2, 2+ o Turbo-R), la RAM y VRAM instaladas
+	y su ubicación, el diseño de slots, la VDP instalada y a que frecuencia
+	de refresco está funcionando y en los modelos msx2 y superiores la
+	fecha y hora del RTC interno.
 	* Versión preliminar, faltan algunos datos.
 	
 - MONITOR COLOR
@@ -73,6 +77,15 @@ La versión actual del programa está provista de las siguientes funcionalidades
 	colores de la paleta de MSX1 del 2 al 15, siendo además posible modificar
 	el tiempo de espera entre cambios. Útil para verificar la pureza del
 	color del monitor o ajustar la salida de video compuesto o RGB.
-
 	
-El programa se distribuye en formato ROM, DISK, CAS y archivo de audio WAVE, a 1200 y 2400 baudios.
+- MIXED MODE
+	Prueba para que podamos verificar si nuestra VDP dispone y es compatible
+	con el modo mixto (texto + gráficos) no documentado por Texas Instruments
+	https://en.wikipedia.org/wiki/Texas_Instruments_TMS9918#Undocumented
+	Algunas VDP clónicas no disponen de el en algunas revisiones. El modelo
+	de MSX más conocido por no ser compatible es el HX-10 de Toshiba.
+
+
+
+El programa se distribuye en formato ROM, DISK, CAS y archivo de audio WAVE 
+a 1200 y 2400 baudios.

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
 ;	Funciones comunes del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -34,12 +34,19 @@ FUNCTION_SYSTEM_START:
 	; Tabla de nombres de las teclas
 	call FUNCTION_SYSTEM_SET_KEY_NAMES_TABLE
 
-	; Ultima opcion usada del menu
-	ld a, (MAINMENU_FIRST_OPTION_P1 + 1)
-	ld [MAINMENU_LAST_ITEM], a
 
 	; Deshabilita la visualizacion de las teclas de funcion
 	call NGN_SCREEN_KEYS_OFF
+
+
+
+	; Inicializacion de las variables del programa
+	
+	ld a, 1									; Fuerza seleccionar el modo 0 + caracteres personalizados
+	ld [FORCE_SET_SCREEN_0], a
+
+	ld a, (MAINMENU_FIRST_OPTION_P1 + 1)	; Ultima opcion usada del menu
+	ld [MAINMENU_LAST_ITEM], a
 
 	; Fin de la funcion
 	ret

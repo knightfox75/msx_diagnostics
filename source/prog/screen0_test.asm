@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
 ;	Test SCREEN 0
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -71,6 +71,11 @@ FUNCTION_SCREEN0_TEST_MENU:
 
 FUNCTION_SCREEN0_TEST_RUN:
 
+	; Fuerza recargar el modo 0 al volver al menu
+	ld a, 1
+	ld [FORCE_SET_SCREEN_0], a
+
+	; Colores de la pantalla
 	ld bc, $0F04					; Color de frente/fondo
 	ld de, $0128					; Color de borde/ancho en columnas (40)
 	call NGN_SCREEN_SET_MODE_0

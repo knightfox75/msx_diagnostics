@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -30,7 +30,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.6", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.7", $0D, $0A, $00
 
 
 
@@ -88,7 +88,7 @@ TEXT_MAIN_MENU_P2_TITLE:
 TEXT_MAIN_MENU_P2_ITEMS:
 	db	$0D, $0A
 	db	"   1. MONITOR COLOR", $0D, $0A
-	db	"   2. ", $C3, $0D, $0A
+	db	"   2. MIXED MODE", $0D, $0A
 	db	"   3. ", $C3, $0D, $0A
 	db	"   4. ", $C3, $0D, $0A
 	db	"   5. ", $C3, $0D, $0A
@@ -475,6 +475,7 @@ TEXT_SYSTEM_INFO_EXIT:
 
 
 
+
 ; Textos del menu MONITOR COLOR
 TEXT_MONITOR_COLOR_MENU_TITLE:
 
@@ -513,6 +514,26 @@ TEXT_MONITOR_COLOR_BLUE:
 
 TEXT_MONITOR_COLOR_LOOP:
 	db "LOOPING", $00
+
+
+
+
+
+; Textos del test de modo mixto
+TEXT_MIXED_MODE_MENU_TITLE:
+
+	db	$0D, $0A
+	db	" MIXED MODE TEST", $0D, $0A
+	db	$00
+
+TEXT_MIXED_MODE_MENU_INSTRUCTIONS:
+	db	$0D, $0A
+	db	$20, $CE, " YOU MUST SEE 3 TEXT BLOCKS IF", $0D, $0A
+	db	"   YOUR VDP SUPPORTS MIXED MODE.", $0D, $0A
+	db	$00
+
+TEXT_MIXED_MODE_MESSAGE:
+	db	"  YOU MUST SEE ME THREE TIMES   "
 
 
 

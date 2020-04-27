@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.2
+;	Version 0.3.3
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -23,10 +23,6 @@
 ; ----------------------------------------------------------
 
 NGN_SCREEN_SET_MODE_0:
-
-	; Guarda el modo de pantalla
-	xor a
-	ld [NGN_SCREEN_MODE], a
 
 	; Guarda los parametros de la funcion
 	push bc
@@ -76,10 +72,6 @@ NGN_SCREEN_SET_MODE_0:
 
 NGN_SCREEN_SET_MODE_1:
 
-	; Guarda el modo de pantalla
-	ld a, 1
-	ld [NGN_SCREEN_MODE], a
-
 	; Guarda los parametros de la funcion
 	push bc
 	push de
@@ -128,10 +120,6 @@ NGN_SCREEN_SET_MODE_1:
 
 NGN_SCREEN_SET_MODE_2:
 
-	; Guarda el modo de pantalla
-	ld a, 2
-	ld [NGN_SCREEN_MODE], a
-
 	; Guarda los parametros de la funcion
 	push bc
 	push de
@@ -176,10 +164,6 @@ NGN_SCREEN_SET_MODE_2:
 ; ----------------------------------------------------------
 
 NGN_SCREEN_SET_MODE_3:
-
-	; Guarda el modo de pantalla
-	ld a, 3
-	ld [NGN_SCREEN_MODE], a
 
 	; Guarda los parametros de la funcion
 	push bc

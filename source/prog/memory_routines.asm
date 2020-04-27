@@ -1,9 +1,9 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.6
+;	Version 1.1.7
 ;	ASM Z80 MSX
-;	Rutinas del VDP
+;	Rutinas de la gestion de memoria
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
 ;
@@ -225,7 +225,7 @@ FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 		pop bc			; Restaura el contador del bucle
 
 		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]
-		ld de, $1000		; Siguiente pagina
+		ld de, $1000		; Siguiente segmento de 4kb
 		add hl, de
 		ld [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)], hl
 		
@@ -341,7 +341,7 @@ FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:
 		pop hl			; Recupera los registros del contador
 		pop bc
 
-		ld de, $1000	; Siguiente segmento de memoria
+		ld de, $1000	; Siguiente segmento de 4kb
 		add hl, de
 		ld [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)], hl
 

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.6
+;   Version 1.1.7
 ;	ASM Z80 MSX
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -111,6 +111,8 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "prog/system_info.asm"
 	; Test de color del monitor
 	.INCLUDE "prog/monitor_color_test.asm"
+	; Test del modo mixto
+	.INCLUDE "prog/mixed_mode_test.asm"
 
 	; Procesos comunes
 	.INCLUDE "prog/system.asm"
@@ -133,7 +135,7 @@ PROGRAM_START_ADDRESS:
 	; ----------------------------------------------------------
 
 	; Imagenes de fondo
-	.INCLUDE "data/bg/bg_title.asm"				; Total de datos: 3014 bytes
+	.INCLUDE "data/bg/bg_title.asm"				; Total de datos: 2245 bytes
 	.INCLUDE "data/bg/bg_line_pattern_b.asm"	; Total de datos: 922 bytes
 	.INCLUDE "data/bg/bg_line_pattern_w.asm"	; Total de datos: 904 bytes
 	.INCLUDE "data/bg/bg_color_bars.asm"		; Total de datos: 1158 bytes

@@ -2,6 +2,18 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-27 Ver. 1.1.7
+--------------------------------------------------------------------------------
+- Añadido el test para que podamos verificar si nuestra VDP dispone y es
+  compatible con el modo mixto (texto + gráficos) no documentado por
+  Texas Instruments.
+  (Gracias a Mortimer por su ayuda en la realización de este test).
+- Corregido el bug que causaba que no se muestren los caracteres correctos en
+  el menú al volver desde el test de SCREEN 0.
+- Rediseñada la pantalla del título, lo que ha permitido una mejor compresión
+  RLE, ahorrando 769 bytes (un 25% menos de tamaño).
+
+
 2020-04-24 Ver. 1.1.6
 -------------------------------------------------------------------------------- 
 - Detección completa e indicación de la ubicación correcta en la pantalla

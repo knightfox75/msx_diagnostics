@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.2
+;	Version 0.3.3
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -77,11 +77,6 @@ NGN_START:
 	; Random Seed
 	ld a, 13
 	ld [NGN_RANDOM_SEED], a
-
-	; Modo de pantalla por defecto
-	xor a
-	ld [NGN_SCREEN_MODE], a
-	
 
 	; Vuelve
 	ret
