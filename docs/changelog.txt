@@ -2,6 +2,15 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-04-30 Ver. 1.1.8
+--------------------------------------------------------------------------------
+- Rescrita parte de la rutina de detección de memoria en la página 3.
+- La rutina de detección de memoria ahora también detecta los mappers,
+  tanto internos como externos, indicándolo en la pantalla de información
+  del sistema. Se diferencia la memoria normal de la mapeada con el icono
+  correspondiente.
+
+
 2020-04-27 Ver. 1.1.7
 --------------------------------------------------------------------------------
 - Añadido el test para que podamos verificar si nuestra VDP dispone y es

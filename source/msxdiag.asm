@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.7
+;   Version 1.1.8
 ;	ASM Z80 MSX
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -85,6 +85,11 @@ PROGRAM_START_ADDRESS:
 	; Archivo principal
 	.INCLUDE "prog/main.asm"
 
+	; Procesos de sistema
+	.INCLUDE "prog/system.asm"
+	.INCLUDE "prog/memory_routines.asm"
+	.INCLUDE "prog/vdp_routines.asm"
+
 	; Pantalla de bienvenida
 	.INCLUDE "prog/welcome.asm"
 	; Menu principal
@@ -115,12 +120,9 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "prog/mixed_mode_test.asm"
 
 	; Procesos comunes
-	.INCLUDE "prog/system.asm"
-	.INCLUDE "prog/memory_routines.asm"
-	.INCLUDE "prog/vdp_routines.asm"
 	.INCLUDE "prog/sfx.asm"
-	
-	
+
+
 
 	; ----------------------------------------------------------
 	; Libreria N'gine

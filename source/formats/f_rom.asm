@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.7
+;   Version 1.1.8
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para ROM de 32kb
 ;
@@ -40,6 +40,7 @@ OUTPUT_FORMAT = 2									; Define el formato de salida
 
 .PAGE 1										        ; Selecciona la pagina 1 [$4000] (Codigo del programa)
 .ROM												; Se creara el binario en formato ROM de hasta 32kb
+.SIZE 32
 .db 77, 83, 88, 95, 68, 73, 65, 71, 0, 0, 0, 0      ; 12 digitos para completar la cabecera de la ROM
 
 ; Indicale al compilador donde empieza el programa

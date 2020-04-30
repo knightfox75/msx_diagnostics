@@ -69,7 +69,6 @@ La versión actual del programa está provista de las siguientes funcionalidades
 	y su ubicación, el diseño de slots, la VDP instalada y a que frecuencia
 	de refresco está funcionando y en los modelos msx2 y superiores la
 	fecha y hora del RTC interno.
-	* Versión preliminar, faltan algunos datos.
 	
 - MONITOR COLOR
 	Muestra en pantalla cada uno de los colores básicos (rojo, verde, azul),

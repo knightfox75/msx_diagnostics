@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.7
+;   Version 1.1.8
 ;   ASM Z80 MSX
 ;   Definicion de constantes
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -25,16 +25,28 @@ SYSTEM_KEYS_NUMBER      .EQU	6		; Numero de teclas de sistema
 ; Rutinas de configuracion de slots y memoria
 ; ----------------------------------------------------------
 
+; Puerto para la seleccion de segmento de mapper
+
+MEMORY_MAPPER_TEST_PAGE         .EQU    $0FFF   ; Direccion de la pagina
+MEMORY_MAPPER_TEST_PORT         .EQU    $FC     ; Puerto para la pagina
+
+
 ; Usa el NGN_RAM_BUFFER, para las variables, define aqui los offsets
 
-MEMORY_PAGE_ADDR          .EQU    $80    ; Direccion de memoria de la pagina         2 bytes
+MEMORY_PAGE_ADDR                .EQU    $40     ; Direccion de memoria de la pagina         2 bytes
 
-MEMORY_SLOT_ID            .EQU    $82    ; ID de slot en formato (ExxxSSPP)          1 byte
-                                            ; bit 0-1 = Primary slot number
-                                            ; bit 2-3 = Sub-slot number (optional)
-                                            ; bit 4-6 = Unused
-                                            ; bit 7 = 1 if Slot is Expanded
+MEMORY_SLOT_ID                  .EQU    $42     ; ID de slot en formato (ExxxSSPP)          1 byte
+                                                ; bit 0-1 = Primary slot number
+                                                ; bit 2-3 = Sub-slot number (optional)
+                                                ; bit 4-6 = Unused
+                                                ; bit 7 = 1 if Slot is Expanded
 
+MEMORY_SLOT_SELECTION           .EQU    $43     ; Guarda el byte del OUT de seleccion de slot principal [$A8]       1 byte
+MEMORY_SUBSLOT_SELECTION        .EQU    $44     ; Guarda el byte de seleccion de sub-slot [$FFFF]                   1 byte
+MEMORY_PAGE3_SLOT               .EQU    $45     ; Guarda el byte de la seleccion de la pagina 3                     1 byte
+MEMORY_IN_CURRENT_SELECTION     .EQU    $46     ; Memoria encontrada en la seleccion actual                         3 bytes
+MEMORY_MAPPER_TOTAL_PAGES       .EQU    $49     ; Nº de paginas del mapper                                          2 bytes
+MEMORY_MAPPER_PAGES_BACKUP      .EQU    $200    ; Bytes de las paginas del mapper                                   256 bytes
 
 
 

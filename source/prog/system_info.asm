@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.7
+;	Version 1.1.8
 ;	ASM Z80 MSX
 ;	Informacion del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -289,10 +289,12 @@ FUNCTION_SYSTEM_INFO:
 	call NGN_TEXT_POSITION
 	ld hl, TEXT_SYSTEM_INFO_RAM
 	call NGN_TEXT_PRINT
-	ld b, $00	; Valor de RAM
 	ld hl, [RAM_DETECTED]
 	ld c, h
 	ld d, l
+	ld a, [(RAM_DETECTED + 2)]
+	and $0F
+	ld b, a
 	call NGN_TEXT_PRINT_BCD
 	ld hl, TEXT_SYSTEM_INFO_KB
 	call NGN_TEXT_PRINT
@@ -555,23 +557,39 @@ FUNCTION_SYSTEM_INFO:
 	ld b, 4
 	ld c, 1
 	ld e, $30		; Pagina
+
 	@@PRINT_RAM_PAGES_LOOP:
-		ld a, d
+		ld a, d						; Que hay en esta pagina?
 		and c
-		jp z, @@PRINT_EMPTY_PAGE
-		ld a, e
+		jr z, @@PRINT_EMPTY_PAGE	; Si esta vacia, prepara el caracter a mostrar
+
+		bit 7, [hl]					; Si el BIT 7 esta activo, es un MAPPER
+		jr nz, @@BANK_FULL
+
+		ld a, e						; Si no, carga el numero de pagina actual
 		jr @@PRINT_RAM_PAGE
-		@@PRINT_EMPTY_PAGE:
+
+		@@BANK_FULL:				; Selecciona el caracter para marcar que es un mapper
+		ld a, $C2
+		jr @@PRINT_RAM_PAGE
+
+		@@PRINT_EMPTY_PAGE:			; Selecciona el caracter de pagina vacia
 		ld a, $20
+
 		@@PRINT_RAM_PAGE:
-		push bc
+		push bc			; Preserva los registros
 		push de
-		call $00A2	; Imprime el caracter
-		pop de
+
+		call $00A2		; Imprime el caracter
+
+		pop de			; Recupera los registros
 		pop bc
-		sla c		; Siguiente BIT
-		inc e		; Siguiente nº de pagina
-		djnz @@PRINT_RAM_PAGES_LOOP
+		
+		sla c			; Siguiente BIT
+		inc e			; Siguiente nº de pagina
+
+		djnz @@PRINT_RAM_PAGES_LOOP		; Fin del bucle
+
 	; Fin de la impresion del slot/subslot
 	ret
 

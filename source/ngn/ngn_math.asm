@@ -28,13 +28,41 @@ NGN_BCD_ADD:
 	or a				; Resetea el flag
 
 	@@BCD_ADD_LOOP:
-		ld a, [de]		; Carga en a el valor del byte del sumando
-		adc [hl]		; Sumale el valor del byte valor base
+		ld a, [de]		; Lee el valor base
+		adc [hl]		; Sumale el valor
 		daa				; Corrige el formato a BCD
 		ld [de], a		; Guarda el valor actualizado
 		inc de			; Siguiente byte en ambos operadores
 		inc hl
 		djnz @@BCD_ADD_LOOP
+
+	ret					; Vuelve de la funcion
+
+
+
+; ----------------------------------------------------------
+; NGN_BCD_SUB
+; DE = Direccion de memoria con el numero base
+; y almacena el resultado
+; HL = Direccion de memoria con el substranedo (numero que restamos)
+; Numeros en formato BCD de 3 bytes (0 - 99999)
+; Modifica AF, BC, DE, HL
+; Info: https://www.chibiakumas.com/z80/advanced.php
+; ----------------------------------------------------------
+
+NGN_BCD_SUB:
+
+	ld b, 3				; Resta BCD de 3 bytes
+	or a				; Resetea el flag
+
+	@@BCD_SUB_LOOP:
+		ld a, [de]		; Lee el valor base
+		sbc [hl]		; Restale el valor
+		daa				; Corrige el formato a BCD
+		ld [de], a		; Guarda el valor actualizado
+		inc de			; Siguiente byte en ambos operadores
+		inc hl
+		djnz @@BCD_SUB_LOOP
 
 	ret					; Vuelve de la funcion
 

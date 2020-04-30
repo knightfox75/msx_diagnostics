@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.7
+;   Version 1.1.8
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -45,19 +45,18 @@ VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
 ; ----------------------------------------------------------
 
 RAM_DETECTED:                   ds  3       ; RAM detectada (Formato BCD de 3 bytes [000000])
-                                            ;   Solo se usan los 4 primeros digitos, pero se
-                                            ;   requieren los 3 bytes para las operaciones de suma
+
 SLOT_EXPANDED:                  ds  4       ; El slot esta expandido? (bool 0 / !0) 1 byte x 4 slots
 
                                             ;                   -----------------------------------
                                             ;         SUB-SLOT      0        1        2        3
                                             ;                   -----------------------------------
-RAM_SLOT_0:                     ds  4       ; RAM en el SLOT 0  xxxx0000 xxxx0000 xxxx0000 xxxx0000
-RAM_SLOT_1:                     ds  4       ; RAM en el SLOT 1  xxxx0000 xxxx0000 xxxx0000 xxxx0000
-RAM_SLOT_2:                     ds  4       ; RAM en el SLOT 2  xxxx0000 xxxx0000 xxxx0000 xxxx0000
-RAM_SLOT_3:                     ds  4       ; RAM en el SLOT 3  xxxx0000 xxxx0000 xxxx0000 xxxx0000
+RAM_SLOT_0:                     ds  4       ; RAM en el SLOT 0  0xxx0000 0xxx0000 0xxx0000 0xxx0000
+RAM_SLOT_1:                     ds  4       ; RAM en el SLOT 1  0xxx0000 0xxx0000 0xxx0000 0xxx0000
+RAM_SLOT_2:                     ds  4       ; RAM en el SLOT 2  0xxx0000 0xxx0000 0xxx0000 0xxx0000
+RAM_SLOT_3:                     ds  4       ; RAM en el SLOT 3  0xxx0000 0xxx0000 0xxx0000 0xxx0000
                                             ;                   -----------------------------------
-                                            ;           PAGINA      3210     3210     3210     3210
+                                            ;           PAGINA  M   3210 M   3210 M   3210 M   3210
                                             ;                   -----------------------------------
 
 

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.7
+;	Version 1.1.8
 ;	ASM Z80 MSX
 ;	Archivo principal
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"

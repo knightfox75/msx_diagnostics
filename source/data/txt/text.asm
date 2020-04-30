@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.7
+;	Version 1.1.8
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -30,7 +30,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.7", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.8", $0D, $0A, $00
 
 
 
@@ -72,7 +72,7 @@ TEXT_MAIN_MENU_P1_ITEMS:
 	db	"   6. KEYBOARD", $0D, $0A
 	db	"   7. JOYSTICK", $0D, $0A
 	db	"   8. PSG", $0D, $0A
-	db	"   9. SYSTEM INFO ",$CF, $0D, $0A
+	db	"   9. SYSTEM INFO ", $0D, $0A
 	db	"   0. NEXT >>", $0D, $0A
 	db	$00
 
