@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.8
+;   Version 1.1.9
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -41,12 +41,12 @@ VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
 
 ; ----------------------------------------------------------
 ; Rutinas de gestion de memoria
-; Total: 23 bytes
+; Total: 158 bytes
 ; ----------------------------------------------------------
 
 RAM_DETECTED:                   ds  3       ; RAM detectada (Formato BCD de 3 bytes [000000])
 
-SLOT_EXPANDED:                  ds  4       ; El slot esta expandido? (bool 0 / !0) 1 byte x 4 slots
+MEMORY_SLOT_EXPANDED:           ds  4       ; El slot esta expandido? (bool 0 / !0) 1 byte x 4 slots
 
                                             ;                   -----------------------------------
                                             ;         SUB-SLOT      0        1        2        3
@@ -58,8 +58,28 @@ RAM_SLOT_3:                     ds  4       ; RAM en el SLOT 3  0xxx0000 0xxx000
                                             ;                   -----------------------------------
                                             ;           PAGINA  M   3210 M   3210 M   3210 M   3210
                                             ;                   -----------------------------------
+RAM_BANK_SIZE:                  ds  128     ; RAM de la pagina en KB
+; [                   SLOT....0....1....2....3                   ]      ; 32 bytes offset x slot
+; [     SUB0     ][     SUB1     ][     SUB2     ][     SUB3     ]      ; 8 byes offset x sub-slot
+; [P0][P1][P2][P3][P0][P1][P2][P3][P0][P1][P2][P3][P0][P1][P2][P3]      ; 2 bytes offset x page
+; Total 128 byes
+; Se guarda la catidad de memoria RAM en cada pagina.
+; En el caso de la memoria mapeada, la cantidad se guarda en el espacio de la pagina 0
+; y el numero de paginas de 16kb del mapper en el espacio de la pagina 1
 
+MEMORY_CURRENT_SLOT:            ds  1       ; Numero de slot actual
+MEMORY_CURRENT_SUBSLOT:         ds  1       ; Numero actual de subslot
+MEMORY_CURRENT_PAGE:            ds  1       ; Numero actual de pagina
+MEMORY_CURRENT_LAYOUT:          ds  1       ; Configuracion de RAM actual del slot (RAM_SLOT_N)
+MEMORY_PAGE_ADDR:               ds  2       ; Direccion de memoria de la pagina
 
+MEMORY_SLOT_ID:                 ds  1       ; ID de slot en formato (ExxxSSPP)
+                                            ; bit 0-1 = Primary slot number
+                                            ; bit 2-3 = Sub-slot number (optional)
+                                            ; bit 4-6 = Unused
+                                            ; bit 7 = 1 if Slot is Expanded
+
+@@asMSX_BUG:
 
 ; -----------------------------------------------------------------------
 ; Teclas

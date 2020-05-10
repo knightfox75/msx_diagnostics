@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.8
+;   Version 1.1.9
 ;	ASM Z80 MSX
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -114,6 +114,8 @@ PROGRAM_START_ADDRESS:
 	.INCLUDE "prog/psg_test.asm"
 	; Informacion del sistema
 	.INCLUDE "prog/system_info.asm"
+	; Test de la memoria RAM
+	.INCLUDE "prog/ram_test.asm"
 	; Test de color del monitor
 	.INCLUDE "prog/monitor_color_test.asm"
 	; Test del modo mixto

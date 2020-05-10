@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.8
+;	Version 1.1.9
 ;	ASM Z80 MSX
 ;	Informacion del sistema
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -470,13 +470,13 @@ FUNCTION_SYSTEM_INFO:
 	call $00A2										; Imprime el caracter en A. Rutina [CHPUT] de la BIOS
 	ld hl, $190E									; Posicion inicial
 	ld bc, $0400									; 4 repeticiones (B), contador a 0 (C)
-	@@SLOT_GUI_DRAW_SLOT_EXPANDED:
+	@@SLOT_GUI_DRAW_MEMORY_SLOT_EXPANDED:
 		push hl										; Guarda la posicion
 		push bc										; Guarda los contadores
 		call NGN_TEXT_POSITION						; Coloca el cursor de texto
 		pop bc										; Preserva el contador
 		push bc
-		ld hl, SLOT_EXPANDED						; Variable con la informacion
+		ld hl, MEMORY_SLOT_EXPANDED						; Variable con la informacion
 		ld b, 0										; Indice de slot (C)
 		add hl, bc
 		ld b, $4E									; Letra "N"
@@ -488,7 +488,7 @@ FUNCTION_SYSTEM_INFO:
 		inc c										; Siguiente digito
 		inc hl										; Siguiente fila
 		inc hl
-		djnz @@SLOT_GUI_DRAW_SLOT_EXPANDED			; Repite hasta imprimir los 4 digitos
+		djnz @@SLOT_GUI_DRAW_MEMORY_SLOT_EXPANDED			; Repite hasta imprimir los 4 digitos
 
 
 	; Impresion de los bancos de memoria

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.8
+;	Version 1.1.9
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -30,7 +30,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.8", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.1.9", $0D, $0A, $00
 
 
 
@@ -87,10 +87,10 @@ TEXT_MAIN_MENU_P2_TITLE:
 
 TEXT_MAIN_MENU_P2_ITEMS:
 	db	$0D, $0A
-	db	"   1. MONITOR COLOR", $0D, $0A
-	db	"   2. MIXED MODE", $0D, $0A
-	db	"   3. ", $C3, $0D, $0A
-	db	"   4. ", $C3, $0D, $0A
+	db	"   1. RAM LAYOUT", $0D, $0A
+	db	"   2. RAM TEST [WIP]", $0D, $0A
+	db	"   3. MONITOR COLOR", $0D, $0A
+	db	"   4. MIXED MODE", $0D, $0A
 	db	"   5. ", $C3, $0D, $0A
 	db	"   6. ", $C3, $0D, $0A
 	db	"   7. ", $C3, $0D, $0A
@@ -536,6 +536,51 @@ TEXT_MIXED_MODE_MESSAGE:
 	db	"  YOU MUST SEE ME THREE TIMES   "
 
 
+
+
+; Textos del test de memoria RAM
+TEXT_RAM_INFO_HEADER:
+	db	" RAM LAYOUT", $0D, $0A, $00
+
+TEXT_RAM_TEST_HEADER:
+	db	" SLOT   PAGE 0  PAGE 1  PAGE 2  PAGE 3", $0D, $0A, $00
+
+TEXT_RAM_TEST_SLOT_ID:
+	db	"  0-0 ", $00			; 7 bytes
+	;	"  0-0  1111KB  1111KB  1111KB  1111KB"
+
+TEXT_RAM_TEST_MAPPED:
+	db	"MAPPED", $00
+
+TEXT_RAM_TEST_PAGES:
+	db	"PAGES", $00
+
+TEXT_RAM_TEST_IN:
+	db	" IN ", $00
+
+TEXT_RAM_TEST_HELP:
+	db	" SELECT A SLOT TO TEST AND PRESS", $0D, $0A
+	db	" ACCEPT OR PRESS CANCEL TO EXIT."
+	db	$00
+
+TEXT_RAM_TEST_TESTING_SLOT:
+	db	"TESTING SLOT ", $00
+
+TEXT_RAM_TEST_PAGE:
+	db	"PAGE ", $00
+
+TEXT_RAM_TEST_ERRORS:
+	db	" ERRORS FOUND", $00
+
+
+
+; ----------------------------------------------------------
+; Textos genericos
+; ----------------------------------------------------------
+
+; Nueva linea
+TEXT_NEW_LINE:
+	db	$0D, $0A, $00
 
 
 

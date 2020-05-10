@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.8
+;	Version 1.1.9
 ;	ASM Z80 MSX
 ;	Rutinas de la gestion de memoria
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -46,7 +46,7 @@ FUNCTION_MEMORY_GET_SLOT_LAYOUT:
 
 		ld a, [hl]							; Lectura del estado del slot
 
-		ld hl, SLOT_EXPANDED				; Variable para almacenar el resultado
+		ld hl, MEMORY_SLOT_EXPANDED			; Variable para almacenar el resultado
 		add hl, de							; Sumale el nº de slot (continua guardado en DE)		
 
 		bit 7, a							; Esta expandido?
@@ -79,8 +79,7 @@ FUNCTION_MEMORY_GET_MEMORY_LAYOUT:
 	ld hl, RAM_DETECTED		; Variable BCD
 	ld b, 3					; 3 bytes (6 digitos)
 	@@RESET_RAM_COUNTER:
-		xor a
-		ld [hl], a
+		ld [hl], $00
 		inc hl
 		djnz @@RESET_RAM_COUNTER
 
@@ -88,10 +87,20 @@ FUNCTION_MEMORY_GET_MEMORY_LAYOUT:
 	ld hl, RAM_SLOT_0
 	ld b, 16			; 4 slots x 4 sub-slots
 	@@RESET_RAM_BANKS_COUNTER:
-		xor a
-		ld [hl], a
+		ld [hl], $00
 		inc hl
 		djnz @@RESET_RAM_BANKS_COUNTER
+
+	; Pon a 0 los contadores de KB por banco
+	ld hl, RAM_BANK_SIZE
+	ld b, 64			; 4 slots x 4 sub-slots x 4 paginas x 2 bytes por pagina
+	@@RESET_RAM_BANK_SIZE:
+		ld [hl], $00
+		inc hl
+		ld [hl], $00
+		inc hl
+		djnz @@RESET_RAM_BANK_SIZE
+	
 
 	; Recorre los slots y marca si estan expandidos
 	ld bc, $0400							; B = 4 slots  /  C = Empieza en el slot 0
@@ -102,10 +111,10 @@ FUNCTION_MEMORY_GET_MEMORY_LAYOUT:
 
 		ld a, c			; Registra el ID de slot
 		and $03			; Bitmask del nº de slot (xxxxxx11)
-		ld [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)], a
+		ld [MEMORY_SLOT_ID], a
 
 		; El slot esta expandido?
-		ld hl, SLOT_EXPANDED		; Lee el flag de expansion (!0 = Expandido)
+		ld hl, MEMORY_SLOT_EXPANDED		; Lee el flag de expansion (!0 = Expandido)
 		ld d, 0						; Del nº de slot
 		ld e, c
 		add hl, de					; Sumale el offset del nº de slot
@@ -114,9 +123,9 @@ FUNCTION_MEMORY_GET_MEMORY_LAYOUT:
 		jp z, @@SLOT_IS_NOT_EXPANDED
 
 		; Slot expandido
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]
+		ld a, [MEMORY_SLOT_ID]
 		set 7, a
-		ld [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)], a
+		ld [MEMORY_SLOT_ID], a
 
 		; Bucle de SUB-SLOTS
 		ld bc, $0400						; B = 4 slots  /  C = Empieza en el sub-slot 0
@@ -125,12 +134,12 @@ FUNCTION_MEMORY_GET_MEMORY_LAYOUT:
 			; Preserva los contadores del bucle
 			push bc
 
-			ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]	; Lee la informacion de SLOT y FLAG (1xxxxx11)
+			ld a, [MEMORY_SLOT_ID]	; Lee la informacion de SLOT y FLAG (1xxxxx11)
 			and $83		; BITMASK (1xxxxx11)
 			sla c		; Bitshift << 2
 			sla c		; Para colocar el nº de sub-slot en la posicion correcta (xxxx11xx)
 			or c		; Añade la informacion al ID de slot
-			ld [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)], a	; Y guarda el ID completo
+			ld [MEMORY_SLOT_ID], a	; Y guarda el ID completo
 
 			call FUNCION_MEMORY_GET_SLOT_RAM	; Busca toda la RAM en ese SUB-SLOT
 
@@ -146,9 +155,9 @@ FUNCTION_MEMORY_GET_MEMORY_LAYOUT:
 		call FUNCION_MEMORY_GET_SLOT_RAM		; Busca toda la RAM en ese SLOT
 
 		@@SLOT_CHECK_LOOP_END:
-		pop bc								; Restaura los contadores del bucle
-		inc c								; Siguiente slot
-		djnz @@SLOT_CHECK_LOOP				; Fin del bucle principal (SLOTS)
+		pop bc									; Restaura los contadores del bucle
+		inc c									; Siguiente slot
+		djnz @@SLOT_CHECK_LOOP					; Fin del bucle principal (SLOTS)
 
 	; Fin de la funcion
 	ret
@@ -196,7 +205,7 @@ FUNCION_MEMORY_GET_SLOT_RAM:
 FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 
 	ld hl, $0000		; Direccion inicial de la pagina
-	ld [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)], hl
+	ld [MEMORY_PAGE_ADDR], hl
 	ld b, $0C			; Paginas del 0 al 3 en pasos de 4kb (12 X 4)
 
 	@@CHECK_PAGES_LOOP:
@@ -206,8 +215,8 @@ FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 		di				; Deshabilita las interrupciones
 
 		; Paso 1, lee 1 byte
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]	; Direccion de la pagina 
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
+		ld hl, [MEMORY_PAGE_ADDR]	; Direccion de la pagina 
 		call $000C		; Lee un byte del slot con la ID en A de la direccion HL (RDSLT)
 		ld b, a			; Respaldo del byte leido
 		cpl				; Invierte los bits
@@ -215,14 +224,14 @@ FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 		; Paso 2, escribelo invertido
 		ld e, a			; Byte a escribir
 		ld c, a
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]	; Direccion de la pagina
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
+		ld hl, [MEMORY_PAGE_ADDR]	; Direccion de la pagina
 		push bc
 		call $0014 		; Escribe un byte (E) en el slot con la ID en A en la direccion HL (WRSLT)
 
 		; Paso 3, vuelvelo a leer y compara si es el mismo que has escrito
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]	; Direccion de la pagina
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
+		ld hl, [MEMORY_PAGE_ADDR]	; Direccion de la pagina
 		call $000C		; Lee un byte del slot con la ID en A de la direccion HL (RDSLT)
 		pop bc
 		cp c						; Son iguales ?
@@ -230,8 +239,8 @@ FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 
 		; Paso 4, restaua el byte original en su sitio
 		ld e, b			; Byte a escribir (restaura el original)
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]	; Direccion de la pagina
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
+		ld hl, [MEMORY_PAGE_ADDR]	; Direccion de la pagina
 		call $0014 		; Escribe un byte (E) en el slot con la ID en A en la direccion HL (WRSLT)
 
 		; Paso 5, Suma 4kb de esta pagina
@@ -243,10 +252,10 @@ FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 
 		pop bc			; Restaura el contador del bucle
 
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]
+		ld hl, [MEMORY_PAGE_ADDR]
 		ld de, $1000		; Siguiente segmento de 4kb
 		add hl, de
-		ld [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)], hl
+		ld [MEMORY_PAGE_ADDR], hl
 		
 		djnz @@CHECK_PAGES_LOOP
 
@@ -265,7 +274,7 @@ FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:
 
 	; Informa de la direccion inicial de memoria del test
 	ld hl, $C000
-	ld [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)], hl
+	ld [MEMORY_PAGE_ADDR], hl
 
 	ld b, 4		; 4 segmentos de 4kb
 	@@CHECK_CHUNKS_LOOP:
@@ -284,25 +293,21 @@ FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:
 
 		; Calcula el SLOT [E]
 		ld c, $03										; Mascara de slot en pagina... [xxxxxx11] en [C]
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; Lee el ID de configuracion de slots
+		ld a, [MEMORY_SLOT_ID]		; Lee el ID de configuracion de slots
 		and c											; Aplica la mascara
 		ld e, a											; Guarda el slot en E
 		; Calcula el SUB-SLOT [D]
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; Lee el ID de configuracion de slots
+		ld a, [MEMORY_SLOT_ID]		; Lee el ID de configuracion de slots
 		srl a											; >> 2
 		srl a											; Pon los BITS 2 y 3 en 0 y 1
 		and c											; Aplica la mascara
 		ld d, a											; Guarda el sub-slot en D
 
 		; Seleccion de la direccion de memoria a analizar
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]
+		ld hl, [MEMORY_PAGE_ADDR]
 
 		; Calcula el numero de pagina segun la direccion de memoria
-		ld a, h							; Con el dato en H
-		ld b, 6							; Y desplazando 6 bits a la derecha...
-		@@GET_PAGE_NUMBER:
-			srl a		; >> 1
-			djnz @@GET_PAGE_NUMBER
+		call FUNCION_MEMORY_GET_PAGE_NUMBER
 		ld b, a							; Numero de pagina en B
 		
 		; Has de desplazar el numero de bits a otra ubicacion que no sea la pagina 0?
@@ -324,7 +329,7 @@ FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:
 		ld c, a				; Guardalo en C
 
 		; Esta expandido?
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]
+		ld a, [MEMORY_SLOT_ID]
 		bit 7, a
 		jr z, @@NOT_EXPANDED
 
@@ -367,10 +372,10 @@ FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:
 
 		pop bc			; Recupera los registros del contador
 
-		ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]
+		ld hl, [MEMORY_PAGE_ADDR]
 		ld de, $1000	; Siguiente segmento de 4kb
 		add hl, de
-		ld [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)], hl
+		ld [MEMORY_PAGE_ADDR], hl
 
 		;djnz @@CHECK_CHUNKS_LOOP		; Fin del bucle
 		dec b
@@ -383,6 +388,9 @@ FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:
 
 ; ----------------------------------------------------------
 ; Funcion verificar si el segmento es RAM (NO EXPANDIDO)
+; A = Configguracion de SLOTS
+; HL = Direccion a analizar
+; Devuelve E si es RAM ($FF)
 ; ----------------------------------------------------------
 
 FUNCTION_MEMORY_CHECK_IF_RAM_NO_EXPANDED:
@@ -423,6 +431,9 @@ FUNCTION_MEMORY_CHECK_IF_RAM_NO_EXPANDED:
 
 ; ----------------------------------------------------------
 ; Funcion verificar si el segmento es RAM (EXPANDIDO)
+; A = Configuracion de SLOTS (AABBCCDD)
+; HL = Direccion a analizar
+; Devuelve E si es RAM ($FF)
 ; ----------------------------------------------------------
 
 FUNCTION_MEMORY_CHECK_IF_RAM_EXPANDED:
@@ -485,23 +496,31 @@ FUNCTION_MEMORY_COUNTER_ADD_4KB:
 
 	; Define el numero de KB a añadir
 	ld hl, NGN_RAM_BUFFER
-	ld [hl], $04
+	ld [hl], $04			; D
 	inc hl
-	ld [hl], $00
+	ld [hl], $00			; C
 	inc hl
-	ld [hl], $00
+	ld [hl], $00			; B
+
 	; Define el origen y el destino para el contador general
 	ld de, RAM_DETECTED
 	ld hl, NGN_RAM_BUFFER
 	; Realiza la suma
 	call NGN_BCD_ADD
+
 	; Define el origen y el destino para el contador local
 	ld de, (NGN_RAM_BUFFER + MEMORY_IN_CURRENT_SELECTION)
 	ld hl, NGN_RAM_BUFFER
 	; Realiza la suma
 	call NGN_BCD_ADD
+
+	; Suma de la memoria en esta pagina
+	ld de, $0004
+	call FUNCTION_MEMORY_PAGE_RAM_SIZE
+
 	; Marca el banco de memoria
 	call FUNCTION_MEMORY_MARK_RAM_BANK
+
 	; Vuelve
 	ret
 
@@ -514,14 +533,11 @@ FUNCTION_MEMORY_COUNTER_ADD_4KB:
 FUNCTION_MEMORY_MARK_RAM_BANK:
 
 	; Lee la direccion actual
-	ld hl, [(NGN_RAM_BUFFER + MEMORY_PAGE_ADDR)]
+	ld hl, [MEMORY_PAGE_ADDR]
+	; Calcula el numero de pagina en HL
+	call FUNCION_MEMORY_GET_PAGE_NUMBER
+
 	; Marca el BIT de la pagina actual en C
-	; Calcula el numero de pagina
-	ld a, h
-	ld b, 6
-	@@GET_PAGE_NUMBER:
-		srl a		; >> 1
-		djnz @@GET_PAGE_NUMBER
 	ld b, a				; Guarda el resultado en B (numero de pagina)
 	ld c, 1				; Marca de la pagina 0 (bit 0) por defecto en C
 	or a
@@ -540,23 +556,70 @@ FUNCTION_MEMORY_MARK_RAM_BANK:
 	or c			; Añadelas
 	and $0F			; Bitmask de los 4 primeros bits
 	ld [hl], a		; Actualiza el registro
-
-	; Si este banco tiene 64kb, posiblemente sea un mapper, indica que esta lleno (BIT 7) si es necesario
+	
+	; Si este banco tiene 64kb, posiblemente sea un mapper, indica que esta lleno (BIT 6) si es necesario
 	ld a, [(NGN_RAM_BUFFER + MEMORY_IN_CURRENT_SELECTION)]
 	sub a, $40		; Resta 64
-	ret c			; Si no ha llegado a 64kb, sal ya
+	ret c 			; Si no ha llegado a 64kb, no lo marques como lleno
 
 	; Hay el banco esta lleno, indicalo en el BIT 6
 	set 6, [hl]
+
 	; Sal de la funcion
 	ret
 
 
 
+; ----------------------------------------------------------
+; Funcion para guardar la RAM de cada pagina
+; DE = Total de KB a añadir
+; Modifica AF, BC, DE, HL
+; ----------------------------------------------------------
+
+FUNCTION_MEMORY_PAGE_RAM_SIZE:
+
+	; Preserva el registro con los KB
+	push de
+
+	; Lee la direccion actual
+	ld hl, [MEMORY_PAGE_ADDR]
+	; Calcula el numero de pagina en HL
+	call FUNCION_MEMORY_GET_PAGE_NUMBER
+
+	; Ahora obten la variable de destino segun el slot, sub-slot y nº de pagina
+	call FUNCION_MEMORY_GET_RAM_BANK_SIZE_VARIABLE
+
+	pop de			; Recupera los KB a añadir
+
+	push hl			; Preserva la direccion
+	ld b, h			; Copiala a BC
+	ld c, l
+
+	ld a, [bc]		; Lee los 2 bytes de datos en la direccion y guardalos en HL
+	ld h, a
+	inc bc
+	ld a, [bc]
+	ld l, a
+
+	add hl, de		; Sumalo
+
+	ld b, h			; Guarda el resultado en BC
+	ld c, l
+
+	pop hl			; Recupera la direccion
+
+	ld [hl], b		; Guardalo en la variable de nuevo
+	inc hl
+	ld [hl], c
+
+	; Sal de la funcion
+	ret
+
+
 
 ; ----------------------------------------------------------
-; Funcion para detectar la RAM un mapper a partir 
-; de la informacion en la pagina 2
+; Funcion para detectar la RAM un mapper usando una
+; de las paginas
 ; ----------------------------------------------------------
 
 FUNCION_MEMORY_GET_RAM_IN_MAPPER:
@@ -576,7 +639,7 @@ FUNCION_MEMORY_GET_RAM_IN_MAPPER:
 		push de
 		ld a, b											; Carga el nº de segmento actual
 		out [MEMORY_MAPPER_TEST_PORT], a				; Seleccion del segmento del mapper
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
 		ld hl, MEMORY_MAPPER_TEST_PAGE					; Direccion de la pagina 
 		call $000C										; Lee un byte del slot con la ID en A de la direccion HL (RDSLT)
 		pop de											; Restaura los registros
@@ -597,7 +660,7 @@ FUNCION_MEMORY_GET_RAM_IN_MAPPER:
 		ld a, c											; Carga el nº de segmento actual
 		out [MEMORY_MAPPER_TEST_PORT], a				; Seleccion del segmento del mapper
 		ld e, $FF										; Byte a escribir
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
 		ld hl, MEMORY_MAPPER_TEST_PAGE					; Direccion de la pagina 
 		call $0014 										; Escribe un byte (E) en el slot con la ID en A en la direccion HL (WRSLT)
 		pop bc
@@ -615,7 +678,7 @@ FUNCION_MEMORY_GET_RAM_IN_MAPPER:
 		push bc											; Preserva el registro
 		ld a, c											; Carga el nº de segmento actual
 		out [MEMORY_MAPPER_TEST_PORT], a				; Seleccion del segmento del mapper
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
 		ld hl, MEMORY_MAPPER_TEST_PAGE					; Direccion de la pagina 
 		call $000C										; Lee un byte del slot con la ID en A de la direccion HL (RDSLT)
 		pop bc											; Recupera el registro
@@ -626,7 +689,7 @@ FUNCION_MEMORY_GET_RAM_IN_MAPPER:
 		ld [(NGN_RAM_BUFFER + MEMORY_MAPPER_TOTAL_PAGES)], hl
 		push bc
 		ld e, c											; Byte a escribir (nº de segmento)
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
+		ld a, [MEMORY_SLOT_ID]		; ID de slot
 		ld hl, MEMORY_MAPPER_TEST_PAGE					; Direccion de la pagina 
 		call $0014 										; Escribe un byte (E) en el slot con la ID en A en la direccion HL (WRSLT)
 		pop bc											; Restaura el registro
@@ -648,7 +711,7 @@ FUNCION_MEMORY_GET_RAM_IN_MAPPER:
 		out [MEMORY_MAPPER_TEST_PORT], a				; Seleccion del segmento del mapper
 		ld a, [de]										; Lee el byte a restaurar
 		ld e, a											; Guardalo en E
-		ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]		; ID de slot
+		ld a, [MEMORY_SLOT_ID]							; ID de slot
 		ld hl, MEMORY_MAPPER_TEST_PAGE					; Direccion de la pagina 
 		call $0014 										; Escribe un byte (E) en el slot con la ID en A en la direccion HL (WRSLT)
 		pop de											; Restaura los registros
@@ -673,39 +736,87 @@ FUNCION_MEMORY_GET_RAM_IN_MAPPER:
 	call FUNCION_MEMORY_GET_CURRENT_SLOT_VARIABLE		; Carga en HL la variable con la informacion del slot actual
 	set 7, [hl]
 
+	; Borra el contador de RAM de las paginas del slot/subslot seleccionado
+	xor a
+	ld [MEMORY_CURRENT_PAGE], a
+	call FUNCION_MEMORY_GET_RAM_BANK_SIZE_VARIABLE
+	ld b, 8		; 4 paginas x 2 bytes
+	@@RESET_PAGE_RAM_COUNTER:
+		ld [hl], 0
+		inc hl
+		djnz @@RESET_PAGE_RAM_COUNTER
+
 	; Resta 64kb al contador de memoria
 	; Define el numero de KB a añadir
 	ld hl, NGN_RAM_BUFFER
-	ld [hl], $64
+	ld [hl], $64		; D
 	inc hl
-	ld [hl], $00
+	ld [hl], $00		; C
 	inc hl
-	ld [hl], $00
+	ld [hl], $00		; B
 	; Define el origen y el destino para el contador general
 	ld de, RAM_DETECTED
 	ld hl, NGN_RAM_BUFFER
 	; Realiza la resta
 	call NGN_BCD_SUB
 
+
+	; Indica que las operacion se realizaran sobre la pagina 1 (nº de paginas del mapper)
+	ld a, 1
+	ld [MEMORY_CURRENT_PAGE], a
+	; Calcula la direccion de la variable y guardala en BC
+	call FUNCION_MEMORY_GET_RAM_BANK_SIZE_VARIABLE
+	ld de, [(NGN_RAM_BUFFER + MEMORY_MAPPER_TOTAL_PAGES)]
+	ld [hl], d
+	inc hl
+	ld [hl], e
+
+
+	; Indica que las operacion se realizaran sobre la pagina 0 (nº de kb del mapper)
+	xor a
+	ld [MEMORY_CURRENT_PAGE], a
+	; Calcula la direccion de la variable y guardala en BC
+	call FUNCION_MEMORY_GET_RAM_BANK_SIZE_VARIABLE
+	ld b, h
+	ld c, l
+
 	; Suma 16kb al contador de memoria por cada segmento encontrado
 	ld hl, [(NGN_RAM_BUFFER + MEMORY_MAPPER_TOTAL_PAGES)]
+	
 	@@ADD_MAPPED_MEMORY:
+
 		; Preserva los registros
 		push hl
+		push bc
+
 		; Define el numero de KB a añadir
 		ld hl, NGN_RAM_BUFFER
-		ld [hl], $16
+		ld [hl], $16	; D
 		inc hl
-		ld [hl], $00
+		ld [hl], $00	; C
 		inc hl
-		ld [hl], $00
+		ld [hl], $00	; B
+
 		; Define el origen y el destino para el contador general
 		ld de, RAM_DETECTED
 		ld hl, NGN_RAM_BUFFER
-		; Realiza la suma
+
+		; Realiza la suma global
 		call NGN_BCD_ADD
+
+		; Realiza la suma de pagina (solo la 0)
+		pop bc			; Recupera la direccion de la variable del contador de pagina
+		ld h, b			; Y guardala en HL
+		ld l, c
+		push bc			; Vuelvela a guardar
+		ld de, $0010	; Valor a sumar (16kb)
+		call FUNCTION_MEMORY_PAGE_RAM_SIZE
+
 		; Recupera los registros y repite
+		pop bc
 		pop hl
+
+		; Calcula el siguiente ciclo del bucle
 		dec hl
 		ld a, h
 		or l
@@ -728,7 +839,7 @@ FUNCION_MEMORY_GET_CURRENT_SLOT_VARIABLE:
 	; Busca la variable que guarda el slot actual
 	ld hl, RAM_SLOT_0
 	; Calcula el offset segun el slot
-	ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]
+	ld a, [MEMORY_SLOT_ID]
 	and $03		; bitmask del slot
 	ld b, a		; Prepara el desplazamiento
 	or a
@@ -739,7 +850,7 @@ FUNCION_MEMORY_GET_CURRENT_SLOT_VARIABLE:
 		djnz @@CALCULATE_SLOT_OFFSET
 	@@NO_SLOT_OFFSET:
 	; Calcula el offset segun el sub-slot
-	ld a, [(NGN_RAM_BUFFER + MEMORY_SLOT_ID)]
+	ld a, [MEMORY_SLOT_ID]
 	srl a		; Desplazamiento del sub-slot
 	srl a
 	and $03		; Bitmask del subslot
@@ -755,6 +866,98 @@ FUNCION_MEMORY_GET_CURRENT_SLOT_VARIABLE:
 	ret
 
 
+
+; ----------------------------------------------------------
+; Funcion para buscar la variable que guarda la 
+; informacion de la memoria en un banco concreto
+; SLOT/SUBSLOT/PAGINA
+; Devuelve la variable en HL
+; Modifica AF, BC, DE, HL
+; ----------------------------------------------------------
+
+FUNCION_MEMORY_GET_RAM_BANK_SIZE_VARIABLE:
+
+	; Identifica el slot
+	ld a, [MEMORY_SLOT_ID]
+	and $03			; Bitmask para el slot
+	ld d, a			; Guardalo en D
+
+	; Identifica el sub-slot
+	ld a, [MEMORY_SLOT_ID]
+	srl a			; Bitshift >> 2
+	srl a
+	and $03			; Bitmask para el sub-slot
+	ld c, a			; Guardalo en C
+
+	ld e, $00		; Offset a 0
+
+	; Offset por slot
+	xor a
+	or d
+	jr z, @@NO_SLOT_OFFSET
+	ld b, d
+	ld a, e
+	@@SLOT_OFFSET_LOOP:				; Calcula el offset por SLOT
+		add a, 32
+		djnz @@SLOT_OFFSET_LOOP
+		ld e, a						; Actualiza el offset
+
+	; Offset por sub-slot
+	@@NO_SLOT_OFFSET:
+	xor a
+	or c			; El SUB-SLOT es mayor de 0?
+	jr z, @@NO_SUBSLOT_OFFSET
+	ld b, c			; Numero de sub-slots
+	ld a, e			; Carga el offset actual
+	@@SUBSLOT_OFFSET_LOOP:			; Calcula el offset por sub-slot
+		add a, 8
+		djnz @@SUBSLOT_OFFSET_LOOP
+		ld e, a						; Actualiza el offset
+
+	; Offset por pagina
+	@@NO_SUBSLOT_OFFSET:
+	ld a, [MEMORY_CURRENT_PAGE]	; Carga la pagina actual
+	or a
+	jr z, @@NOT_PAGE_OFFSET
+	ld b, a			; Numero de paginas
+	ld a, e			; Carga el offset actual
+	@@PAGE_OFFSET_LOOP:				; Calcula el offset por pagina
+		add a, 2
+		djnz @@PAGE_OFFSET_LOOP
+		ld e, a						; Actualiza el offset
+
+	; Calcula la direccion de la variable con su offset
+	@@NOT_PAGE_OFFSET:
+	ld d, $00
+	ld hl, RAM_BANK_SIZE
+	add hl, de
+
+	; Fin de la funcion, devuelve la direccion en HL
+	ret
+
+
+
+; ----------------------------------------------------------
+; Funcion para calcular el nº de pagina segun una 
+; direccion dada
+; HL = Direccion [$0000 - $FFFF]
+; Devuelve el nº de pagina en A [0 - 3]
+; y guardalo en la variable correspondiente
+; Modifica AF, B
+; ----------------------------------------------------------
+
+FUNCION_MEMORY_GET_PAGE_NUMBER:
+
+	; Calcula el numero de pagina
+	ld a, h
+	ld b, 6
+	@@GET_PAGE_NUMBER:
+		srl a		; >> 1
+		djnz @@GET_PAGE_NUMBER
+	ld [MEMORY_CURRENT_PAGE], a		; Variable para almacenar el numero de pagina
+
+	; Fin de la funcion, devuelve el nº de pagina en A
+	ret
 
 
 

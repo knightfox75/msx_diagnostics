@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.8
+;	Version 1.1.9
 ;	ASM Z80 MSX
 ;	Test de color del monitor
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -318,6 +318,8 @@ FUNCTION_MONITOR_COLOR_TEST_RUN:
         sla a       ; Multiplicala x2
         ld [(NGN_RAM_BUFFER + MONITOR_COLOR_DELAY)], a
         jp SFX_FUNCTION_PLAY_PONG               ; Sonido y vuelve (RET al final de la llamada)
+
+
 
 
 

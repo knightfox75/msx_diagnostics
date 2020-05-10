@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.8
+;	Version 1.1.9
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -79,22 +79,22 @@ FUNCTION_MAIN_MENU_P2:
 		; Si se pulsa la tecla 1
 		ld a, [NGN_KEY_1]								; Tecla 1
 		and $02											; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR			; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_RAM_LAYOUT			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 2
 		ld a, [NGN_KEY_2]								; Tecla 2
 		and $02											; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_RAM_CHECK				; Ejecuta la opcion
 
 		; Si se pulsa la tecla 3
-		ld a, [NGN_KEY_3]						; Tecla 3
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_3			; Ejecuta la opcion
+		ld a, [NGN_KEY_3]								; Tecla 3
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 4
-		ld a, [NGN_KEY_4]						; Tecla 4
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_4			; Ejecuta la opcion
+		ld a, [NGN_KEY_4]								; Tecla 4
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 5
 		ld a, [NGN_KEY_5]						; Tecla 5
@@ -181,16 +181,16 @@ FUNCTION_MAIN_MENU_P2:
 		
 		; Opcion 1
 		cp 1
-		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_RAM_LAYOUT			; Ejecuta la opcion
 		; Opcion 2
 		cp 2
-		jp z, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_RAM_CHECK			; Ejecuta la opcion
 		; Opcion 3
 		cp 3
-		jp z, FUNCTION_MAIN_MENU_P2_3			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
 		; Opcion 4
 		cp 4
-		jp z, FUNCTION_MAIN_MENU_P2_4			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
 		; Opcion 5
 		cp 5
 		jp z, FUNCTION_MAIN_MENU_P2_5			; Ejecuta la opcion
@@ -229,13 +229,13 @@ FUNCTION_MAIN_MENU_P2:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_MONITOR_COLOR [1]
+; FUNCTION_MAIN_MENU_RAM_LAYOUT [1]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_MONITOR_COLOR:
+FUNCTION_MAIN_MENU_RAM_LAYOUT:
 
 	; Llama la funcion correspondiente
-	call FUNCTION_MONITOR_COLOR_TEST_MENU
+	call FUNCTION_RAM_TEST_LAYOUT_REPORT
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041
@@ -247,13 +247,13 @@ FUNCTION_MAIN_MENU_MONITOR_COLOR:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_MIXED_MODE [2]
+; FUNCTION_MAIN_MENU_RAM_CHECK [2]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_MIXED_MODE:
+FUNCTION_MAIN_MENU_RAM_CHECK:
 
 	; Llama la funcion correspondiente
-	call FUNCTION_MIXED_MODE_TEST_MENU
+	call FUNCTION_RAM_TEST_MENU
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041
@@ -265,12 +265,13 @@ FUNCTION_MAIN_MENU_MIXED_MODE:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_3 [3]
+; FUNCTION_MAIN_MENU_MONITOR_COLOR [3]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_P2_3:
+FUNCTION_MAIN_MENU_MONITOR_COLOR:
 
 	; Llama la funcion correspondiente
+	call FUNCTION_MONITOR_COLOR_TEST_MENU
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041
@@ -282,12 +283,13 @@ FUNCTION_MAIN_MENU_P2_3:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_4 [4]
+; FUNCTION_MAIN_MENU_MIXED_MODE [4]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_P2_4:
+FUNCTION_MAIN_MENU_MIXED_MODE:
 
 	; Llama la funcion correspondiente
+	call FUNCTION_MIXED_MODE_TEST_MENU
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.8
+;   Version 1.1.9
 ;   ASM Z80 MSX
 ;   Definicion de constantes
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -33,19 +33,11 @@ MEMORY_MAPPER_TEST_PORT         .EQU    $FC     ; Puerto para la pagina
 
 ; Usa el NGN_RAM_BUFFER, para las variables, define aqui los offsets
 
-MEMORY_PAGE_ADDR                .EQU    $40     ; Direccion de memoria de la pagina         2 bytes
-
-MEMORY_SLOT_ID                  .EQU    $42     ; ID de slot en formato (ExxxSSPP)          1 byte
-                                                ; bit 0-1 = Primary slot number
-                                                ; bit 2-3 = Sub-slot number (optional)
-                                                ; bit 4-6 = Unused
-                                                ; bit 7 = 1 if Slot is Expanded
-
-MEMORY_SLOT_SELECTION           .EQU    $43     ; Guarda el byte del OUT de seleccion de slot principal [$A8]       1 byte
-MEMORY_SUBSLOT_SELECTION        .EQU    $44     ; Guarda el byte de seleccion de sub-slot [$FFFF]                   1 byte
-MEMORY_PAGE3_SLOT               .EQU    $45     ; Guarda el byte de la seleccion de la pagina 3                     1 byte
-MEMORY_IN_CURRENT_SELECTION     .EQU    $46     ; Memoria encontrada en la seleccion actual                         3 bytes
-MEMORY_MAPPER_TOTAL_PAGES       .EQU    $49     ; Nº de paginas del mapper                                          2 bytes
+MEMORY_SLOT_SELECTION           .EQU    $100    ; Guarda el byte del OUT de seleccion de slot principal [$A8]       1 byte
+MEMORY_SUBSLOT_SELECTION        .EQU    $101    ; Guarda el byte de seleccion de sub-slot [$FFFF]                   1 byte
+MEMORY_PAGE3_SLOT               .EQU    $102    ; Guarda el byte de la seleccion de la pagina 3                     1 byte
+MEMORY_IN_CURRENT_SELECTION     .EQU    $103    ; Memoria encontrada en la seleccion actual                         3 bytes
+MEMORY_MAPPER_TOTAL_PAGES       .EQU    $106    ; Nº de paginas del mapper                                          2 bytes
 MEMORY_MAPPER_PAGES_BACKUP      .EQU    $200    ; Bytes de las paginas del mapper                                   256 bytes
 
 
@@ -173,6 +165,57 @@ MONITOR_COLOR_DELAY             .EQU  2       ; Numero de frames de espera
 MONITOR_COLOR_FRAME             .EQU  3       ; Frame actual
 
 
+
+
+
+; ----------------------------------------------------------
+; Test de la memoria RAM
+; ----------------------------------------------------------
+
+; Constantes
+RAM_TEST_MAPPER_PORT            .EQU    $FC         ; Pagina 1
+RAM_TEST_MAPPER_ADDRESS         .EQU    $0000       ; Direccion de inicio de la pagina
+
+; Usa el NGN_RAM_BUFFER, para las variables, define aqui los offsets
+
+RAM_TEST_TEMP_CURSOR            .EQU    $200        ; Posicion del cursor (2 bytes)
+RAM_TEST_SLOT_INFO_OFFSET       .EQU    $202        ; Offset para poder acceder a la informacion del SLOT (1 byte)
+                                                    ; Variable (RAM_SLOT_0...)
+RAM_TEST_SLOT_INFO              .EQU    $203        ; Informacion del slot actual   (1 byte)
+
+RAM_TEST_SHOW_ALL_INFO          .EQU    $204        ; Muestra TODA la informacion?      (1 byte)
+RAM_TEST_TOTAL_OPTIONS          .EQU    $205        ; Numero de opciones detectadas     (1 byte)
+RAM_TEST_FIRST_OPTION           .EQU    $206        ; Primera opcion    (1 byte)
+RAM_TEST_LAST_OPTION            .EQU    $207        ; Ultima opcion     (1 byte)
+RAM_TEST_OPTION_LIST            .EQU    $208        ; ID's de los slots encontrados (1 byte x 16)
+RAM_TEST_SLOT_OK                .EQU    $220        ; El slot/sub-slot actual contiene RAM (1 byte)
+
+RAM_TEST_TEMP_STRING            .EQU    $221        ; Cadena de texto temporal (32 bytes)
+
+RAM_TEST_PAGES_TO_TEST          .EQU    $250        ; Numero de paginas a probar    (1 byte)
+RAM_TEST_PAGES_LIST             .EQU    $251        ; Array de datos de las paginas a probar (7 bytes x 4)
+                                ; [  1 byte  ][  1 byte  ][  1 byte  ][  1 byte  ][  1 byte  ][  1 byte  ][  1 byte  ]
+                                ; [1111][1111][                      ][                      ][                      ]
+                                ; [MAP?][PAGE][     START ADDRESS    ][      END ADDRESS     ][          SIZE        ]
+
+RAM_TEST_MAPPED_TOTAL_KB        .EQU    $270        ; Numero total de KB del mapper                     (2 bytes)
+RAM_TEST_MAPPED_TOTAL_PAGES     .EQU    $272        ; Numero de paginas del mapper                      (2 bytes)
+RAM_TEST_MAPPED_CURRETN_KB      .EQU    $274        ; KB completados del analisis                       (2 bytes)
+RAM_TEST_MAPPED_CURRENT_PAGE    .EQU    $276        ; Numero de pagina actual del mapper                (1 byte)
+
+RAM_TEST_BYTE_BACKUP            .EQU    $280        ; Copia de seguridad del byte a probar              (1 byte)
+RAM_TEST_BYTE_ERROR             .EQU    $281        ; Error                                             (1 byte)
+RAM_TEST_PAGE_ERRORS            .EQU    $282        ; Numero de errores de esta pagina                  (2 bytes)
+RAM_TEST_SLOT_ERRORS            .EQU    $284        ; Numero de errores totales de este slot            (2 bytes)
+
+RAM_TEST_SLOT_SELECTION         .EQU    $290        ; Seleccion de SLOT usando el puerto A8 (33221100)              (1 byte)
+RAM_TEST_SUBSLOT_SELECTION      .EQU    $291        ; Seleccion de SUB-SLOT usando la direccion $FFFF (33221100)    (1 byte)
+RAM_TEST_FFFF_SELECTION         .EQU    $292        ; Seleccion de la pagina 3 para acceder a FFFF                  (1 byte)
+RAM_TEST_SLOT_BACKUP            .EQU    $293        ; Backup del slot actual
+RAM_TEST_SUBSLOT_BACKUP         .EQU    $294        ; Backup del sub-slot actual
+
+RAM_TEST_BYTE_ROUTINE_ADDR      .EQU    $700        ; Offset de la rutina
+RAM_TEST_BYTE_ROUTINE_SIZE      .EQU    $FF         ; Tamaño de la rutina
 
 
 

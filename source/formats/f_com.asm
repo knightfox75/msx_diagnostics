@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.8
+;   Version 1.1.9
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para .COM de MSX-DOS
 ;
