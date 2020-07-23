@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.9
+;	Version 1.2.0
 ;	ASM Z80 MSX
 ;	Rutinas de la gestion de memoria
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -267,7 +267,6 @@ FUNCION_MEMORY_GET_RAM_PAGES012_NO_MAPPER:
 ; ----------------------------------------------------------
 ; Funcion para detectar la RAM
 ; en todos los slots/sub-slots, sin mapper
-; Version LOW-MEM (Ubicacion al inicio del codigo)
 ; ----------------------------------------------------------
 
 FUNCION_MEMORY_GET_RAM_PAGE3_NO_MAPPER:

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.9
+;	Version 1.2.0
 ;	ASM Z80 MSX
 ;	Menu Principal (Pagina 2)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -56,8 +56,7 @@ FUNCTION_MAIN_MENU_P2:
 	call NGN_TEXT_PRINT						; Imprimelo
 	ld hl, TEXT_MAIN_MENU_P2_ITEMS			; Items del menu
 	call NGN_TEXT_PRINT						; Imprimelo
-	ld hl, TEXT_MAIN_MENU_FOOTER			; Pie del menu
-	call NGN_TEXT_PRINT						; Imprimelo
+	call FUNCTION_MAIN_MENU_FOOTER_PRINT	; Instrucciones y pie del menu
 
 	; Cursor
 	call FUNCTION_MAIN_MENU_PRINT_CURSOR
@@ -79,17 +78,17 @@ FUNCTION_MAIN_MENU_P2:
 		; Si se pulsa la tecla 1
 		ld a, [NGN_KEY_1]								; Tecla 1
 		and $02											; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_RAM_LAYOUT			; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_KEYBOARD				; Ejecuta la opcion
 
 		; Si se pulsa la tecla 2
 		ld a, [NGN_KEY_2]								; Tecla 2
 		and $02											; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_RAM_CHECK				; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_JOYSTICK				; Ejecuta la opcion
 
 		; Si se pulsa la tecla 3
 		ld a, [NGN_KEY_3]								; Tecla 3
 		and $02											; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_MONITOR_COLOR			; Ejecuta la opcion
+		jp nz, FUNCTION_MAIN_MENU_PSG					; Ejecuta la opcion
 
 		; Si se pulsa la tecla 4
 		ld a, [NGN_KEY_4]								; Tecla 4
@@ -97,39 +96,29 @@ FUNCTION_MAIN_MENU_P2:
 		jp nz, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 5
-		ld a, [NGN_KEY_5]						; Tecla 5
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_5			; Ejecuta la opcion
+		ld a, [NGN_KEY_5]								; Tecla 5
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_SYSTEM_INFO			; Ejecuta la opcion
 
 		; Si se pulsa la tecla 6
-		ld a, [NGN_KEY_6]						; Tecla 6
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_6			; Ejecuta la opcion
+		ld a, [NGN_KEY_6]								; Tecla 6
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_RAM_LAYOUT			; Ejecuta la opcion
 		
-		; Si se pulsa la tecla 7
-		ld a, [NGN_KEY_7]						; Tecla 7
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_7			; Ejecuta la opcion
-
-		; Si se pulsa la tecla 8
-		ld a, [NGN_KEY_8]						; Tecla 8
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_P2_8			; Ejecuta la opcion
-
 		; Si se pulsa la tecla 9
-		ld a, [NGN_KEY_9]						; Tecla 9
-		and $02									; Detecta "KEY DOWN"
-		ret nz									; Sal del programa
+		ld a, [NGN_KEY_9]								; Tecla 9
+		and $02											; Detecta "KEY DOWN"
+		ret nz											; Reinicia el ordenador
 
 		; Si se pulsa la tecla 0
-		ld a, [NGN_KEY_0]						; Tecla 0
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1	; Ejecuta la opcion
+		ld a, [NGN_KEY_0]								; Tecla 0
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1			; Ejecuta la opcion
 
 		; Si se pulsa la tecla <=
-		ld a, [SYSKEY_LEFT]						; Tecla <=
-		and $02									; Detecta "KEY DOWN"
-		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1	; Ejecuta la opcion
+		ld a, [SYSKEY_LEFT]								; Tecla <=
+		and $02											; Detecta "KEY DOWN"
+		jp nz, FUNCTION_MAIN_MENU_GOTO_PAGE1			; Ejecuta la opcion
 
 
 		; ----------------------------------------------------------
@@ -177,38 +166,32 @@ FUNCTION_MAIN_MENU_P2:
 
 
 		; Opcion aceptada
-		ld a, [MAINMENU_ITEM_SELECTED]		; Lee la opcion seleccionada
+		ld a, [MAINMENU_ITEM_SELECTED]				; Lee la opcion seleccionada
 		
 		; Opcion 1
 		cp 1
-		jp z, FUNCTION_MAIN_MENU_RAM_LAYOUT			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_KEYBOARD			; Test del teclado
 		; Opcion 2
 		cp 2
-		jp z, FUNCTION_MAIN_MENU_RAM_CHECK			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_JOYSTICK			; Test de los joysticks
 		; Opcion 3
 		cp 3
-		jp z, FUNCTION_MAIN_MENU_MONITOR_COLOR		; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_PSG				; Test del PSG
 		; Opcion 4
 		cp 4
-		jp z, FUNCTION_MAIN_MENU_MIXED_MODE			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_MIXED_MODE			; Test del mixed mode
 		; Opcion 5
 		cp 5
-		jp z, FUNCTION_MAIN_MENU_P2_5			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_SYSTEM_INFO		; Informacion del sistema
 		; Opcion 6
 		cp 6
-		jp z, FUNCTION_MAIN_MENU_P2_6			; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_RAM_LAYOUT			; Disposicion de la RAM detectada
 		; Opcion 7
 		cp 7
-		jp z, FUNCTION_MAIN_MENU_P2_7			; Ejecuta la opcion
+		ret z										; Sal del programa (reinicia)
 		; Opcion 8
 		cp 8
-		jp z, FUNCTION_MAIN_MENU_P2_8			; Ejecuta la opcion
-		; Opcion 9
-		cp 9
-		ret z									; Sal del programa (reinicia)
-		; Opcion 10
-		cp 10
-		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE1		; Ejecuta la opcion
+		jp z, FUNCTION_MAIN_MENU_GOTO_PAGE1			; Pagina anteriro del menu (p1)
 
 		; Error catastrofico (reinicia)
 		ret
@@ -229,14 +212,13 @@ FUNCTION_MAIN_MENU_P2:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_RAM_LAYOUT [1]
+; Ejecuta la opcion KEYBOARD_TEST [1]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_RAM_LAYOUT:
+FUNCTION_MAIN_MENU_KEYBOARD:
 
 	; Llama la funcion correspondiente
-	call FUNCTION_RAM_TEST_LAYOUT_REPORT
-	
+	call FUNCTION_KEYBOARD_TEST_MENU
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
@@ -247,14 +229,13 @@ FUNCTION_MAIN_MENU_RAM_LAYOUT:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_RAM_CHECK [2]
+; Ejecuta la opcion JOYSTICK_TEST [2]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_RAM_CHECK:
+FUNCTION_MAIN_MENU_JOYSTICK:
 
 	; Llama la funcion correspondiente
-	call FUNCTION_RAM_TEST_MENU
-	
+	call FUNCTION_JOYSTICK_TEST_MENU
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
@@ -265,14 +246,13 @@ FUNCTION_MAIN_MENU_RAM_CHECK:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_MONITOR_COLOR [3]
+; Ejecuta la opcion PSG [3]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_MONITOR_COLOR:
+FUNCTION_MAIN_MENU_PSG:
 
 	; Llama la funcion correspondiente
-	call FUNCTION_MONITOR_COLOR_TEST_MENU
-	
+	call FUNCTION_PSG_TEST_MENU
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
@@ -301,13 +281,13 @@ FUNCTION_MAIN_MENU_MIXED_MODE:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_5 [5]
+; Ejecuta la opcion SYSTEM INFO [5]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_P2_5:
+FUNCTION_MAIN_MENU_SYSTEM_INFO:
 
 	; Llama la funcion correspondiente
-	
+	call FUNCTION_SYSTEM_INFO
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
@@ -318,51 +298,18 @@ FUNCTION_MAIN_MENU_P2_5:
 
 
 ; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_6 [6]
+; FUNCTION_MAIN_MENU_RAM_LAYOUT [6]
 ; ----------------------------------------------------------
 
-FUNCTION_MAIN_MENU_P2_6:
+FUNCTION_MAIN_MENU_RAM_LAYOUT:
 
 	; Llama la funcion correspondiente
+	call FUNCTION_MEMORY_REPORTS_PRINT_RAM_REPORT
 	
 	; Deshabilita la pantalla para el cambio
 	call $0041
 	; Vuelve al menu
 	ld a, 6
-	ld [MAINMENU_LAST_ITEM], a
-	jp FUNCTION_MAIN_MENU_P2
-
-
-
-; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_7 [7]
-; ----------------------------------------------------------
-
-FUNCTION_MAIN_MENU_P2_7:
-
-	; Llama la funcion correspondiente
-	
-	; Deshabilita la pantalla para el cambio
-	call $0041
-	; Vuelve al menu
-	ld a, 7
-	ld [MAINMENU_LAST_ITEM], a
-	jp FUNCTION_MAIN_MENU_P2
-
-
-
-; ----------------------------------------------------------
-; FUNCTION_MAIN_MENU_P2_8 [8]
-; ----------------------------------------------------------
-
-FUNCTION_MAIN_MENU_P2_8:
-
-	; Llama la funcion correspondiente
-	
-	; Deshabilita la pantalla para el cambio
-	call $0041
-	; Vuelve al menu
-	ld a, 8
 	ld [MAINMENU_LAST_ITEM], a
 	jp FUNCTION_MAIN_MENU_P2
 

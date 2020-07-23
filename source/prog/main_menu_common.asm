@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.9
+;	Version 1.2.0
 ;	ASM Z80 MSX
 ;	Menu Principal (Funciones comunes)
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -16,10 +16,34 @@
 ; ----------------------------------------------------------
 FUNCTION_MAIN_MENU_HEADER_PRINT:
 
+	ld hl, TEXT_DASHED_LINE			; Linea
+	call NGN_TEXT_PRINT				; Imprimelo
 	ld hl, TEXT_MENU_HEADER			; Texto de la cabecera
 	call NGN_TEXT_PRINT				; Imprimelo
 	ld hl, TEXT_DASHED_LINE			; Linea
 	call NGN_TEXT_PRINT				; Imprimelo
+    ; Vuelve
+    ret
+
+
+
+; ----------------------------------------------------------
+; Imprime el pie del menu
+; ----------------------------------------------------------
+FUNCTION_MAIN_MENU_FOOTER_PRINT:
+
+	ld hl, TEXT_MAIN_MENU_FOOTER		; Instrucciones del menu
+	call NGN_TEXT_PRINT					; Imprimelo
+
+	ld hl, $0114						; Posicion inicial del cuerpo de texto
+	call NGN_TEXT_POSITION
+    ld hl, TEXT_DASHED_LINE			    ; Linea
+	call NGN_TEXT_PRINT				    ; Imprimelo
+	ld hl, TEXT_MAIN_MENU_COPYRIGHT     ; Texto del copyright
+	call NGN_TEXT_PRINT				    ; Imprimelo
+	ld hl, TEXT_DASHED_LINE			    ; Linea
+	call NGN_TEXT_PRINT				    ; Imprimelo
+
     ; Vuelve
     ret
 

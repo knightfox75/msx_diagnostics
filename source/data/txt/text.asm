@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.9
+;	Version 1.2.0
 ;	ASM Z80 MSX
 ;	Textos del programa
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
@@ -30,7 +30,7 @@ TEXT_DASHED_LINE:
 ; Texto de cabecera de los menus
 TEXT_MENU_HEADER:
 
-	db	" MSX DIAGNOSTICS v1.1.9", $0D, $0A, $00
+	db	" MSX DIAGNOSTICS v1.2.0", $0D, $0A, $00
 
 
 
@@ -69,10 +69,8 @@ TEXT_MAIN_MENU_P1_ITEMS:
 	db	"   3. SCREEN 2", $0D, $0A
 	db	"   4. SCREEN 3", $0D, $0A
 	db	"   5. SPRITES", $0D, $0A
-	db	"   6. KEYBOARD", $0D, $0A
-	db	"   7. JOYSTICK", $0D, $0A
-	db	"   8. PSG", $0D, $0A
-	db	"   9. SYSTEM INFO ", $0D, $0A
+	db	"   6. MONITOR COLOR", $0D, $0A
+	db	"   9. REBOOT", $0D, $0A
 	db	"   0. NEXT >>", $0D, $0A
 	db	$00
 
@@ -87,14 +85,12 @@ TEXT_MAIN_MENU_P2_TITLE:
 
 TEXT_MAIN_MENU_P2_ITEMS:
 	db	$0D, $0A
-	db	"   1. RAM LAYOUT", $0D, $0A
-	db	"   2. RAM TEST [WIP]", $0D, $0A
-	db	"   3. MONITOR COLOR", $0D, $0A
+	db	"   1. KEYBOARD", $0D, $0A
+	db	"   2. JOYSTICK", $0D, $0A
+	db	"   3. PSG", $0D, $0A
 	db	"   4. MIXED MODE", $0D, $0A
-	db	"   5. ", $C3, $0D, $0A
-	db	"   6. ", $C3, $0D, $0A
-	db	"   7. ", $C3, $0D, $0A
-	db	"   8. ", $C3, $0D, $0A
+	db	"   5. SYSTEM INFO ", $0D, $0A
+	db	"   6. RAM LAYOUT", $0D, $0A
 	db	"   9. REBOOT", $0D, $0A
 	db	"   0. BACK <<", $0D, $0A
 	db	$00
@@ -105,11 +101,16 @@ TEXT_MAIN_MENU_P2_ITEMS:
 TEXT_MAIN_MENU_FOOTER:
 
 	db	$0D, $0A
-	db	$0D, $0A
 	db	" ACCEPT: SPACE / BUTTON 1", $0D, $0A
 	db	" CANCEL: ESC / BUTTON 2", $0D, $0A
-	db	$0D, $0A
+	db	$00
+
+
+
+; Copyright
+TEXT_MAIN_MENU_COPYRIGHT:
 	db	" (cc) 2018-2020 BY CESAR RINCON", $0D, $0A
+	db	" https://nightfoxandco.com/", $0D, $0A
 	db	$00
 
 

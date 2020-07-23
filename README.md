@@ -44,6 +44,13 @@ La versión actual del programa está provista de las siguientes funcionalidades
 	permitido en MSX1 a un tamaño de 16×16. Este test además permite activar
 	o detener el movimiento automático de estos sprites.
 	
+- MONITOR COLOR
+	Muestra en pantalla cada uno de los colores básicos (rojo, verde, azul),
+	así como el blanco, el negro y un modo en bucle que muestra todos los
+	colores de la paleta de MSX1 del 2 al 15, siendo además posible modificar
+	el tiempo de espera entre cambios. Útil para verificar la pureza del
+	color del monitor o ajustar la salida de video compuesto o RGB.
+	
 - KEYBOARD
 	Permite comprobar el funcionamiento de todas las teclas básicas del
 	teclado. A parte de mostrar un mensaje en pantalla al pulsar y soltar la
@@ -63,15 +70,25 @@ La versión actual del programa está provista de las siguientes funcionalidades
 	ruido (noise) a cualquiera de estos canales. También es posible escoger
 	la frecuencia del generador de ruido.
 	
+- MIXED MODE
+	Prueba para que podamos verificar si nuestra VDP dispone y es compatible
+	con el modo mixto (texto + gráficos) no documentado por Texas Instruments
+	https://en.wikipedia.org/wiki/Texas_Instruments_TMS9918#Undocumented
+	Algunas VDP clónicas no disponen de el en algunas revisiones. El modelo
+	de MSX más conocido por no ser compatible es el HX-10 de Toshiba.
+	
 - SYSTEM INFO
-	Muestra un resumen de las características técnicas de nuestro equipo.
+	Muestra un resumen de las características técnicas de nuestro equipo,
+	como el modelo de MSX (1, 2, 2+ o Turbo-R), la RAM y VRAM instaladas
+	y su ubicación, el diseño de slots, la VDP instalada y a que frecuencia
+	de refresco está funcionando y en los modelos msx2 y superiores la
+	fecha y hora del RTC interno.
 	
-- MONITOR COLOR
-	Muestra en pantalla cada uno de los colores básicos (rojo, verde, azul),
-	así como el blanco, el negro y un modo en bucle que muestra todos los
-	colores de la paleta de MSX1 del 2 al 15, siendo además posible modificar
-	el tiempo de espera entre cambios. Útil para verificar la pureza del
-	color del monitor o ajustar la salida de video compuesto o RGB.
+- RAM LAYOUT
+	Muestra un resumen de la memoria RAM detectada y su distribución en el
+	sistema de slots/subslots y mappers.
+	
 
-	
-El programa se distribuye en formato ROM, DISK, CAS y archivo de audio WAVE, a 1200 y 2400 baudios.
+El programa se distribuye en formato ROM, DISK, CAS y archivo de audio WAVE 
+a 1200 y 2400 baudios, así como los binarios de 32k y 64k listos para
+grabar en una memoria PROM, EPROM, etc.

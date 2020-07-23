@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	MSX DIAGNOSTICS
-;	Version 1.1.9
+;	Version 1.2.0
 ;	ASM Z80 MSX
 ;	Funciones de efectos de sonido
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"

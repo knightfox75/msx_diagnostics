@@ -2,6 +2,12 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-07-23 Ver. 1.2.0
+--------------------------------------------------------------------------------
+- Añadida la opción para mostrar la configuración de la memoria RAM.
+- Reestructuración de los menús.
+
+
 2020-04-30 Ver. 1.1.8
 --------------------------------------------------------------------------------
 - Rescrita parte de la rutina de detección de memoria en la página 3.

@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.9
+;   Version 1.2.0
 ;	ASM Z80 MSX
 ;	Directivas de compilacion para ROM de 32kb
 ;
@@ -31,7 +31,7 @@ OUTPUT_FORMAT = 2									; Define el formato de salida
 ; Almacena las variables los ultimos 4KB
 .ORG $E380
 .INCLUDE "ngn/ngn_vars.asm"         ; 2285 bytes
-.INCLUDE "prog/vars.asm"            ; 26 bytes
+.INCLUDE "prog/vars.asm"            ; 172 bytes
 
 
 ; ----------------------------------------------------------

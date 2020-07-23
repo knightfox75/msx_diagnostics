@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;   MSX DIAGNOSTICS
-;   Version 1.1.9
+;   Version 1.2.0
 ;   ASM Z80 MSX
 ;   Declaracion de variables
 ;   (cc) 2018-2020 Cesar Rincon "NightFox"
@@ -14,11 +14,12 @@
 
 ; --------------------------------------------------------------
 ; Declara las variables	del sistema	[VARIABLE]	[BYTES]
-; TOTAL 26 bytes
+; TOTAL 172 bytes
 ; --------------------------------------------------------------
 
 ; --------------------------------------------------------------
 ; Variables de control
+; Total 1 byte
 ; --------------------------------------------------------------
 
 FORCE_SET_SCREEN_0:         ds  1       ; Fuerza poner la pantalla en modo 0
@@ -41,7 +42,7 @@ VDP_HZ:                         ds  1       ; Frecuencia de refresco del VDP
 
 ; ----------------------------------------------------------
 ; Rutinas de gestion de memoria
-; Total: 158 bytes
+; Total: 157 bytes
 ; ----------------------------------------------------------
 
 RAM_DETECTED:                   ds  3       ; RAM detectada (Formato BCD de 3 bytes [000000])
@@ -70,7 +71,6 @@ RAM_BANK_SIZE:                  ds  128     ; RAM de la pagina en KB
 MEMORY_CURRENT_SLOT:            ds  1       ; Numero de slot actual
 MEMORY_CURRENT_SUBSLOT:         ds  1       ; Numero actual de subslot
 MEMORY_CURRENT_PAGE:            ds  1       ; Numero actual de pagina
-MEMORY_CURRENT_LAYOUT:          ds  1       ; Configuracion de RAM actual del slot (RAM_SLOT_N)
 MEMORY_PAGE_ADDR:               ds  2       ; Direccion de memoria de la pagina
 
 MEMORY_SLOT_ID:                 ds  1       ; ID de slot en formato (ExxxSSPP)
@@ -79,7 +79,7 @@ MEMORY_SLOT_ID:                 ds  1       ; ID de slot en formato (ExxxSSPP)
                                             ; bit 4-6 = Unused
                                             ; bit 7 = 1 if Slot is Expanded
 
-@@asMSX_BUG:
+
 
 ; -----------------------------------------------------------------------
 ; Teclas
