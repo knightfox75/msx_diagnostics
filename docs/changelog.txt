@@ -2,6 +2,20 @@
 MSX Diagnostics Changelog
 --------------------------------------------------------------------------------
 
+2020-08-09 Ver. 1.2.0-upd1
+--------------------------------------------------------------------------------
+- Sin cambios en el programa.
+- Se han resampleado los archivos de audio a partir del archivo CAS, usando la
+  utilidad MSX2CAS (https://www.msx2cas.com/). Esta utilidad soluciona los
+  problemas de formato de los archivos .WAV generados con la utilidad CAS2WAV
+  y que estaban sampleados a una frecuencia de muestreo no estándar. Además
+  los nuevos archivos .WAV contienen una señal en forma de onda cuadrada y no
+  sinusoidal, lo que facilita la carga en ciertos reproductores a 2400 baudios.
+- Se incluyen las caratulas y etiquetas de la versión de cinta.
+- Se incluye la caratula de la caja de la versión de cartucho.
+- Se incluye el manual del usuario en formato PDF y TXT.  
+
+
 2020-07-23 Ver. 1.2.0
 --------------------------------------------------------------------------------
 - Añadida la opción para mostrar la configuración de la memoria RAM.
