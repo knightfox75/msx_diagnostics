@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.4
+;	Version 0.3.4-alpha
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -50,7 +50,7 @@ NGN_SCREEN_SET_MODE_0:
 	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 
 	; Ajusta el VDP
-	call SETUP_VDP
+	call UPDATE_SCREEN_VDP
 
 	; Inicializa el VDP con la rutina [INITXT] de la BIOS
 	jp $006C
@@ -98,7 +98,7 @@ NGN_SCREEN_SET_MODE_1:
 	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 
 	; Ajusta el VDP
-	call SETUP_VDP
+	call UPDATE_SCREEN_VDP
 
 	; Inicializa el VDP con la rutina [INIT32] de la BIOS
 	jp $006F
@@ -142,7 +142,7 @@ NGN_SCREEN_SET_MODE_2:
 	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 
 	; Ajusta el VDP
-	call SETUP_VDP
+	call UPDATE_SCREEN_VDP
 
 	; Inicializa el VDP con la rutina [INIGRP] de la BIOS
 	jp $0072
@@ -187,7 +187,7 @@ NGN_SCREEN_SET_MODE_3:
 	call $0062		; Aplica el color con la rutina [CHGCLR] de la BIOS
 
 	; Ajusta el VDP
-	call SETUP_VDP
+	call UPDATE_SCREEN_VDP
 
 	; Inicializa el VDP con la rutina [INIMLT] de la BIOS
 	jp $0075
@@ -237,7 +237,7 @@ NGN_SCREEN_KEYS_OFF:
 ; Modifica A, BC
 ; ----------------------------------------------------------
 
-SETUP_VDP:
+UPDATE_SCREEN_VDP:
 
 	di			; Deshabilita las interrupciones
 
