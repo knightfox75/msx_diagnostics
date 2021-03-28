@@ -1,7 +1,7 @@
 ;***********************************************************
 ;
 ;	N'gine para MSX Asm Z80
-;	Version 0.3.3
+;	Version 0.3.4
 ;
 ;	(cc) 2018-2020 Cesar Rincon "NightFox"
 ;	https://nightfoxandco.com
@@ -23,21 +23,21 @@
 NGN_SPRITE_MODE_8x8:
 	ld a, [NGN_VDPR1]	; Consulta el valor del registro 1
 	and $FC			; xxxxxx00
-	jp @@SETUP_VDP
+	jp UPDATE_SPRITE_VDP
 
 ; 8x8_D
 NGN_SPRITE_MODE_8x8_D:
 	ld a, [NGN_VDPR1]	; Consulta el valor del registro 1
 	and $FC			; xxxxxx00
 	or $01			; xxxxxx01
-	jp @@SETUP_VDP
+	jp UPDATE_SPRITE_VDP
 
 ; 16x16
 NGN_SPRITE_MODE_16x16:
 	ld a, [NGN_VDPR1]	; Consulta el valor del registro 1
 	and $FC			; xxxxxx00
 	or $02			; xxxxxx10
-	jp @@SETUP_VDP
+	jp UPDATE_SPRITE_VDP
 
 ; 16x16_D
 NGN_SPRITE_MODE_16x16_D:
@@ -45,7 +45,7 @@ NGN_SPRITE_MODE_16x16_D:
 	or $03			; xxxxxx11
 
 ; Actualiza el VDP
-@@SETUP_VDP:
+UPDATE_SPRITE_VDP:
 	di				; Deshabilita las interrupciones
 	ld b, a			; B = Valor a escribir en el registro del VDP
 	ld c, $01		; C = Seleccion del registro
