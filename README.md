@@ -2,7 +2,7 @@
 
 	MSX Diagnostics
 	
-	https://nightfoxandco.com/
+	https://msx-diagnostics.nightfoxandco.com
 	contact@nightfoxandco.com
 
 --------------------------------------------------------------------------------
