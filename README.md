@@ -6,7 +6,7 @@
 
 [![Website](https://img.shields.io/badge/Website-msx--diagnostics.nightfoxandco.com-blue?style=for-the-badge&logo=)](https://msx-diagnostics.nightfoxandco.com)
 [![Latest Release](https://img.shields.io/github/v/release/knightfox75/msx_diagnostics?style=for-the-badge&logo=github)](https://github.com/knightfox75/msx_diagnostics/releases/latest)
-[![License](https://img.shields.io/github/license/knightfox75/msx_diagnostics?style=for-the-badge)](https://github.com/knightfox75/msx_diagnostics/blob/main/LICENSE)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/Licencia-CC_BY--NC_4.0-orange.svg?style=for-the-badge)](https://creativecommons.org/licenses/by-nc/4.0/)
 
 </div>
 
@@ -79,7 +79,7 @@ Puedes descargar la última versión del programa, con todos los formatos, desde
 
 ## 📜 Licencia
 
-Este proyecto se distribuye bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+Este proyecto se distribuye bajo la licencia Creative Commons: **[Atribución-NoComercial 4.0 Internacional](https://creativecommons.org/licenses/by-nc/4.0/)**.
 
 ## 📧 Contacto
 
