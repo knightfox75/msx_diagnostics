@@ -1,6 +1,4 @@
-# MSX Diagnostics
-
-![MSX Diagnostics Screenshot](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_01.png)
+![MSX Diagnostics Screenshot](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_01.png)
 
 <div align="center">
 
@@ -73,9 +71,9 @@ You can download the latest version of the program, including all formats, from 
 
 | Main Menu | Joystick Test |
 | :---: | :---: |
-| ![Screenshot 1](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_02.png) | ![Screenshot 2](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_04.png) |
+| ![Screenshot 1](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_02.png) | ![Screenshot 2](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_04.png) |
 | Sound Test (PSG) | System Information |
-| ![Screenshot 3](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_05.png) | ![Screenshot 4](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_06.png) |
+| ![Screenshot 3](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_05.png) | ![Screenshot 4](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_06.png) |
 
 ## 📜 License
 
