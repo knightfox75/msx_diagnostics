@@ -1,5 +1,3 @@
-# MSX Diagnostics
-
 ![MSX Diagnostics Screenshot](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_01.png)
 
 <div align="center">
