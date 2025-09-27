@@ -73,9 +73,9 @@ Puedes descargar la última versión del programa, con todos los formatos, desde
 
 | Menú Principal | Test de Joystick |
 | :---: | :---: |
-| ![Screenshot 1](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_02.png) | ![Screenshot 2](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_04.png) |
+| ![Screenshot 1](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_02.png) | ![Screenshot 2](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_04.png) |
 | Test de Sonido (PSG) | Información del Sistema |
-| ![Screenshot 3](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_05.png) | ![Screenshot 4](https://msx-diagnostics.nightfoxandco.com/images/scr_shot_06.png) |
+| ![Screenshot 3](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_05.png) | ![Screenshot 4](https://github.com/knightfox75/msx_diagnostics/blob/master/media/scr_shot_06.png) |
 
 ## 📜 Licencia
 
